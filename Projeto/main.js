@@ -28,7 +28,7 @@ new THREE.OrbitControls(camera, renderer.domElement)
 loadScene()
 animate()
 addlights()
-//actionButtons()
+actionButtons()
 
 function animate(){
     requestAnimationFrame(animate)
