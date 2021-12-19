@@ -1,5 +1,7 @@
 body{
-    background-color: rgb(252, 244, 244);
     font-family: 'Oxygen';
 }
 
+input [type=text]{
+    width: 100%;
+}
