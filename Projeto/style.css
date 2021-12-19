@@ -12,19 +12,63 @@ input [type=text]:focus{
     padding-left:20px;
     padding-right:20px;
 }
-li {
-    position: relative;}
 
-.flex-container {
-    display: flex;
-    align-content: center;
-    background-color: white;
+
+.dot{
+    position: relative;
 }
 
-li:before {
+.dot:before{
     content: '•';
     position: absolute;
     right: 1px;
-    top: 10px;
+    top: 20px;
     color: rgb(49, 53, 53);
+}
+
+.dot_white{
+    position: relative;
+}
+
+.dot_white:before{
+    content: '•';
+    position: absolute;
+    right: 1px;
+    top: 20px;
+    color: white;
+}
+
+  .dropbtn {
+    background-color: rgb(222,222,222);
+    padding: 16px;
+    font-size: 16px;
+    border: none;
   }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    margin-left: -35px;
+    margin-top: 10px;
+    background-color: rgb(66, 66, 66);
+    min-width: 160px;
+    z-index: 1;
+    color: white;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  .dropdown:hover .dropbtn {background-color: rbg(222,222,222);}

@@ -20,7 +20,7 @@
     </head>
 
     <body>
-      <div class="container-fluid text-center container-fluid">
+      <div class="container-fluid text-center container-fluid container-bg">
         <header>
           <div style="margin-top: 30px;"> 
               <div class="header-logo" style="margin-left: 2%; float: left;" >
@@ -53,7 +53,7 @@
               <div style="margin-left: 30%; max-width: fit-content;" >
                   <div class="block-search" style="width: 650px; ">
                       <form class="block-search-form" style="margin-top: 20px;">
-                          <input id="header-search-field" style="display: ruby-base-container; font-size: 20px;" class="block-search-input" type="search" placeholder="Search..." maxlength="1500">
+                          <input id="header-search-field" style="display: ruby-base-container; font-size: 20px; margin-left: -380px;" class="block-search-input" type="search" placeholder="Search..." maxlength="1500">
                           <img  alt="searchImage" src="imagens/search_black_24dp.svg" style="width:40px; color: rgb(73, 73, 73); float: right; margin-top: -12px;;"> <img>
                           <hr style="margin-top: 5px; border: 1px solid rgb(73, 73, 73); ">
                       </form>
@@ -61,30 +61,133 @@
               </div> 
           </div>
       </header>
-        <!--- Script Source Files -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-        <!-- End of Script Source Files -->
         
-        <nav class="navbar navbar-expand-sm bg-secondary justify-content-center navbar-light">
+        
+        <nav class="navbar navbar-expand-sm justify-content-center navbar-light" style="background-color: rgb(222,222,222); width: inherit;">
             
             <!-- Links -->
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="navbar-brand mb-0 h1" href="#">Moda</a>
+                <!-- Moda -->
+                <div class="dropdown">
+                  <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Moda</button>
+                  <div class="dropdown-content">
+                    <nav class="navbar navbar-expand-sm justify-content-center navbar-light " style="background-color: rgb(66, 66, 66); width: inherit;">
+                      <!-- Links -->
+                      <ul class="navbar-nav">
+                        <li class="nav-item" >
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item px-3">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                        </li>
+                      </ul>
+                    
+                    </nav>
+                  </div>
+                </div>
+                <!-- End of Moda -->
               </li>
+              <a class="dot"></a>
               <li class="nav-item">
-                <a class="navbar-brand mb-0 h1" href="#">Casa</a>
+                <div class="dropdown">
+                  <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Casa</button>
+                  <div class="dropdown-content">
+                    <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
+                      <!-- Links -->
+                      <ul class="navbar-nav">
+                        <li class="nav-item" >
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item px-3">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
               </li>
+              <a class="dot"></a>
               <li class="nav-item px-3">
-                <a class="navbar-brand mb-0 h1" href="#">Eletrodomésticos</a>
+                <div class="dropdown">
+                  <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Eletrodomésticos</button>
+                  <div class="dropdown-content">
+                    <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
+                      <!-- Links -->
+                      <ul class="navbar-nav">
+                        <li class="nav-item" >
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item px-3">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
               </li>
+              <a class="dot"></a>
               <li class="nav-item">
-                <a class="navbar-brand mb-0 h1" href="#">Magazine Tendências</a>
+                <div class="dropdown">
+                  <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Magazine tendências</button>
+                  <div class="dropdown-content">
+                    <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
+                      <!-- Links -->
+                      <ul class="navbar-nav">
+                        <li class="nav-item" >
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item px-3">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
               </li>
+              <a class="dot"></a>
               <li class="nav-item">
-                <a class="navbar-brand mb-0 h1" href="#">Especial Natal</a>
+                <div class="dropdown">
+                  <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Especial Natal</button>
+                  <div class="dropdown-content">
+                    <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
+                      <!-- Links -->
+                      <ul class="navbar-nav">
+                        <li class="nav-item" >
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item px-3">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                        </li>
+                        <a class="dot_white"></a>
+                        <li class="nav-item">
+                          <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
               </li>
             </ul>
           
@@ -92,5 +195,10 @@
         </div>
     </body>
 
+    <!--- Script Source Files -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <!-- End of Script Source Files -->
 
 </html>
