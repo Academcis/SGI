@@ -3,5 +3,16 @@ body{
 }
 
 input [type=text]{
+    width: 50%;
+}
+
+input [type=text]:focus{
     width: 100%;
 }
+
+.flex-container {
+    display: flex;
+    align-content: center;
+    background-color: white;
+  }
+  
