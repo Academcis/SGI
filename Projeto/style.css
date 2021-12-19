@@ -5,14 +5,26 @@ body{
 input [type=text]{
     width: 50%;
 }
-
 input [type=text]:focus{
     width: 100%;
 }
+.navbar-nav > li{
+    padding-left:20px;
+    padding-right:20px;
+}
+li {
+    position: relative;}
 
 .flex-container {
     display: flex;
     align-content: center;
     background-color: white;
+}
+
+li:before {
+    content: '•';
+    position: absolute;
+    right: 1px;
+    top: 10px;
+    color: rgb(49, 53, 53);
   }
-  
