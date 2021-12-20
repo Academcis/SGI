@@ -1,3 +1,9 @@
+#header-search-field{
+  display: ruby-base-container; 
+  font-size: 20px; 
+  width: 580px;
+}
+
 body{
     font-family: 'Oxygen';
 }
@@ -13,6 +19,40 @@ input [type=text]:focus{
     padding-right:20px;
 }
 
+.header-logo{
+  margin-left: 2%; 
+  float: left;
+}
+
+.header-icons{
+  margin-right: 15px;
+}
+
+.four-icons{
+  display: -webkit-inline-box; 
+  float: right; 
+  margin-top: -10px;
+}
+
+.searchbar{
+  margin-left: 30%; 
+  max-width: fit-content;
+}
+
+.block-search{
+  width: 650px;
+}
+
+.block-search-form{
+  margin-top: 20px;
+}
+
+.search-image{
+  width:40px; 
+  color: rgb(73, 73, 73); 
+  float: right; 
+  margin-top: -8px;
+}
 
 .dot{
     position: relative;
@@ -33,8 +73,8 @@ input [type=text]:focus{
 .dot_white:before{
     content: '•';
     position: absolute;
-    right: 1px;
-    top: 20px;
+    right: 20px;
+    top: 15px;
     color: white;
 }
 
