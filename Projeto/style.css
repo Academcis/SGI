@@ -1,4 +1,10 @@
-/* body{
+#header-search-field{
+  display: ruby-base-container; 
+  font-size: 20px; 
+  width: 580px;
+}
+
+body{
     font-family: 'Oxygen';
 }
 
@@ -8,191 +14,120 @@ input [type=text]{
 input [type=text]:focus{
     width: 100%;
 }
-
 .navbar-nav > li{
     padding-left:20px;
     padding-right:20px;
 }
-li {
-    position: relative;}
 
-li:before {
+.header-logo{
+  margin-left: 2%; 
+  float: left;
+}
+
+.header-icons{
+  margin-right: 15px;
+}
+
+.four-icons{
+  display: -webkit-inline-box; 
+  float: right; 
+  margin-top: -10px;
+}
+
+.searchbar{
+  margin-left: 30%; 
+  max-width: fit-content;
+}
+
+.block-search{
+  width: 650px;
+}
+
+.block-search-form{
+  margin-top: 20px;
+}
+
+.search-image{
+  width:40px; 
+  color: rgb(73, 73, 73); 
+  float: right; 
+  margin-top: -8px;
+}
+
+.dot{
+    position: relative;
+}
+
+.dot:before{
     content: '•';
     position: absolute;
     right: 1px;
-    top: 10px;
+    top: 20px;
     color: rgb(49, 53, 53);
- }
+}
 
- .hvr-underline-from-center {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+.dot_white{
     position: relative;
-    overflow: hidden;
-  }
+}
 
-  
-
-
-
-
-  /* Dropdown Button */
-/* .dropbtn {
-    background-color: #04AA6D;
+.dot_white:before{
+    content: '•';
+    position: absolute;
+    right: 20px;
+    top: 15px;
     color: white;
+}
+
+  .dropbtn {
+    background-color: rgb(222,222,222);
     padding: 16px;
     font-size: 16px;
     border: none;
-  } */
+  }
   
-  /* The container <div> - needed to position the dropdown content */
-  /* .dropdown {
+  .dropdown {
     position: relative;
     display: inline-block;
-  } */
+  }
   
-  /* Dropdown Content (Hidden by Default) */
-  /* .dropdown-content {
+  .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
+    margin-left: -35px;
+    background-color: #7D7C7C;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-  } */
+    color: white;
+  }
+
+  .moda{
+      width: 1616px;
+  }
   
-  /* Links inside the dropdown */
-  /* .dropdown-content a {
+  .casa {
+     margin-left: -173px;
+     width: 1617px;
+  }
+
+  .eletrodomesticos{
+      margin-left: -297px;
+      width: 1618px;
+  }
+
+  .subcategory{
+      color:white;
+  }
+
+  .dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-  } */
+  }
   
-  /* Change color of dropdown links on hover */
-  /* .dropdown-content a:hover {background-color: #ddd;} */
   
-  /* Show the dropdown menu on hover */
-  /* .dropdown:hover .dropdown-content {display: block;} */
+  .dropdown:hover .dropdown-content {display: block;}
   
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-  /* .dropdown:hover .dropbtn {background-color: #424242;}  */
+  .dropdown:hover .dropbtn {background-color: rbg(222,222,222);}
 
-  #header-search-field{
-    display: ruby-base-container; 
-    font-size: 20px; 
-    width: 580px;
-  }
-  
-  body{
-      font-family: 'Oxygen';
-  }
-  
-  input [type=text]{
-      width: 50%;
-  }
-  input [type=text]:focus{
-      width: 100%;
-  }
-  .navbar-nav > li{
-      padding-left:20px;
-      padding-right:20px;
-  }
-  
-  .header-logo{
-    margin-left: 2%; 
-    float: left;
-  }
-  
-  .header-icons{
-    margin-right: 15px;
-  }
-  
-  .four-icons{
-    display: -webkit-inline-box; 
-    float: right; 
-    margin-top: -10px;
-  }
-  
-  .searchbar{
-    margin-left: 30%; 
-    max-width: fit-content;
-  }
-  
-  .block-search{
-    width: 650px;
-  }
-  
-  .block-search-form{
-    margin-top: 20px;
-  }
-  
-  .search-image{
-    width:40px; 
-    color: rgb(73, 73, 73); 
-    float: right; 
-    margin-top: -8px;
-  }
-  
-  .dot{
-      position: relative;
-  }
-  
-  .dot:before{
-      content: '•';
-      position: absolute;
-      right: 1px;
-      top: 20px;
-      color: rgb(49, 53, 53);
-  }
-  
-  .dot_white{
-      position: relative;
-  }
-  
-  .dot_white:before{
-      content: '•';
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      color: white;
-  }
-  
-    .dropbtn {
-      background-color: rgb(222,222,222);
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-    }
-    
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      margin-left: -35px;
-      margin-top: 10px;
-      background-color: rgb(66, 66, 66);
-      min-width: 160px;
-      z-index: 1;
-      color: white;
-    }
-    
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-    
-    
-    .dropdown:hover .dropdown-content {display: block;}
-    
-    .dropdown:hover .dropbtn {background-color: rbg(222,222,222);}
   
