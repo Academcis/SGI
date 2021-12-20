@@ -1,203 +1,263 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!-- Css and Bootstrap incluldes -->
-    <link rel="stylesheet" href="style.css">
-    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
-    <!-- End of Css and Bootstrap includes -->
+    <head>
+        <!-- Css and Bootstrap incluldes -->
+        <link rel="stylesheet" href="style.css">
+        <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+        <!-- End of Css and Bootstrap includes -->
 
-    <!-- Metas -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- End of Metas -->
-       
-    <title>La Redoute</title>
+          <!-- Metas -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- End of Metas -->
+        <title>La Redoute</title>
 
-    <!-- Links -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <!-- End of Links -->
-  </head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="style.css">
 
-  <body>
-    <!-- Header and Navbar -->
-    <div class="container-fluid text-center container-fluid container-bg">
-      <!-- Header -->
-      <header>
-        <div style="margin-top: 30px;">  
-          <!-- Logo La Redoute -->
-          <div class="header-logo" >
-              <a>
-                <img alt="Logotipo" src="imagens/LR-logo.svg" style="width: 140px;"></img>
-              </a>
-          </div> 
-          <!-- End of Logo La Redoute -->
-             
-          <!-- 4 Icons -->
-          <div class="four-icons">
-            <!-- Newsletter icon -->
-            <div class="header-icons" >
-              <a id="icon-newsletter" >
-                <img  alt="Newsletter" src="imagens/newsletter.JPG" style="width:40px;"> <img>
-              </a>
-            </div>
-                  
-            <!-- Account icon -->
-            <div class="header-icons">
-              <a id="icon-account">
-                <img  alt="Account" src="imagens/account.jpg" style="width:40px;"> <img>
-              </a>
-            </div>
-                  
-            <!-- Favourite icon -->
-            <div class="header-icons">
-              <a id="icon-fav">
-                <img  alt="Favourite" src="imagens/fav.jpg" style="width:40px;"> <img>
-              </a>
-            </div>
-
-            <!-- Basket icon -->
-            <div class="header-icons">
-              <a id="icon-basket">
-                <img  alt="Basket" src="imagens/shopcart.jpg" style="width:40px;"> <img>
-              </a>
-            </div>
-          </div>
-          <!-- End of 4 Icons -->
-
-          <!-- Searchbar -->
-          <div class="searchbar" >
-            <div class="block-search">
-              <form class="block-search-form" >
-                <input id="header-search-field"  class="block-search-input" type="search" placeholder="Search..." maxlength="1500">
-                <img  alt="searchImage" src="imagens/search_black_24dp.svg" class="search-image"> <img>
-                <hr style="margin-top: 5px; border: 1px solid rgb(73, 73, 73); ">
-              </form>
-            </div>
-          </div>
-          <!-- End of Searchbar  -->
-        </div>
-      </header>
-      <!-- End of Header -->
+        <!-- links para o Dropdown usando javascript -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Fim das referencias aos links do dropdown-->
         
-      <!-- Navbar Categories -->
-      <nav class="navbar navbar-expand-sm justify-content-center navbar-light" style="background-color: rgb(222,222,222); width: inherit;">
-        <ul class="navbar-nav">
-          <!-- Moda -->
-          <li class="nav-item">
-            <div class="dropdown">
-              <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Moda</button>
-              <!-- Dropdown navbar -->
-              <div class="dropdown-content">
-                <nav class="navbar navbar-expand-sm justify-content-center navbar-light " style="background-color: rgb(66, 66, 66); width: inherit;">
-                  <ul class="navbar-nav">
-                    <li class="nav-item" >
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
-                    </li>
-                    <a class="dot_white"></a>
-                    <li class="nav-item px-3">
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
-                    </li>
-                    <a class="dot_white"></a>
-                    <li class="nav-item">
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
-                    </li>
-                  </ul>       
-                </nav>
-              </div>
-              <!-- End of Dropdown navbar -->
-            </div>
-          </li>
-          <!-- End of Moda -->
-          <a class="dot"></a>
+    </head>
 
-          <!-- Casa -->
-          <li class="nav-item">
-            <div class="dropdown">
-              <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Casa</button>
-              <!-- Dropdown navbar -->
-              <div class="dropdown-content">
-                <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
-                  <ul class="navbar-nav">
-                    <li class="nav-item" >
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
-                    </li>
-                    <a class="dot_white"></a>
-                    <li class="nav-item px-3">
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
-                    </li>
-                    <a class="dot_white"></a>
-                    <li class="nav-item">
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
-                    </li>
-                  </ul>
-                </nav>
+    <body>
+      <div class="container-fluid text-center container-fluid container-bg">
+        <!-- Header -->
+        <header>
+          <div style="margin-top: 30px;">  
+            <!-- Logo La Redoute -->
+            <div class="header-logo" >
+                <a>
+                  <img alt="Logotipo" src="imagens/LR-logo.svg" style="width: 140px;"></img>
+                </a>
+            </div> 
+            <!-- End of Logo La Redoute -->
+               
+            <!-- 4 Icons -->
+            <div class="four-icons">
+              <!-- Newsletter icon -->
+              <div class="header-icons" >
+                <a id="icon-newsletter" >
+                  <img  alt="Newsletter" src="imagens/newsletter.JPG" style="width:40px;"> <img>
+                </a>
               </div>
-              <!-- End of Dropdown navbar -->
-            </div>
-          </li>
-          <!-- End of Casa -->
-          <a class="dot"></a>
-         
-          <!-- Eletrodomésticos -->
-          <li class="nav-item px-3">
-            <div class="dropdown">
-              <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Eletrodomésticos</button>
-              <!-- Dropdown navbar -->
-              <div class="dropdown-content">
-                <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
-                  <ul class="navbar-nav">
-                    <li class="nav-item" >
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
-                    </li>
-                    <a class="dot_white"></a>
-                    <li class="nav-item px-3">
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
-                    </li>
-                    <a class="dot_white"></a>
-                    <li class="nav-item">
-                      <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
-                    </li>
-                  </ul>
-                </nav>
+                    
+              <!-- Account icon -->
+              <div class="header-icons">
+                <a id="icon-account">
+                  <img  alt="Account" src="imagens/account.jpg" style="width:40px;"> <img>
+                </a>
               </div>
-              <!-- End of Dropdown navbar -->
+                    
+              <!-- Favourite icon -->
+              <div class="header-icons">
+                <a id="icon-fav">
+                  <img  alt="Favourite" src="imagens/fav.jpg" style="width:40px;"> <img>
+                </a>
+              </div>
+  
+              <!-- Basket icon -->
+              <div class="header-icons">
+                <a id="icon-basket">
+                  <img  alt="Basket" src="imagens/shopcart.jpg" style="width:40px;"> <img>
+                </a>
+              </div>
             </div>
-          </li>
-          <!-- End of Eletrodomésticos -->
-          <a class="dot"></a>
+            <!-- End of 4 Icons -->
+  
+            <!-- Searchbar -->
+            <div class="searchbar" >
+              <div class="block-search">
+                <form class="block-search-form" >
+                  <input id="header-search-field"  class="block-search-input" type="search" placeholder="Search..." maxlength="1500">
+                  <img  alt="searchImage" src="imagens/search_black_24dp.svg" class="search-image"> <img>
+                  <hr style="margin-top: 5px; border: 1px solid rgb(73, 73, 73); ">
+                </form>
+              </div>
+            </div>
+            <!-- End of Searchbar  -->
+          </div>
+        </header>
+        <!-- End of Header -->
+          
+        <!-- Navbar Categories -->
+        <nav class="navbar navbar-expand-sm justify-content-center navbar-light" style="background-color: rgb(222,222,222); width: inherit;">
+          <ul class="navbar-nav">
+            <!-- Moda -->
+            <li class="nav-item">
+              <div class="dropdown">
+                <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Moda</button>
+                <!-- Dropdown navbar -->
+                <div class="dropdown-content">
+                  <nav class="navbar navbar-expand-sm justify-content-center navbar-light " style="background-color: rgb(66, 66, 66); width: inherit;">
+                    <ul class="navbar-nav">
+                      <li class="nav-item" >
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                      </li>
+                      <a class="dot_white"></a>
+                      <li class="nav-item px-3">
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                      </li>
+                      <a class="dot_white"></a>
+                      <li class="nav-item">
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                      </li>
+                    </ul>       
+                  </nav>
+                </div>
+                <!-- End of Dropdown navbar -->
+              </div>
+            </li>
+            <!-- End of Moda -->
+            <a class="dot"></a>
+  
+            <!-- Casa -->
+            <li class="nav-item">
+              <div class="dropdown">
+                <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Casa</button>
+                <!-- Dropdown navbar -->
+                <div class="dropdown-content">
+                  <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
+                    <ul class="navbar-nav">
+                      <li class="nav-item" >
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                      </li>
+                      <a class="dot_white"></a>
+                      <li class="nav-item px-3">
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                      </li>
+                      <a class="dot_white"></a>
+                      <li class="nav-item">
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <!-- End of Dropdown navbar -->
+              </div>
+            </li>
+            <!-- End of Casa -->
+            <a class="dot"></a>
            
-          <!-- Magazine Tendências -->
-          <li class="nav-item">
-            <div class="dropdown">
-              <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Magazine tendências</button>
+            <!-- Eletrodomésticos -->
+            <li class="nav-item px-3">
+              <div class="dropdown">
+                <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Eletrodomésticos</button>
+                <!-- Dropdown navbar -->
+                <div class="dropdown-content">
+                  <nav class="navbar navbar-expand-sm justify-content-center navbar-light dropdown" style="background-color: rgb(66, 66, 66);">
+                    <ul class="navbar-nav">
+                      <li class="nav-item" >
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Mulher</a>
+                      </li>
+                      <a class="dot_white"></a>
+                      <li class="nav-item px-3">
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Homem</a>
+                      </li>
+                      <a class="dot_white"></a>
+                      <li class="nav-item">
+                        <a class="navbar-brand mb-0 h1" href="#" style="color:white;">Criança</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <!-- End of Dropdown navbar -->
+              </div>
+            </li>
+            <!-- End of Eletrodomésticos -->
+            <a class="dot"></a>
+             
+            <!-- Magazine Tendências -->
+            <li class="nav-item">
+              <div class="dropdown">
+                <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Magazine tendências</button>
+              </div>
+            </li>
+            <!-- End of Magazine Tendências -->
+            <a class="dot"></a>
+  
+            <!-- Especial Natal -->
+            <li class="nav-item">
+              <div class="dropdown">
+                <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Especial Natal</button>
+              </div>
+            </li>
+            <!-- End of Especial Natal -->
+          </ul>     
+        </nav>
+      </div>
+      <!-- End of Header and Navbar -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div class="container-fluid p-3 my-3 border text-center container-bg"> <!-- ou container-xl ... -->
+             <div class="row">
+              <!-- divide na horizontal a página em 3 divisões de dimensão 4, em "small" -->
+        
+              <!-- inicio da primeira divisão -->
+              <div class="col-sm-6">
+                <div class="card mb-6" style="background-color: rgb(243, 242, 242);">
+                  <div class="card-body">
+                    <h5 class="card-title">Especificações do produto</h5>
+                    <p class="card-text">Mais detalhes: </p>
+                  </div>
+                </div>
+              </div>
+              <!-- fim da primeira divisão -->
+        
+              <!-- inicio da segunda divisão -->
+              <div class="col-sm-6">
+                <div class="card mb-6" style="background-color: rgb(155, 152, 152);">
+                  <div class="card-body">
+
+                    <div class="btn-group" style="float: left; margin-left: 22px;">
+                      <button class="btn btn-secondary" >Comparar com produtos semelhantes:</button>
+                      <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Link 1</a>
+                        <a class="dropdown-item" href="#">Link 2</a>
+                      </div>
+                    </div>
+
+                    <!-- <p class="card-text" style="text-align: left; padding: 10px;">Comparar com produtos semelhantes: </p> -->
+                    <img src="imagens/exemplo_interacao.png" alt="icon interacao" style="width: 95%; height: 95%;">
+                  </div>
+                </div>
+              </div>
+              <!-- fim da segunda divisão -->
+        
             </div>
-          </li>
-          <!-- End of Magazine Tendências -->
-          <a class="dot"></a>
+        
+        
+          </div>	
+        
 
-          <!-- Especial Natal -->
-          <li class="nav-item">
-            <div class="dropdown">
-              <button class="navbar-brand mb-0 h1 dropbtn" href="#" style="font-size: 20px;">Especial Natal</button>
-            </div>
-          </li>
-          <!-- End of Especial Natal -->
-        </ul>     
-      </nav>
-    </div>
-    <!-- End of Header and Navbar -->
+        
+      </div>
+    </body>
 
-
-    
-  </body>
-
-  <!--- Script Source Files -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-  <!-- End of Script Source Files -->
 
 </html>
+
+
