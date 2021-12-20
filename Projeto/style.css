@@ -131,3 +131,78 @@ input [type=text]:focus{
   .dropdown:hover .dropbtn {background-color: rbg(222,222,222);}
 
   
+  .grid-container-blue {
+    display: grid;
+    grid-template-columns: 1 1 6 8;
+    grid-gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+  }
+  
+  
+  .grid-container-blue > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+  }
+
+  .item1 {
+    grid-area: 1 / 1 / span 4 / span 3;
+  }
+  .item2 {
+    grid-area: 1 / 4 / span 4 / span 3;
+  }
+  .item3 {
+    grid-area: 1 / 7 / span 6 / span 2;
+  }
+  .item4{
+    grid-area: 5 / 1 / span 2 / span 6;
+  }
+  
+  /*Inicio do estilo underline from left */
+.hvr-underline-from-center {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  position: relative;
+  overflow: hidden;
+}
+.hvr-underline-from-center:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 51%;
+  right: 51%;
+  bottom: 0;
+  background: #000000;
+  height: 2px;
+  -webkit-transition-property: left, right;
+  transition-property: left, right;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-underline-from-center:hover:before, .hvr-underline-from-center:focus:before, .hvr-underline-from-center:active:before {
+  left: 0;
+  right: 0;
+}
+
+/*Fim do estilo underline from left */
+
+.plusButtonImage{
+  width: 20px;
+  float: right;
+  margin-right: 10px;
+}
+
+.plusButton{
+  float: right;
+  height: 20px;
+  width: 40px;
+  margin: -40px; 
+  margin-right: 5px;
+}
