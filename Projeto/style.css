@@ -39,9 +39,18 @@ input [type=text]:focus{
   max-width: fit-content;
 }
 
+.searchbar-dropdown{
+  width: 543px;
+}
+
 .block-search{
   width: 650px;
 }
+
+.block-search-dropdown{
+  width: 530px;
+}
+
 
 .block-search-form{
   margin-top: 20px;
@@ -52,6 +61,14 @@ input [type=text]:focus{
   color: rgb(73, 73, 73); 
   float: right; 
   margin-top: -8px;
+}
+
+.search-image-dropdown{
+  width:28px; 
+  color: rgb(73, 73, 73); 
+  float: right;
+  margin-top: 10px;
+  margin-right: -5px; 
 }
 
 .dot{
@@ -101,17 +118,17 @@ input [type=text]:focus{
   }
 
   .moda{
-      width: 1616px;
+      width: 1516px;
   }
   
   .casa {
-     margin-left: -176px;
-     width: 1617px;
+     margin-left: -166px;
+     width: 1516px;
   }
 
   .eletrodomesticos{
-      margin-left: -301px;
-      width: 1617px;
+      margin-left: -283px;
+      width: 1516px;
   }
 
   .subcategory{
@@ -222,4 +239,13 @@ input [type=text]:focus{
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
     filter: invert(100%);
+}
+
+.navbar-brand{
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.col-12{
+  width: 100%;
 }
