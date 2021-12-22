@@ -118,17 +118,17 @@ input [type=text]:focus{
   }
 
   .moda{
-      width: 1516px;
+      width: 1437px;
   }
   
   .casa {
      margin-left: -166px;
-     width: 1516px;
+     width: 1437px;
   }
 
   .eletrodomesticos{
-      margin-left: -283px;
-      width: 1516px;
+      margin-left: -281px;
+      width: 1437px;
   }
 
   .subcategory{
@@ -248,4 +248,24 @@ input [type=text]:focus{
 
 .col-12{
   width: 100%;
+}
+
+.grid-container-info {
+  display: grid;
+  grid-template-columns: 1 1 4 2;
+  grid-gap: 2px;
+  padding: 2px;
+}
+
+.grid-container-info > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0px;
+  font-size: 20px;
+}
+
+.item01 {
+  grid-area: 1 / 1 / span 4 / span 1;
+}
+.item02 {
+  grid-area: 1 / 2 / span 4 / span 1;
 }
