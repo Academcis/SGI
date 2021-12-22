@@ -148,7 +148,7 @@ input [type=text]:focus{
   .dropdown:hover .dropbtn {background-color: rbg(222,222,222);}
 
   
-  .grid-container-blue {
+  .grid-container-product {
     display: grid;
     grid-template-columns: 1 1 6 7;
     grid-gap: 2px;
@@ -156,24 +156,24 @@ input [type=text]:focus{
     padding: 2px;
   }
   
-  .grid-container-blue > div {
+  .grid-container-product > div {
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
-    padding: 20px 0;
+    padding: 0px;
     font-size: 20px;
   }
 
   .item1 {
-    grid-area: 1 / 1 / span 4 / span 3;
+    grid-area: 1 / 1 / span 5 / span 3;
   }
   .item2 {
-    grid-area: 1 / 4 / span 4 / span 3;
+    grid-area: 1 / 4 / span 5 / span 3;
   }
   .item3 {
     grid-area: 1 / 7 / span 6 / span 1;
   }
   .item4{
-    grid-area: 5 / 1 / span 2 / span 6;
+    grid-area: 6 / 1 / span 1 / span 6;
   }
   
   /*Inicio do estilo underline from left */
