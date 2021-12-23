@@ -6,6 +6,8 @@
         <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <!-- End of Css and Bootstrap includes -->
 
           <!-- Metas -->
@@ -67,9 +69,14 @@
               <!-- Basket icon -->
               <div class="header-icons">
                 <a id="icon-basket">
-                  <img  alt="Basket" src="imagens/shopcart.jpg" style="width:40px;"> 
+                  <button style="border: 0px; background-color: rgb(255, 255, 255);" onclick="openRightMenu()"><img  alt="Basket" src="imagens/shopcart.jpg" style="width:40px;"> </button>
                 </a>
               </div>
+            </div>
+
+            <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0; background-color: rgb(255, 255, 255); width: 20%; margin-top: 3%; height: 700px;" id="rightMenu">
+              <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+              O seu carrinho está vazio
             </div>
             <!-- End of 4 Icons -->
 
@@ -328,7 +335,10 @@
 
 
       <br><br><br>
-
+      <div class="container-fluid text-center container-fluid container-bg">
+      <img src="https://cdn.laredoute.com/marketing/Studio/PT/AH21/PT_Xmas-60-pfp-december/images/hpzsa_v3.jpg" alt="até 60% + ENVIO GRÁTIS" style="background-color: #96814f; width: 100%; height:100%;  ">
+      </div>
+      <br><br><br><br>
       <!-- Product info -->
 
       <div class="container-fluid text-center container-fluid container-bg">
@@ -506,8 +516,16 @@
         </div>
       </div> -->
       <!-- End of Product info -->
-        
-    </body>
+    <script>
+      function openRightMenu() {
+        document.getElementById("rightMenu").style.display = "block";
+      }
+      
+      function closeRightMenu() {
+        document.getElementById("rightMenu").style.display = "none";
+      }
+    </script>
+  </body>
 </html>
 
 
