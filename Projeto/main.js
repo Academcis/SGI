@@ -20,7 +20,7 @@ var myCanvas = document.getElementById("myCanvas") //- não é preciso pois já 
 //scene.add(axes)
 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
-renderer.setSize(800,600)
+renderer.setSize(545,400)
 renderer.shadowMap.enabled = true
 
 new THREE.OrbitControls(camera, renderer.domElement)

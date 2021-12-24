@@ -440,7 +440,7 @@
         </div>
       <div> -->
 
-      <div class="container-fluid p-8 my-5 border container-bg">
+      <div class="container-fluid p-8 my-5 border container-bg" >
         <div class="row " >
           <div class=" col-5" style=" background-color: rgb(243, 242, 242);" >
             <!-- inicio da primeira divisão -->
@@ -474,9 +474,6 @@
     
           <div class=" col-7" style=" background-color: #CCCCCC;" >
             <!-- inicio da segunda divisão -->
-            
-              
-
                 <!-- Dropdown -->
                 <div class="btn-group"  style="float: left; margin-left: 6%; margin-top: 6%;">
 
@@ -549,9 +546,12 @@
                 <br><br><br><br>
 
                 <!-- Imagem modelação 3D -->
-                <img src="imagens/exemplo_interacao.png" alt="icon interacao" style="width: 66%; margin-left: 6%; margin-top: 20px; margin-bottom: 10%;">
+                <!-- <img src="imagens/exemplo_interacao.png" alt="icon interacao" style="width: 66%; margin-left: 6%; margin-top: 20px; margin-bottom: 10%;"> -->
+                <div style="width: 66%;  margin-left: 6%; margin-top: 20px; margin-bottom: 10%; display: inline-block;">
+                  <canvas id="myCanvas" ></canvas>
+                </div>
                 <div style="float: right; margin-right: 6%; margin-top: 19px; width: 15%; height: 15%;">
-                  <!-- Butões interação 3D -->
+                  <!-- Botões interação 3D -->
                   
                   <button class="btn rounded-0" style="background-color: #606060;  width: 100%; height: 43%; margin-bottom: 17%; color: white; font-family: 'Oxygen';">
                     Ação 1
@@ -588,7 +588,7 @@
         </div>
       </div>
       <!-- End of Product info -->
-        
+
       <script>
         function openRightMenu() {
           document.getElementById("rightMenu").style.display = "block";
@@ -598,6 +598,12 @@
           document.getElementById("rightMenu").style.display = "none";
         }
       </script>
+
+      <script src="node_modules/three/build/three.min.js"></script>
+      <script src="node_modules/three/examples/js/controls/OrbitControls.js"></script>
+      <script src="node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+
+      <script src="main.js"></script>
     </body>
 </html>
 
