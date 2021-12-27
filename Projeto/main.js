@@ -11,6 +11,9 @@ var mixer = new THREE.AnimationMixer(scene)
 
 //var actionBenchExtendDown = null
 var actionBenchExtendAction = null
+var actionLegExtendAction = null
+var actionRopeAction = null
+var actionBenchExtendActionReverse = null
 
 var myCanvas = document.getElementById("myCanvas") //- não é preciso pois já tenho o appendChild do body
 
@@ -36,21 +39,28 @@ function animate(){
     renderer.render(scene, camera)
 }
 
+var aberto = 0
 
 function loadScene(){
     var loadBench = new THREE.GLTFLoader()
     loadBench.load( 
-        'this_tentativa_background/workBenchM.gltf',
+        'this_tentativa_background/workBenchM_v2.gltf',
         function(gltf){
             scene.add(gltf.scene)
             gltf.scene.traverse(function(x){
-                if (x instanceof THREE.Light) x.visible = false
+                //if (x instanceof THREE.Light) x.visible = false
                 //scene.getObjectByName('Botao2').visible = false -> depois de ver na consola qual é o nome 
                 //scene.getObjectByName('door').visible = true
             }) //para tornar invisivel a luz que possa existir a mais
 
-            var benchExtendAction = THREE.AnimationClip.findByName(gltf.animations, "benchExtendAction") 
+            var benchExtendAction = THREE.AnimationClip.findByName(gltf.animations, "NlaBenchExtend") 
+            var legExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaLegExtend")
+            var ropeAppear = THREE.AnimationClip.findByName(gltf.animations, "NlaRopeAction")
             actionBenchExtendAction = mixer.clipAction(benchExtendAction)
+            actionLegExtendAction = mixer.clipAction(legExtendOpen)
+            actionRopeAction = mixer.clipAction(ropeAppear)
+            actionBenchExtendActionReverse =  mixer.clipAction(benchExtendAction)
+            
 
             // var benchExtendDown = THREE.AnimationClip.findByName(gltf.animations, "benchExtendDown") 
             // actionBenchExtendDown = mixer.clipAction(benchExtendDown)
@@ -71,10 +81,50 @@ function addlights(){
 }
 
  function actionButtons(){
-     document.getElementById("btn_play").onclick = function (){
-         //actionBenchExtendDown.play()
+     document.getElementById("btn_open").onclick = function (){
+         
+        /*f(aberto==0){
+            actionBenchExtendAction.play()
+            actionBenchExtendAction.setLoop(THREE.LoopOnce)
+            actionBenchExtendAction.clampWhenFinished = true
+            aberto = 1
+             //actionBenchExtendAction.stop()
+         }*/
+         /*actionBenchExtendAction.clampWhenFinished = true
+         aberto=1
+         mixer.update(clock.getDelta())*/
          actionBenchExtendAction.play()
+         actionBenchExtendAction.setLoop(THREE.LoopOnce)
+         actionBenchExtendAction.clampWhenFinished = true
+         actionLegExtendAction.play()
+         actionLegExtendAction.setLoop(THREE.LoopOnce)
+         actionLegExtendAction.clampWhenFinished = true
+         actionRopeAction.play()
+         actionRopeAction.setLoop(THREE.LoopOnce)
+         actionRopeAction.clampWhenFinished = true
+
      }
+
+     document.getElementById("btn_close").onclick = function (){
+         if(aberto==1){
+            actionBenchExtendAction.timeScale = -actionBenchExtendAction.timeScale
+            actionBenchExtendAction.play()
+        
+            //actionBenchExtendAction.play()
+            actionBenchExtendAction.setLoop(THREE.LoopOnce)
+            actionBenchExtendAction.clampWhenFinished = true
+            aberto = 0
+        }
+        /*actionLegExtendAction.timeScale = -actionLegExtendAction.timeScale
+        actionLegExtendAction.play()
+        actionLegExtendAction.setLoop(THREE.LoopOnce)
+        actionLegExtendAction.clampWhenFinished = true
+        actionRopeAction.timeScale = -actionRopeAction.timeScale
+        actionRopeAction.play()
+        actionRopeAction.setLoop(THREE.LoopOnce)
+        actionRopeAction.clampWhenFinished = true*/
+
+    }
 
      document.getElementById("btn_pause").onclick = function(){
         // actionBenchExtendDown.paused = !actionBenchExtendDown.paused  //fica no estado contrário do que estava
