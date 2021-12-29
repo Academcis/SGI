@@ -32,10 +32,11 @@ loadScene()
 animate()
 addlights()
 actionButtons()
+var loader = null
 
 function loadScene(){
-    var loadBench = new THREE.GLTFLoader()
-    loadBench.load( 
+    var loader = new THREE.GLTFLoader()
+    loader.load( 
         'models/movelJardinagem_v2.gltf',
         function(gltf){
             scene.add(gltf.scene)
@@ -59,6 +60,7 @@ function loadScene(){
                 }else if(objMesh.name == "leftDoor"){
                     doors[1] = objMesh //só entra aqui se encontrar o "leftDoor"
                 }  
+               
             })
 
             for(var i = 0; i < doors.length; i++){
@@ -95,6 +97,7 @@ var esq_aberta = 0
 var dir_aberta = 0
 var pausa = 0
 var dia = 0
+var rotacao = 0
 
  function actionButtons(){
      document.getElementById("btn_left_door_open").onclick = function(){
@@ -169,6 +172,40 @@ var dia = 0
         camera.position.set(5,4,9) 
         camera.lookAt(0,7,-2)  
     }
+
+    document.getElementById("btn_change_sink_texture").onclick = function(){
+        const textureLoader = new THREE.TextureLoader().load('models/materials/marble.jpg')
+        textureLoader.flipY = false;
+        const material = new THREE.MeshBasicMaterial({map: textureLoader})
+        // texture.encoding = THREE.sRGBEncoding;
+        //var loader = new THREE.GLTFLoader()
+        var newMaterial = new THREE.MeshStandardMaterial({color: 0xff0000})
+        
+        
+    }
+
+
+    document.getElementById("btn_rotate").onclick = function(){
+        if(rotacao == 0){
+
+            rotacao = 1
+        }else{
+            
+            rotacao = 0
+        }
+        // function animate() {
+
+        //     requestAnimationFrame( animate );
+
+        //     mesh.rotation.x += 0.005;
+        //     mesh.rotation.y += 0.01;
+
+        //     renderer.render( scene, camera );
+
+        // }
+
+    }
+
 
     document.getElementById("btn_day_night").onclick = function(){
         if(dia == 0){
