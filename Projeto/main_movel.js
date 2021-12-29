@@ -190,10 +190,10 @@ let mesh
 
     document.getElementById("btn_rotate").onclick = function(){
         if(rotacao == 0){
-
+            
             rotacao = 1
         }else{
-
+            sinkGeometry.rotation.x = 0
             rotacao = 0
         }
         // function animate() {
@@ -226,6 +226,21 @@ let mesh
         }
         scene.add(light);
         renderer.render(scene,camera);
+    }
+
+    
+    document.getElementById("btn_show_objects").onclick = function(){
+        //sinkGeometry.opacity = 0;
+        //console.log("esconder")
+        new THREE.GLTFLoader().load('models/movel_extra_objects.glb', result => {
+            var model1 = result.scene.children[0]
+            model1.position.set(-10,0,0)
+            model1.material.opacity = 0.1
+            model1.material.transparent = true
+
+            scene.add(model1)
+            animate()
+        })
     }
 }
 window.onclick = function(event){
