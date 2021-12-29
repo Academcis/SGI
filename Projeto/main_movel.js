@@ -63,7 +63,9 @@ function loadScene(){
 
                 if(objMesh.name == "sink"){
                    // var envMap = p
-                    sinkGeometry = objMesh.geometry
+                    //sinkGeometry = objMesh.geometry
+                    sinkGeometry = objMesh
+                    //sinkGeometry.transparent = true
                 }
                
             })
@@ -181,17 +183,8 @@ let mesh
 
     document.getElementById("btn_change_sink_texture").onclick = function(){
         const texture = new THREE.TextureLoader().load('models/materials/marble.jpg')
-       // const geometry = sinkGeometry
-        texture.flipY = true;
-       // const material = new THREE.MeshBasicMaterial({map: textureLoader})
-        // texture.encoding = THREE.sRGBEncoding;
-        //var loader = new THREE.GLTFLoader()
-        //const material = new THREE.MeshBasicMaterial({color: 0xffffff})
-        const material = new THREE.MeshBasicMaterial({map: texture})
-        mesh = new THREE.Mesh(sinkGeometry, material)
-        scene.add(mesh)
-        //animate()
-        console.log("sink color changed")
+        texture.flipY = false
+        sinkGeometry.material.map = texture
     }
 
 
