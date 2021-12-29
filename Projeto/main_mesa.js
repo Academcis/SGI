@@ -240,8 +240,7 @@ function addlights(){
         actionLeftDoor.reset()
         actionLeftDoor.timeScale = 1
         actionLeftDoor.setLoop(THREE.LoopOnce)
-        actionLeftDoor.clampWhenFinished = false
-        actionLeftDoor.paused = false
+        actionLeftDoor.clampWhenFinished = true
         actionLeftDoor.play()
 
     }
