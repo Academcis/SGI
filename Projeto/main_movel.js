@@ -32,7 +32,7 @@ loadScene()
 animate()
 addlights()
 actionButtons()
-var loader = null
+var sinkGeometry = null//new THREE.BufferGeometry()
 
 function loadScene(){
     var loader = new THREE.GLTFLoader()
@@ -43,7 +43,7 @@ function loadScene(){
             gltf.scene.traverse(function(x){
                 if (x instanceof THREE.Light) x.visible = false
             })
-            //scene.getObjectByName("rightDoor").visible = true
+            
             var leftDoorAction = THREE.AnimationClip.findByName(gltf.animations, "NlaLD") 
             var rightDoorAction = THREE.AnimationClip.findByName(gltf.animations, "NlaRD") 
             actionLeftDoorAction = mixer.clipAction(leftDoorAction)
@@ -60,6 +60,11 @@ function loadScene(){
                 }else if(objMesh.name == "leftDoor"){
                     doors[1] = objMesh //só entra aqui se encontrar o "leftDoor"
                 }  
+
+                if(objMesh.name == "sink"){
+                   // var envMap = p
+                    sinkGeometry = objMesh.geometry
+                }
                
             })
 
@@ -98,6 +103,7 @@ var dir_aberta = 0
 var pausa = 0
 var dia = 0
 var rotacao = 0
+let mesh
 
  function actionButtons(){
      document.getElementById("btn_left_door_open").onclick = function(){
@@ -174,14 +180,18 @@ var rotacao = 0
     }
 
     document.getElementById("btn_change_sink_texture").onclick = function(){
-        const textureLoader = new THREE.TextureLoader().load('models/materials/marble.jpg')
-        textureLoader.flipY = false;
-        const material = new THREE.MeshBasicMaterial({map: textureLoader})
+        const texture = new THREE.TextureLoader().load('models/materials/marble.jpg')
+       // const geometry = sinkGeometry
+        texture.flipY = true;
+       // const material = new THREE.MeshBasicMaterial({map: textureLoader})
         // texture.encoding = THREE.sRGBEncoding;
         //var loader = new THREE.GLTFLoader()
-        var newMaterial = new THREE.MeshStandardMaterial({color: 0xff0000})
-        
-        
+        //const material = new THREE.MeshBasicMaterial({color: 0xffffff})
+        const material = new THREE.MeshBasicMaterial({map: texture})
+        mesh = new THREE.Mesh(sinkGeometry, material)
+        scene.add(mesh)
+        //animate()
+        console.log("sink color changed")
     }
 
 
@@ -190,7 +200,7 @@ var rotacao = 0
 
             rotacao = 1
         }else{
-            
+
             rotacao = 0
         }
         // function animate() {
