@@ -23,6 +23,16 @@ window.onclick = function(event){
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
 
+/*Lights*/
+var rotate = 0;
+var lightTime =0;
+var HemisphereLight = new THREE.HemisphereLight(0x404040, 0x080820, 3);
+scene.add(HemisphereLight)
+var DirLight = new THREE.DirectionalLight(0xFFCC99, 1);
+DirLight.castShadow = true;
+/*End of lights*/
+
+
 var actionLeftDoorAction = null
 var actionRigthDoorAction = null
 var actionVaso1 = null
@@ -56,7 +66,8 @@ var vaso2 = null
 
 loadScene()
 animate()
-addlights()
+//addlights()
+addLightsDawn()
 actionButtons()
 
 function loadScene(){
@@ -171,6 +182,53 @@ function addlights(){
 // hemiLight.position.set( 0, 500, 0 );
 // scene.add(hemilight);
 
+function addLightsSunset(){
+    scene.remove(DirLight)
+    
+    scene.background = new THREE.Color(0xEFB59D) 
+    
+    DirLight.position.set(-60,60,-200);
+    //DirLight.target.position.set(0,0,0)
+    
+    scene.add(DirLight)
+    //scene.add(DirLight.target)
+
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    
+    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+}
+
+function addLightsMidDay(){
+
+    scene.remove(DirLight)
+    scene.background = new THREE.Color(0xC1EDFF) 
+    
+    DirLight.position.set(5,15,00);
+    //DirLight.target.position.set(0,0,0)
+    
+    scene.add(DirLight)
+    //scene.add(DirLight.target)
+
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    
+    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+}
+
+function addLightsDawn(){
+    scene.remove(DirLight)
+    scene.background = new THREE.Color(0xFFE5CC) 
+    
+    DirLight.position.set(30,40,50);
+    //DirLight.target.position.set(0,0,0)
+    
+    scene.add(DirLight)
+    //scene.add(DirLight.target)
+
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    
+    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+}
+
 var esq_aberta = 0
 var dir_aberta = 0
 var pausa = 0
@@ -254,6 +312,7 @@ function actionButtons(){
     document.getElementById("btn_reset_view").onclick = function(){
         camera.position.set(0,6,15) 
         camera.lookAt(0,0,0) 
+        rotate = 0
     }
 
     document.getElementById("btn_main_texture").onclick = function(){
@@ -296,42 +355,55 @@ function actionButtons(){
 
 
     document.getElementById("btn_rotate").onclick = function(){
-        if(rotacao == 0){
-            
-            rotacao = 1
-        }else{
-            sinkGeometry.rotation.y = 0
-            rotacao = 0
+        switch(rotate){
+            case 0:
+                camera.position.set(-10,6,4) 
+                rotate+=1;
+                break;
+            case 1:
+                camera.position.set(-8,4,-5)
+                rotate+=1;
+                break;
+            case 2:
+                camera.position.set(0,6,-8)
+                rotate+=1;
+                break;
+            case 3:
+                camera.position.set(10,6,-4)
+                rotate+=1;
+                break;
+            case 4:
+                camera.position.set(11,6,0)
+                rotate+=1;
+                break;
+            case 5:
+               camera.position.set(8,6,9)
+                rotate+=1;
+                break;
+            case 6:
+                camera.position.set(0,7,10)
+                rotate=0;
+                break;
         }
-        // function animate() {
-
-        //     requestAnimationFrame( animate );
-
-        //     mesh.rotation.x += 0.005;
-        //     mesh.rotation.y += 0.01;
-
-        //     renderer.render( scene, camera );
-
-        // }
+        camera.lookAt(0,0,0)
     }
 
 
     document.getElementById("btn_day_night").onclick = function(){
-        if(dia == 0){
-            dia = 1
-        }else{
-            dia = 0
+        switch(lightTime){
+            case 0:
+                addLightsMidDay();
+                lightTime++;
+                break;
+            case 1:
+                addLightsSunset();
+                lightTime++;
+                break;
+            case 2:
+                addLightsDawn();
+                lightTime=0;
+                break;
         }
-        if(dia == 0){ //dia
-            light = new THREE.SpotLight(0xffa95c,7);
-            light.position.set(-50,50,50);
-            light.castShadow = true;
-        }
-        else{ //noite
-
-        }
-        scene.add(light);
-        renderer.render(scene,camera);
     }
 
     
