@@ -1,8 +1,24 @@
 var scene = new THREE.Scene()
 
-var camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight,0.01, 1000)
+var camera = new THREE.PerspectiveCamera(80, window.innerWidth/window.innerHeight,0.01, 1000)
 camera.position.set(0,6,15) 
 camera.lookAt(0,0,0)
+
+var raycaster = new THREE.Raycaster()
+var mouse = new THREE.Vector2()
+
+var crate1 = null, crate2 = null, crate3 = null, crate4 = null
+var sinkGeometry = null
+var cratesArray = []
+
+window.onclick = function(event){
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1 
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1  
+    console.log("x: "+ mouse.x + "y: "+ mouse.y)
+    pickCrateTexture()
+    pickDoors()
+}
+
 
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
@@ -27,24 +43,16 @@ var newColor = new THREE.Color("lightCoral")
 var alterarCorPortas = 0
 var defaultColor = null
 var leftDoor = null, rightDoor = null
+var defaultTexture = null
+var furniture = null
 
 var target = null
 var doors = []
-var raycaster = new THREE.Raycaster()
-var mouse = new THREE.Vector2()
-
-var crate1 = null, crate2 = null, crate3 = null, crate4 = null
-var cratesArray = []
-//var textureCrate1 = null, textureCrate2 = null, textureCrate3 = null, textureCrate4 = null
-//var textureCrateLoader = null
-
 
 loadScene()
 animate()
 addlights()
 actionButtons()
-var sinkGeometry = null//new THREE.BufferGeometry()
-
 
 function loadScene(){
     var loader = new THREE.GLTFLoader()
@@ -69,10 +77,11 @@ function loadScene(){
                 //FALTA POR ISTO A FUNCIONAR (Carregar diretamente na porta para a abrir)
                 if(objMesh.name == "rightDoor"){ 
                     rightDoor = objMesh
-                    // doors[0] = objMesh //só entra aqui se encontrar o "rightDoor"
+                    doors.push(objMesh) //só entra aqui se encontrar o "rightDoor"
                 }else if(objMesh.name == "leftDoor"){
                     leftDoor = objMesh
                     defaultColor = leftDoor.material.color
+                    doors.push(objMesh)
                    // defaultColor = leftDoorColor
                     // doors[1] = objMesh //só entra aqui se encontrar o "leftDoor"
                 }  
@@ -81,7 +90,7 @@ function loadScene(){
                     //sinkGeometry = objMesh.geometry
                     sinkGeometry = objMesh
                     //sinkGeometry.transparent = true
-                }else if(objMesh.name.includes('cube')){ //Pode-se ver os nomes na consola
+                }else if(objMesh.name.includes('cube')){ 
                     if(objMesh.name == "cube1"){
                         crate1 = objMesh
                     }
@@ -97,7 +106,17 @@ function loadScene(){
                     cratesArray.push(objMesh)
                     objMesh.visible = !objMesh.visible
                 }
+                
+                if(objMesh.name == "horizontalWood"){
+                    defaultTexture = objMesh.material.map
+                    furniture = objMesh
+                    console.log("furniture found")
+                    //objMesh.visible = !objMesh.visible
+                }
             })
+            for(var i = 0; i < cratesArray.length; i++){
+                console.log("Mesh added to cratesArray []: " + cratesArray[i].name)
+            }
         }
     )
 }
@@ -132,6 +151,7 @@ var dia = 0
 var rotacao = 0
 let mesh
 var changeSinkTexture = 0
+var changeFurnitureTexture = 0
 
 
 function actionButtons(){
@@ -209,13 +229,18 @@ function actionButtons(){
     }
 
     document.getElementById("btn_main_texture").onclick = function(){
-        //const texture = new THREE.TextureLoader().load('models/materials/sink_texture2.jpg')
-        //texture.flipY = false
-        //sinkGeometry.material.map = texture
+        const texture = new THREE.TextureLoader().load('models/materials/marble.jpg')
+        texture.flipY = false
+        if(changeFurnitureTexture == 0){
+            furniture.material.map = texture
+            changeFurnitureTexture = 1
+        }else{
+            furniture.material.map = defaultTexture
+            changeFurnitureTexture = 0
+        }
     }
 
     document.getElementById("btn_change_doors_color").onclick = function(){
-       // defaultColor = leftDoorColor
         if(alterarCorPortas == 0){
             leftDoor.material.color = newColor
             rightDoor.material.color = newColor
@@ -247,7 +272,7 @@ function actionButtons(){
             
             rotacao = 1
         }else{
-            sinkGeometry.rotation.x = 0
+            sinkGeometry.rotation.y = 0
             rotacao = 0
         }
         // function animate() {
@@ -299,13 +324,6 @@ function actionButtons(){
     }
 
 }
-window.onclick = function(event){
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1 
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1  
-    console.log("x: "+ mouse.x + "y: "+ mouse.y)
-    //pickDoor()
-    pickCrateTexture()
-}
 
 // window.addEventListener('click', event => {
 //     raycaster.setFromCamera(mouse, camera)
@@ -318,13 +336,19 @@ window.onclick = function(event){
 //     }
 // })
 
-// function pickDoor(){
-//     raycaster.setFromCamera(mouse,camera)
-//     var intersectedObjects = raycaster.intersectObjects(doors)
-//     if(intersectedObjects.length > 0){
-//         console.log('I got a door'+ intersectedObjects[0].object)
-//     }
-// }
+function pickDoors(){
+    raycaster.setFromCamera(mouse,camera)
+    var intersectedObjects = raycaster.intersectObjects(doors)
+    if(intersectedObjects.length > 0){
+        if(intersectedObjects[0].object.name == "leftDoor"){
+            //console.log('I got left door')
+            changeLeftDoorState()
+        }else{
+            //console.log('I got right door')
+            changeRightDoorState()
+        }
+    }
+}
 
 function pickCrateTexture(){
     if(changeSinkTexture == 1){
@@ -336,3 +360,40 @@ function pickCrateTexture(){
         }
     }    
 }
+
+function changeLeftDoorState(){
+    if(esq_aberta == 0){
+        actionLeftDoorAction.reset()
+        actionLeftDoorAction.timeScale = 1
+        actionLeftDoorAction.setLoop(THREE.LoopOnce)
+        actionLeftDoorAction.clampWhenFinished = true
+        actionLeftDoorAction.play()
+        esq_aberta = 1
+    }else{
+        actionLeftDoorAction.timeScale = -1  
+        actionLeftDoorAction.setLoop(THREE.LoopOnce)   
+        actionLeftDoorAction.clampWhenFinished = true
+        actionLeftDoorAction.paused = false  
+        actionLeftDoorAction.play() 
+        esq_aberta = 0
+    }
+}
+
+function changeRightDoorState(){
+    if(dir_aberta == 0){
+        actionRigthDoorAction.reset()
+        actionRigthDoorAction.timeScale = 1
+        actionRigthDoorAction.setLoop(THREE.LoopOnce)
+        actionRigthDoorAction.clampWhenFinished = true
+        actionRigthDoorAction.play()
+        dir_aberta = 1
+    }else{
+        actionRigthDoorAction.timeScale = -1  
+        actionRigthDoorAction.setLoop(THREE.LoopOnce)   
+        actionRigthDoorAction.clampWhenFinished = true
+        actionRigthDoorAction.paused = false  
+        actionRigthDoorAction.play() 
+        dir_aberta = 0
+    }
+}
+

@@ -426,7 +426,7 @@
 
       <div class="container-fluid p-8 my-5 border container-bg" >
         <div class="row " >
-          <div class=" col-4" style=" background-color: rgb(243, 242, 242);" >
+          <div class=" col-5" style=" background-color: rgb(243, 242, 242);" >
             <!-- inicio da primeira divisão -->
             
               <div style="text-align: left;">
@@ -456,7 +456,7 @@
           </div>
             <!-- fim da primeira divisão -->
     
-          <div class=" col-8" style=" background-color: #CCCCCC;" >
+          <div class=" col-7" style=" background-color: #CCCCCC;" >
             <!-- inicio da segunda divisão -->
                 <!-- Dropdown -->
                 <div class="btn-group"  style="float: left; margin-left: 6%; margin-top: 6%;">
@@ -534,73 +534,70 @@
                 <div style="width: 66%;  margin-left: 6%; margin-top: 20px; margin-bottom: 10%; display: inline-block;">
                   <canvas id="myCanvas" ></canvas>
                 </div>
-                <div style="float: right; margin-right: 6%; margin-top: 19px; width: 22%; height: 15%;">
+                <div style="float: right; margin-right: 6%; margin-top: 19px; width: 15%; height: 15%;">
                   <!-- Botões interação 3D -->
                   
-                  <div >
-                    <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Porta Esquerda</p>
-                    <button class="btn rounded-0" style="background-color: rgb(243, 242, 242);  width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen'; " id="btn_left_door_open">
-                      Abrir
-                    </button>
-                    
-                    <button class="btn rounded-0" style=" background-color: lightcoral;   width: 50%; height: 45%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;" id="btn_left_door_close">
-                      Fechar
-                    </button>
-                  </div>
-                  
-                  <div >
-                    <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Porta Direita</p>
-                    <button class="btn rounded-0" style=" background-color: rgb(243, 242, 242);  width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_right_door_open">
-                      Abrir
-                    </button>
-                    
-                    <button class="btn rounded-0" style=" background-color: lightcoral;   width: 50%; height: 45%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;" id="btn_right_door_close">
-                      Fechar
-                    </button>
-                  </div>
-                  
-                  
-                  <div >
-                    <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Animações</p>
-                    <button class="btn rounded-0" style=" background-color: rgb(243, 242, 242);   width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_pause">
-                      Pausar
-                    </button>
-                    
-                    <button class="btn rounded-0" style=" background-color: lightcoral; margin-bottom: 17%;  width: 50%; height: 45%; color: white; font-family: 'Oxygen'; float: right;" id="btn_stop">
-                      Reset
-                    </button>
-                  </div>
-                  <div >
-                    <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Mudar Textura</p>
-                    <button class="btn rounded-0" style=" background-color: rgb(243, 242, 242);   width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_main_texture">
-                      Móvel
-                    </button>
-                    <button class="btn rounded-0" style=" background-color: lightcoral;   width: 50%; height: 45%; color: white;  margin-bottom: 17%; font-family: 'Oxygen'; float: right;" id="btn_change_sink_texture">
-                      Pia
-                    </button>
-                  </div>  
-                  
-                  <button class="btn rounded-0" style=" background-color: rgb(243, 242, 242);   width: 100%; height: 36%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_reset_view">
-                      Vista original
+                  <button class="btn rounded-0" style="background-color: #606060;  width: 80%; height: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; " id="btn_left_door_open">
+                    Abrir Porta Esquerda
                   </button>
                   
-                 
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen';" id="btn_left_door_close">
+                    Fechar Porta Esquerda
+                  </button>
                   
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen';" id="btn_right_door_open">
+                    Abrir Porta Direita
+                  </button>
+                  
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen';" id="btn_right_door_close">
+                    Fechar Porta Direita
+                  </button>
+                  
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen';" id="btn_main_texture">
+                    Mudar textura móvel
+                  </button>
+                  
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen';" id="btn_pause">
+                    Pausar Animações
+                  </button>
+                  
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; color: white; font-family: 'Oxygen';" id="btn_stop">
+                    Reset Animações
+                  </button>
                 </div>
-               <div style="margin-left: 6%; width: 88%; height: 15%; margin-bottom: 60px; margin-top: -40px;">
-                     <button class="btn rounded-0" style=" background-color: lightcoral; color: white;  width: 26%; height: 36%; font-family: 'Oxygen';" id="btn_day_night">
-                      Dia/Noite
-                    </button>
+                <div style="float: right; margin-right:20%; margin-top: -503px; width: 15%; height: 15%;">
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; color: white; font-family: 'Oxygen';" id="btn_reset_view">
+                    Vista original
+                  </button>
 
-                    <button class="btn rounded-0" style=" background-color: lightcoral; color: white;  width: 26%; height: 36%;  font-family: 'Oxygen'; margin-left: 10%;" id="btn_show_objects">
-                      Mostrar objetos extra
-                    </button>
-                  
-                    <button class="btn rounded-0" style=" background-color: lightcoral;  width:26%; height: 36%; color: white; font-family: 'Oxygen'; margin-left: 11%;" id="btn_rotate">
-                      Rodar objeto
-                    </button>
-                  </div>
-                  
+                  <br><br>
+
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; color: white; font-family: 'Oxygen';" id="btn_day_night">
+                    Dia/Noite
+                  </button>
+
+                  <br><br>
+
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; color: white; font-family: 'Oxygen';" id="btn_show_objects">
+                    Mostrar objetos extra
+                  </button>
+
+                  <br><br>
+
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; color: white; font-family: 'Oxygen';" id="btn_change_sink_texture">
+                    Alterar textura da pia
+                  </button>
+
+                  <br><br>
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; color: white; font-family: 'Oxygen';" id="btn_rotate">
+                    Rodar objeto
+                  </button>
+
+                  <br><br>
+                  <button class="btn rounded-0" style=" background-color: #606060;   width: 80%; height: 50%; color: white; font-family: 'Oxygen';" id="btn_change_doors_color">
+                    Mudar Cor Portas
+                  </button>
+                </div>
             
             <!-- fim da segunda divisão -->
           </div>      
