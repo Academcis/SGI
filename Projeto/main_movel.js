@@ -25,6 +25,8 @@ var mixer = new THREE.AnimationMixer(scene)
 
 var actionLeftDoorAction = null
 var actionRigthDoorAction = null
+var actionVaso1 = null
+var actionVaso2 = null
 
 var myCanvas = document.getElementById("myCanvas")
 
@@ -49,6 +51,9 @@ var furniture = null
 var target = null
 var doors = []
 
+var vaso1 = null
+var vaso2 = null
+
 loadScene()
 animate()
 addlights()
@@ -69,43 +74,65 @@ function loadScene(){
             actionLeftDoorAction = mixer.clipAction(leftDoorAction)
             actionRigthDoorAction = mixer.clipAction(rightDoorAction)
 
+            var vaso1animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso1") 
+            var vaso2animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso2") 
+            actionVaso1 = mixer.clipAction(vaso1animation)
+            actionVaso2 = mixer.clipAction(vaso2animation)
+
             scene.traverse(function(objMesh){
                 if(objMesh.isMesh){
                     objMesh.castShadow = true
                     objMesh.receiveShadow = true
                 }
-                //FALTA POR ISTO A FUNCIONAR (Carregar diretamente na porta para a abrir)
+
                 if(objMesh.name == "rightDoor"){ 
                     rightDoor = objMesh
                     doors.push(objMesh) //só entra aqui se encontrar o "rightDoor"
-                }else if(objMesh.name == "leftDoor"){
+                }
+                
+                if(objMesh.name == "leftDoor"){
                     leftDoor = objMesh
                     defaultColor = leftDoor.material.color
                     doors.push(objMesh)
-                   // defaultColor = leftDoorColor
-                    // doors[1] = objMesh //só entra aqui se encontrar o "leftDoor"
                 }  
+
                 if(objMesh.name == "sink"){
-                   // var envMap = p
-                    //sinkGeometry = objMesh.geometry
                     sinkGeometry = objMesh
-                    //sinkGeometry.transparent = true
-                }else if(objMesh.name.includes('cube')){ 
+                }
+
+                if(objMesh.name.includes("cube")){ 
                     if(objMesh.name == "cube1"){
                         crate1 = objMesh
+                        cratesArray.push(crate1)
+                        crate1.visible = !crate1.visible
                     }
                     if(objMesh.name == "cube2"){
                         crate2 = objMesh
+                        cratesArray.push(crate2)
+                        crate2.visible = !crate2.visible
                     }
                     if(objMesh.name == "cube3"){
                         crate3 = objMesh
+                        cratesArray.push(crate3)
+                        crate3.visible = !crate3.visible
                     }
                     if(objMesh.name == "cube4"){
                         crate4 = objMesh
+                        cratesArray.push(crate4)
+                        crate4.visible = !crate4.visible
                     }
-                    cratesArray.push(objMesh)
-                    objMesh.visible = !objMesh.visible
                 }
+
+                // if(objMesh.name = "vaso1"){
+                //     vaso1 = objMesh
+                //     vaso1.visible = !vaso1.visible
+                // }
+
+                // if(objMesh.name = "vaso2"){
+                //     vaso2 = objMesh
+                //     vaso2.visible = !vaso2.visible
+                // }
+                
                 
                 if(objMesh.name == "horizontalWood"){
                     defaultTexture = objMesh.material.map
@@ -152,6 +179,7 @@ var rotacao = 0
 let mesh
 var changeSinkTexture = 0
 var changeFurnitureTexture = 0
+var animacao_vasos = 0
 
 
 function actionButtons(){
@@ -308,8 +336,23 @@ function actionButtons(){
 
     
     document.getElementById("btn_show_objects").onclick = function(){
-        //sinkGeometry.opacity = 0;
-        //console.log("esconder")
+        // if(animacao_vasos == 0){
+        //     actionVaso1.reset()
+        //     actionVaso1.timeScale = 1
+        //     actionVaso1.setLoop(THREE.LoopOnce)
+        //     actionVaso1.clampWhenFinished = true
+        //     actionVaso1.play()
+
+        //     actionVaso2.reset()
+        //     actionVaso2.timeScale = 1
+        //     actionVaso2.setLoop(THREE.LoopOnce)
+        //     actionVaso2.clampWhenFinished = true
+        //     actionVaso2.play()
+        //     animacao_vasos = 1
+        // }
+        // vaso1.visible = !vaso1.visible
+        // vaso2.visible = !vaso2.visible
+        // animacao_vasos = 0
         
         // new THREE.GLTFLoader().load('models/movel_extra_objects.glb', result => {
         //     var model1 = result.scene.children[0]
@@ -320,7 +363,6 @@ function actionButtons(){
         //     animate()
         // })
 
-        //sinkGeometry.visible = !sinkGeometry.visible
     }
 
 }
