@@ -42,7 +42,7 @@ addLightsDawn()
 actionButtons()
 
 function animate(){
-    animateLight()
+    //animateLight()
     requestAnimationFrame(animate)
     mixer.update(clock.getDelta())
     renderer.render(scene, camera)
