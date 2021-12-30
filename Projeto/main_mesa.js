@@ -3,13 +3,13 @@ var scene = new THREE.Scene()
 scene.background = new THREE.Color(0xFFE5CC) 
 
 var camera = new THREE.PerspectiveCamera(70, 800/600,0.01, 1000)
-camera.position.set(-2,8,15) //em vez de fazer camera.position.z=3 para x, y e z 
+camera.position.set(-2,8,15)
 camera.lookAt(0,0,0) //para onde quero apontar a camera (neste caso, para o centro)
-
-//document.body.appendChild(renderer.domElement)
 
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
+
+var rotate=0;
 
 //var actionBenchExtendDown = null
 var actionBenchExtendOpen = null
@@ -43,8 +43,8 @@ function animate(){
 
 
 function loadScene(){
-    var loadBenchOpen = new THREE.GLTFLoader()
-    loadBenchOpen.load( 
+    var loadBench = new THREE.GLTFLoader()
+    loadBench.load( 
         'this_tentativa_background/workBenchM_v2.gltf',
         function(gltf){
             scene.add(gltf.scene)
@@ -54,27 +54,42 @@ function loadScene(){
                 //scene.getObjectByName('door').visible = true
             }) //para tornar invisivel a luz que possa existir a mais
 
-            var blender_camera = gltf.cameras[ 0 ];
-            scene.add(blender_camera)
+
 
             var BenchExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaBenchOpen") 
             var legExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaLegOpen")
             var RightDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaRightDoor")
             var LeftDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaLeftDoor")
+            var RopeAction = THREE.AnimationClip.findByName(gltf.animations,"NlaRopeAction")
             //var cameraAction = THREE.AnimationClip.findByName(gltf.animations, "NlaCameraAction")
             actionBenchExtendOpen = mixer.clipAction(BenchExtendOpen)
             actionLegExtendOpen = mixer.clipAction(legExtendOpen)
             actionRightDoor = mixer.clipAction(RightDoor)
             actionLeftDoor = mixer.clipAction(LeftDoor)
+            actionRopeAction = mixer.clipAction(RopeAction)
             //actionCameraAction = mixer.clipAction(cameraAction)
         }
     )
-    
+    /*var scenario = new THREE.GLTFLoader()
+    scenario.load( 
+        'this_tentativa_background/scenario.gltf',
+        function(gltf){
+            scene.add(gltf.scene)
+            gltf.scene.traverse(function(x){
+                //if (x instanceof THREE.Light) x.visible = false
+                //scene.getObjectByName('Botao2').visible = false -> depois de ver na consola qual é o nome 
+                //scene.getObjectByName('door').visible = true
+            }) 
+            scenario.rotateY(180)
+            scenario.position.set(-6,2,9)
+            scenario.scale(150, 150)
+        }
+    )*/
 }
 
 
 function addlights(){
-    var ambientL = new THREE.HemisphereLight(0xffffbb,0x080820,1)
+    var ambientL = new THREE.AmbientLight(0xffffff,1)
     scene.add(ambientL)
 
     var light = new THREE.DirectionalLight(0xFFFFFF,1)
@@ -93,11 +108,19 @@ function addlights(){
  function actionButtons(){
      document.getElementById("btn_open").onclick = function (){
         //let time = {t: 0};
-        
+        var startingPoint = (-2,8,15)
+        var endingPoint = (-7,9,7) 
         //var startQuaternion = camera.quaternion.clone() //set initial angle
+        /*curvePath = new THREE.CurvePath();
+        curvePath = findAPath(startingPoint, endingPoint, curvePath);
+
+        
+        curveGeometry = new THREE.Geometry();
+        curveGeometry.vertices = curvePath.getPoints( 100 );
+*/
         camera.position.set(-7,9,7) 
         camera.lookAt(-2,-2,-12)
-        
+      
         /*setTimeout(function(){
             camera.position.set(-3,8,14)
             camera.lookAt(-1,-1,-1)
@@ -172,6 +195,13 @@ function addlights(){
         actionLegExtendOpen.setLoop(THREE.LoopOnce)
         actionLegExtendOpen.clampWhenFinished = true
         actionLegExtendOpen.play()
+
+        actionRopeAction.reset()
+        actionRopeAction.timeScale = 1
+        actionRopeAction.setLoop(THREE.LoopOnce)
+        actionRopeAction.clampWhenFinished = true
+        actionRopeAction.play()
+
        // }).start();
 
     }
@@ -222,7 +252,7 @@ function addlights(){
     }
 
     document.getElementById("btn_open_doors").onclick = function (){
-        camera.position.set(-2,8,15) 
+        camera.position.set(-1,5,10) 
         camera.lookAt(0,0,0)
         
         /*actionCameraAction.timeScale = -1
@@ -242,6 +272,55 @@ function addlights(){
         actionLeftDoor.setLoop(THREE.LoopOnce)
         actionLeftDoor.clampWhenFinished = true
         actionLeftDoor.play()
+
+    }
+
+    document.getElementById("btn_rotate").onclick = function (){
+            switch(rotate){
+                case 0:
+                    camera.position.set(-20,8,9) 
+                    rotate+=1;
+                    break;
+                case 1:
+                    camera.position.set(-16,8,-12)
+                    rotate+=1;
+                    break;
+                case 2:
+                    camera.position.set(-4,7,-16)
+                    rotate+=1;
+                    break;
+                case 3:
+                    camera.position.set(10,7,-15)
+                    rotate+=1;
+                    break;
+               /* case 4:
+                    camera.position.set(18,7,-6)
+                    rotate+=1;
+                    break;*/
+                case 4:
+                    camera.position.set(17,7,1)
+                    rotate+=1;
+                    break;
+                case 5:
+                   camera.position.set(12,7,10)
+                    rotate+=1;
+                    break;
+                case 6:
+                    camera.position.set(-2,8,15) 
+                    rotate=0;
+                    break;
+            }
+        
+        //camera.position.set(-20,8,9) 
+        //camera.position.set(-20,8,-10) 
+        //camera.position.set(-16,8,-12) 
+        //camera.position.set(-10,8,-16)
+        camera.lookAt(0,0,0)
+        /*actionCameraAction.timeScale = -1
+        actionCameraAction.setLoop(THREE.LoopOnce)
+        actionCameraAction.clampWhenFinished = false
+        actionCameraAction.paused = false
+        actionCameraAction.play()*/
 
     }
 
