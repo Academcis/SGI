@@ -123,15 +123,15 @@ function loadScene(){
                     }
                 }
 
-                // if(objMesh.name = "vaso1"){
-                //     vaso1 = objMesh
-                //     vaso1.visible = !vaso1.visible
-                // }
+                if(objMesh.name == "vaso1"){
+                    vaso1 = objMesh
+                    vaso1.visible = !vaso1.visible
+                }
 
-                // if(objMesh.name = "vaso2"){
-                //     vaso2 = objMesh
-                //     vaso2.visible = !vaso2.visible
-                // }
+                if(objMesh.name == "vaso2s"){
+                    vaso2 = objMesh
+                    objMesh.visible = !objMesh.visible
+                }
                 
                 
                 if(objMesh.name == "horizontalWood"){
@@ -336,23 +336,23 @@ function actionButtons(){
 
     
     document.getElementById("btn_show_objects").onclick = function(){
-        // if(animacao_vasos == 0){
-        //     actionVaso1.reset()
-        //     actionVaso1.timeScale = 1
-        //     actionVaso1.setLoop(THREE.LoopOnce)
-        //     actionVaso1.clampWhenFinished = true
-        //     actionVaso1.play()
+        vaso1.visible = !vaso1.visible
+        vaso2.visible = !vaso2.visible
+        if(animacao_vasos == 0){
+            actionVaso1.reset()
+            actionVaso1.timeScale = 1
+            actionVaso1.setLoop(THREE.LoopOnce)
+            actionVaso1.clampWhenFinished = true
+            actionVaso1.play()
 
-        //     actionVaso2.reset()
-        //     actionVaso2.timeScale = 1
-        //     actionVaso2.setLoop(THREE.LoopOnce)
-        //     actionVaso2.clampWhenFinished = true
-        //     actionVaso2.play()
-        //     animacao_vasos = 1
-        // }
-        // vaso1.visible = !vaso1.visible
-        // vaso2.visible = !vaso2.visible
-        // animacao_vasos = 0
+            actionVaso2.reset()
+            actionVaso2.timeScale = 1
+            actionVaso2.setLoop(THREE.LoopOnce)
+            actionVaso2.clampWhenFinished = true
+            actionVaso2.play()
+            animacao_vasos = 1
+        }
+        animacao_vasos = 0
         
         // new THREE.GLTFLoader().load('models/movel_extra_objects.glb', result => {
         //     var model1 = result.scene.children[0]
