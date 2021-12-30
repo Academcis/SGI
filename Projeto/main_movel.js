@@ -23,6 +23,11 @@ renderer.shadowMap.enabled = true
 
 new THREE.OrbitControls(camera, renderer.domElement)
 
+var newColor = new THREE.Color("lightCoral")
+var alterarCorPortas = 0
+var defaultColor = null
+var leftDoor = null, rightDoor = null
+
 var target = null
 var doors = []
 var raycaster = new THREE.Raycaster()
@@ -61,14 +66,16 @@ function loadScene(){
                     objMesh.castShadow = true
                     objMesh.receiveShadow = true
                 }
-
                 //FALTA POR ISTO A FUNCIONAR (Carregar diretamente na porta para a abrir)
                 if(objMesh.name == "rightDoor"){ 
-                    doors[0] = objMesh //só entra aqui se encontrar o "rightDoor"
+                    rightDoor = objMesh
+                    // doors[0] = objMesh //só entra aqui se encontrar o "rightDoor"
                 }else if(objMesh.name == "leftDoor"){
-                    doors[1] = objMesh //só entra aqui se encontrar o "leftDoor"
+                    leftDoor = objMesh
+                    defaultColor = leftDoor.material.color
+                   // defaultColor = leftDoorColor
+                    // doors[1] = objMesh //só entra aqui se encontrar o "leftDoor"
                 }  
-
                 if(objMesh.name == "sink"){
                    // var envMap = p
                     //sinkGeometry = objMesh.geometry
@@ -126,7 +133,6 @@ var rotacao = 0
 let mesh
 var changeSinkTexture = 0
 
-pickCrateTexture()
 
 function actionButtons(){
     document.getElementById("btn_left_door_open").onclick = function(){
@@ -203,12 +209,23 @@ function actionButtons(){
     }
 
     document.getElementById("btn_main_texture").onclick = function(){
-    
         //const texture = new THREE.TextureLoader().load('models/materials/sink_texture2.jpg')
         //texture.flipY = false
         //sinkGeometry.material.map = texture
     }
 
+    document.getElementById("btn_change_doors_color").onclick = function(){
+       // defaultColor = leftDoorColor
+        if(alterarCorPortas == 0){
+            leftDoor.material.color = newColor
+            rightDoor.material.color = newColor
+            alterarCorPortas = 1
+        }else{
+            leftDoor.material.color = defaultColor
+            rightDoor.material.color = defaultColor
+            alterarCorPortas = 0
+        }
+    }
 
     document.getElementById("btn_change_sink_texture").onclick = function(){
         if(changeSinkTexture == 0){
@@ -243,7 +260,6 @@ function actionButtons(){
         //     renderer.render( scene, camera );
 
         // }
-
     }
 
 
