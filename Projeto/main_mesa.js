@@ -1,6 +1,5 @@
 
 var scene = new THREE.Scene()
-scene.background = new THREE.Color(0xFFE5CC) 
 
 var camera = new THREE.PerspectiveCamera(70, 800/600,0.01, 1000)
 camera.position.set(-2,8,15)
@@ -10,12 +9,19 @@ var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
 
 var rotate=0;
+var lightTime =0;
+var HemisphereLight = new THREE.HemisphereLight(0x404040, 0x080820, 3);
+scene.add(HemisphereLight)
+var DirLight = new THREE.DirectionalLight(0xFFCC99, 1);
+DirLight.castShadow = true;
 
 //var actionBenchExtendDown = null
 var actionBenchExtendOpen = null
 var actionLegExtendOpen = null
 var actionRopeAction = null
 var actionBenchExtendOpenReverse = null
+
+const time = Date.now() * 0.0005;
 
 var myCanvas = document.getElementById("myCanvas") //- não é preciso pois já tenho o appendChild do body
 
@@ -32,10 +38,11 @@ new THREE.OrbitControls(camera, renderer.domElement)
 
 loadScene()
 animate()
-addlights()
+addLightsDawn()
 actionButtons()
 
 function animate(){
+    animateLight()
     requestAnimationFrame(animate)
     mixer.update(clock.getDelta())
     renderer.render(scene, camera)
@@ -49,12 +56,17 @@ function loadScene(){
         function(gltf){
             scene.add(gltf.scene)
             gltf.scene.traverse(function(x){
-                //if (x instanceof THREE.Light) x.visible = false
+                if (x instanceof THREE.Light) x.visible = false
                 //scene.getObjectByName('Botao2').visible = false -> depois de ver na consola qual é o nome 
                 //scene.getObjectByName('door').visible = true
             }) //para tornar invisivel a luz que possa existir a mais
 
-
+            scene.traverse(function(objMesh){
+                if(objMesh.isMesh){
+                    objMesh.castShadow = true
+                    objMesh.receiveShadow = true
+                }
+            })
 
             var BenchExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaBenchOpen") 
             var legExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaLegOpen")
@@ -87,29 +99,69 @@ function loadScene(){
     )*/
 }
 
+function animateLight(){
+    const time = Date.now() * 0.0005;
+    DirLight.position.x = Math.sin(time*0.07) * 20;
+    DirLight.position.z = Math.cos(time*0.07) * 20;
+    
+    renderer.render(scene, camera)
+    requestAnimationFrame(animate)
+}
 
-function addlights(){
-    var ambientL = new THREE.AmbientLight(0xffffff,1)
-    scene.add(ambientL)
+function addLightsMidDay(){
+    scene.background = new THREE.Color(0xC1EDFF) 
+}
 
-    var light = new THREE.DirectionalLight(0xFFFFFF,1)
-    light.position.set(0,1,10)
-    scene.add(light)
-    /*var ambientLight = new THREE.AmbientLight("white", 2.2) //nunca mostra sombras, ilumina para todos os lados de igual forma
-    scene.add(ambientLight)
+function addLightsSunset(){
+    scene.remove(DirLight)
+    
+    scene.background = new THREE.Color(0xEFB59D) 
+    
+    DirLight.position.set(-60,60,-200);
+    //DirLight.target.position.set(0,0,0)
+    
+    scene.add(DirLight)
+    //scene.add(DirLight.target)
 
-    //Sem ser o ambientLigth, se existisse um objeto que tapa a luz a partir do ponto onde coloco-a, ficava preto
-    var pointLight = new THREE.PointLight("white")
-    pointLight.position.set(10,6,0)
-    pointLight.castShadow = true
-    scene.add(pointLight)*/
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    
+    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+}
+
+/*function addLightsMidDay(){
+
+    //scene.remove(DirLight)
+    scene.background = new THREE.Color(0xC1EDFF) 
+    
+    DirLight.position.set(5,15,00);
+    //DirLight.target.position.set(0,0,0)
+    
+    scene.add(DirLight)
+    //scene.add(DirLight.target)
+
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    
+    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+}*/
+
+function addLightsDawn(){
+    scene.remove(DirLight)
+    scene.background = new THREE.Color(0xFFE5CC) 
+    
+    DirLight.position.set(30,40,50);
+    //DirLight.target.position.set(0,0,0)
+    
+    scene.add(DirLight)
+    //scene.add(DirLight.target)
+
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    
+    scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
  function actionButtons(){
      document.getElementById("btn_open").onclick = function (){
         //let time = {t: 0};
-        var startingPoint = (-2,8,15)
-        var endingPoint = (-7,9,7) 
         //var startQuaternion = camera.quaternion.clone() //set initial angle
         /*curvePath = new THREE.CurvePath();
         curvePath = findAPath(startingPoint, endingPoint, curvePath);
@@ -310,17 +362,25 @@ function addlights(){
                     rotate=0;
                     break;
             }
-        
-        //camera.position.set(-20,8,9) 
-        //camera.position.set(-20,8,-10) 
-        //camera.position.set(-16,8,-12) 
-        //camera.position.set(-10,8,-16)
+
         camera.lookAt(0,0,0)
-        /*actionCameraAction.timeScale = -1
-        actionCameraAction.setLoop(THREE.LoopOnce)
-        actionCameraAction.clampWhenFinished = false
-        actionCameraAction.paused = false
-        actionCameraAction.play()*/
+
+    }
+    document.getElementById("btn_light").onclick = function (){
+        switch(lightTime){
+            case 0:
+                addLightsMidDay();
+                lightTime++;
+                break;
+            case 1:
+                addLightsSunset();
+                lightTime++;
+                break;
+            case 2:
+                addLightsDawn();
+                lightTime=0;
+                break;
+        }
 
     }
 
