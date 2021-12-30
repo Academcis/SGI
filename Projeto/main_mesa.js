@@ -8,7 +8,13 @@ camera.lookAt(0,0,0) //para onde quero apontar a camera (neste caso, para o cent
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
 
-var changeSinkTexture = 0
+var raycaster = new THREE.Raycaster()
+var mouse = new THREE.Vector2()
+
+var workBenchGeometry = null, rightDoorGeometry = null, leftDoorGeometry = null, benchGeometry = null, legGeometry = null, legStickGeometry = null
+var crate1 = null, crate2 = null, crate3 = null;
+var cratesArray = []
+var changeTexture = 0
 var is_BenchExtendOpen = 0
 var is_LegExtendOpen = 0
 var is_DoorsOpen = 0
@@ -70,6 +76,48 @@ function loadScene(){
                 if(objMesh.isMesh){
                     objMesh.castShadow = true
                     objMesh.receiveShadow = true
+                }
+
+                if(objMesh.name == "workBench"){
+                    workBenchGeometry = objMesh
+                }
+
+                if(objMesh.name == "legExtend1"){
+                    legGeometry = objMesh
+                }
+
+                if(objMesh.name == "Cube"){
+                    legStickGeometry = objMesh
+                }
+
+                if(objMesh.name == "benchExtend"){
+                    benchGeometry = objMesh
+                }
+
+                if(objMesh.name == "door"){
+                    rightDoorGeometry = objMesh
+                }
+
+                if(objMesh.name == "door1"){
+                    leftDoorGeometry = objMesh
+                }
+
+                if(objMesh.name.includes("WoodCube")){ 
+                    if(objMesh.name == "WoodCube1"){
+                        crate1 = objMesh
+                        cratesArray.push(crate1)
+                        crate1.visible = !crate1.visible
+                    }
+                    if(objMesh.name == "WoodCube2"){
+                        crate2 = objMesh
+                        cratesArray.push(crate2)
+                        crate2.visible = !crate2.visible
+                    }
+                    if(objMesh.name == "WoodCube3"){
+                        crate3 = objMesh
+                        cratesArray.push(crate3)
+                        crate3.visible = !crate3.visible
+                    }
                 }
             })
 
@@ -374,6 +422,7 @@ function resetCamera(){
         camera.lookAt(0,0,0)
 
     }
+
     document.getElementById("btn_light").onclick = function (){
         switch(lightTime){
             case 0:
@@ -425,53 +474,38 @@ function resetCamera(){
    }
 
    document.getElementById("btn_texture").onclick = function(){
-    if(changeSinkTexture == 0){
-        resetCamera(); 
-        changeSinkTexture = 1
-    }else{
-        changeSinkTexture = 0
+       if(changeTexture == 0){ //Se for para mudar atualizamos a camara, senão apenas faz os cubos desaparecer
+            resetCamera(); 
+            changeTexture = 1
+        }else{
+            changeTexture = 0
+        }
+        crate1.visible = !crate1.visible
+        crate2.visible = !crate2.visible
+        crate3.visible = !crate3.visible
     }
-    crate1.visible = !crate1.visible
-    crate2.visible = !crate2.visible
-    crate3.visible = !crate3.visible
-    crate4.visible = !crate4.visible
+
 }
 
+window.onclick = function(event){
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1 
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1  
+    console.log("x: "+ mouse.x + "y: "+ mouse.y)
+    pickCrateTexture()
+}
 
-
-    /* document.getElementById("btn_pause").onclick = function(){
-        // actionBenchExtendDown.paused = !actionBenchExtendDown.paused  //fica no estado contrário do que estava
-         actionBenchExtendOpen.paused = !actionBenchExtendOpen.paused
-     }
-
-     document.getElementById("btn_stop").onclick = function(){
-         //actionBenchExtendDown.stop()
-         actionBenchExtendOpen.stop()
-     }
-
-     document.getElementById("btn_reverse").onclick = function(){
-        // actionBenchExtendDown.timeScale = -actionBenchExtendDown.timeScale
-         actionBenchExtendOpen.timeScale = -actionBenchExtendOpen.timeScale
-     }
-
-     document.getElementById("menu_loop").onclick = function(){
-         switch(this.value){ 
-             case "1"://once
-                 //actionBenchExtendDown.setLoop(THREE.LoopOnce)
-                 //actionBenchExtendDown.clampWhenFinished = true //para quando se faz play, para ele ficar no frame onde acaba (para nao fazer reset)
-                 actionBenchExtendOpen.setLoop(THREE.LoopOnce)
-                 actionBenchExtendOpen.clampWhenFinished = true //por default isto está a false
-                 break;
-            
-             case "2"://loop
-                 //actionBenchExtendDown.setLoop(THREE.LoopRepeat)
-                 actionBenchExtendOpen.setLoop(THREE.LoopRepeat)
-                 break;
-            
-             case "3"://boomerang
-                 //actionBenchExtendDown.setLoop(THREE.LoopPingPong)
-                 actionBenchExtendOpen.setLoop(THREE.LoopPingPong)
-                 break;
-         }
-     }*/
+function pickCrateTexture(){
+    if(changeTexture == 1){
+        raycaster.setFromCamera(mouse,camera)
+        var intersectedCrates = raycaster.intersectObjects(cratesArray)
+        console.log(intersectedCrates.length)
+        if(intersectedCrates.length > 0){
+            workBenchGeometry .material = intersectedCrates[0].object.material
+            legGeometry.material = intersectedCrates[0].object.material
+            legStickGeometry.material = intersectedCrates[0].object.material
+            rightDoorGeometry.material = intersectedCrates[0].object.material
+            leftDoorGeometry.material = intersectedCrates[0].object.material
+            benchGeometry.material = intersectedCrates[0].object.material
+        }
+    }    
 }
