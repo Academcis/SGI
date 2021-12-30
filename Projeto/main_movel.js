@@ -1,8 +1,8 @@
 var scene = new THREE.Scene()
 
 var camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight,0.01, 1000)
-camera.position.set(5,4,9) 
-camera.lookAt(0,7,-2)
+camera.position.set(0,6,15) 
+camera.lookAt(0,0,0)
 
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
@@ -12,10 +12,10 @@ var actionRigthDoorAction = null
 
 var myCanvas = document.getElementById("myCanvas")
 
-var grid = new THREE.GridHelper()
-scene.add(grid)
-var axes = new THREE.AxesHelper(8)
-scene.add(axes)
+// var grid = new THREE.GridHelper()
+// scene.add(grid)
+// var axes = new THREE.AxesHelper(8)
+// scene.add(axes)
 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
 renderer.setSize(545,400)
@@ -28,15 +28,22 @@ var doors = []
 var raycaster = new THREE.Raycaster()
 var mouse = new THREE.Vector2()
 
+var crate1 = null, crate2 = null, crate3 = null, crate4 = null
+var cratesArray = []
+//var textureCrate1 = null, textureCrate2 = null, textureCrate3 = null, textureCrate4 = null
+//var textureCrateLoader = null
+
+
 loadScene()
 animate()
 addlights()
 actionButtons()
 var sinkGeometry = null//new THREE.BufferGeometry()
 
+
 function loadScene(){
     var loader = new THREE.GLTFLoader()
-    loader.load( 
+    loader.load(
         'models/movelJardinagem_v2.gltf',
         function(gltf){
             scene.add(gltf.scene)
@@ -55,6 +62,7 @@ function loadScene(){
                     objMesh.receiveShadow = true
                 }
 
+                //FALTA POR ISTO A FUNCIONAR (Carregar diretamente na porta para a abrir)
                 if(objMesh.name == "rightDoor"){ 
                     doors[0] = objMesh //só entra aqui se encontrar o "rightDoor"
                 }else if(objMesh.name == "leftDoor"){
@@ -66,13 +74,23 @@ function loadScene(){
                     //sinkGeometry = objMesh.geometry
                     sinkGeometry = objMesh
                     //sinkGeometry.transparent = true
+                }else if(objMesh.name.includes('cube')){ //Pode-se ver os nomes na consola
+                    if(objMesh.name == "cube1"){
+                        crate1 = objMesh
+                    }
+                    if(objMesh.name == "cube2"){
+                        crate2 = objMesh
+                    }
+                    if(objMesh.name == "cube3"){
+                        crate3 = objMesh
+                    }
+                    if(objMesh.name == "cube4"){
+                        crate4 = objMesh
+                    }
+                    cratesArray.push(objMesh)
+                    objMesh.visible = !objMesh.visible
                 }
-               
             })
-
-            for(var i = 0; i < doors.length; i++){
-                console.log("Mesh added to doors []: " + doors[i].name)
-            }
         }
     )
 }
@@ -106,12 +124,15 @@ var pausa = 0
 var dia = 0
 var rotacao = 0
 let mesh
+var changeSinkTexture = 0
 
- function actionButtons(){
-     document.getElementById("btn_left_door_open").onclick = function(){
+pickCrateTexture()
+
+function actionButtons(){
+    document.getElementById("btn_left_door_open").onclick = function(){
         if(esq_aberta == 0){
-            camera.position.set(2,3,5)
-            camera.lookAt(0,0,2)
+            camera.position.set(3,3,8)
+            camera.lookAt(0,0,5)
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
             actionLeftDoorAction.setLoop(THREE.LoopOnce)
@@ -135,8 +156,8 @@ let mesh
 
      document.getElementById("btn_right_door_open").onclick = function() {
         if(dir_aberta == 0){
-            camera.position.set(2,3,5)
-            camera.lookAt(0,0,2)
+            camera.position.set(-4,5,10)
+            camera.lookAt(2,2,8)
             actionRigthDoorAction.reset()
             actionRigthDoorAction.timeScale = 1
             actionRigthDoorAction.setLoop(THREE.LoopOnce)
@@ -177,14 +198,30 @@ let mesh
     }
 
     document.getElementById("btn_reset_view").onclick = function(){
-        camera.position.set(5,4,9) 
-        camera.lookAt(0,7,-2)  
+        camera.position.set(0,6,15) 
+        camera.lookAt(0,0,0) 
     }
 
+    document.getElementById("btn_main_texture").onclick = function(){
+    
+        //const texture = new THREE.TextureLoader().load('models/materials/sink_texture2.jpg')
+        //texture.flipY = false
+        //sinkGeometry.material.map = texture
+    }
+
+
     document.getElementById("btn_change_sink_texture").onclick = function(){
-        const texture = new THREE.TextureLoader().load('models/materials/marble.jpg')
-        texture.flipY = false
-        sinkGeometry.material.map = texture
+        if(changeSinkTexture == 0){
+            camera.position.set(0,6,15) 
+            camera.lookAt(0,0,0) 
+            changeSinkTexture = 1
+        }else{
+            changeSinkTexture = 0
+        }
+        crate1.visible = !crate1.visible
+        crate2.visible = !crate2.visible
+        crate3.visible = !crate3.visible
+        crate4.visible = !crate4.visible
     }
 
 
@@ -232,22 +269,26 @@ let mesh
     document.getElementById("btn_show_objects").onclick = function(){
         //sinkGeometry.opacity = 0;
         //console.log("esconder")
-        new THREE.GLTFLoader().load('models/movel_extra_objects.glb', result => {
-            var model1 = result.scene.children[0]
-            model1.position.set(-10,0,0)
-            model1.material.opacity = 0.1
-            model1.material.transparent = true
+        
+        // new THREE.GLTFLoader().load('models/movel_extra_objects.glb', result => {
+        //     var model1 = result.scene.children[0]
+        //     model1.position.set(-10,0,0)
+        //     model1.material.opacity = 0.1
+        //     model1.material.transparent = true
+        //     scene.add(model1)
+        //     animate()
+        // })
 
-            scene.add(model1)
-            animate()
-        })
+        //sinkGeometry.visible = !sinkGeometry.visible
     }
+
 }
 window.onclick = function(event){
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1 
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1  
     console.log("x: "+ mouse.x + "y: "+ mouse.y)
-    pickDoor()
+    //pickDoor()
+    pickCrateTexture()
 }
 
 // window.addEventListener('click', event => {
@@ -261,10 +302,21 @@ window.onclick = function(event){
 //     }
 // })
 
-function pickDoor(){
-    raycaster.setFromCamera(mouse,camera)
-    var intersectedObjects = raycaster.intersectObjects(doors)
-    if(intersectedObjects.length > 0){
-        console.log('I got a door'+ intersectedObjects[0].object)
-    }
+// function pickDoor(){
+//     raycaster.setFromCamera(mouse,camera)
+//     var intersectedObjects = raycaster.intersectObjects(doors)
+//     if(intersectedObjects.length > 0){
+//         console.log('I got a door'+ intersectedObjects[0].object)
+//     }
+// }
+
+function pickCrateTexture(){
+    if(changeSinkTexture == 1){
+        raycaster.setFromCamera(mouse,camera)
+        var intersectedCrates = raycaster.intersectObjects(cratesArray)
+        console.log(intersectedCrates.length)
+        if(intersectedCrates.length > 0){
+            sinkGeometry.material = intersectedCrates[0].object.material
+        }
+    }    
 }
