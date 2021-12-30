@@ -8,6 +8,11 @@ camera.lookAt(0,0,0) //para onde quero apontar a camera (neste caso, para o cent
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
 
+var changeSinkTexture = 0
+var is_BenchExtendOpen = 0
+var is_LegExtendOpen = 0
+var is_DoorsOpen = 0
+var pausa = 0;
 var rotate=0;
 var lightTime =0;
 var HemisphereLight = new THREE.HemisphereLight(0x404040, 0x080820, 3);
@@ -144,6 +149,12 @@ function addLightsDawn(){
     //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
+function resetCamera(){
+    camera.position.set(-2,8,15) 
+    camera.lookAt(0,0,0)
+    rotate = 0;
+}
+
  function actionButtons(){
      document.getElementById("btn_open").onclick = function (){
         //let time = {t: 0};
@@ -221,23 +232,30 @@ function addLightsDawn(){
         actionCameraAction.clampWhenFinished = true
         actionCameraAction.play()*/
 
-        actionBenchExtendOpen.reset()
-        actionBenchExtendOpen.timeScale = 1
-        actionBenchExtendOpen.setLoop(THREE.LoopOnce)
-        actionBenchExtendOpen.clampWhenFinished = true
-        actionBenchExtendOpen.play()
+        if(is_BenchExtendOpen==0){
+            actionBenchExtendOpen.reset()
+            actionBenchExtendOpen.timeScale = 1
+            actionBenchExtendOpen.setLoop(THREE.LoopOnce)
+            actionBenchExtendOpen.clampWhenFinished = true
+            actionBenchExtendOpen.play()
+            is_BenchExtendOpen = 1
+        }
 
-        actionLegExtendOpen.reset()
-        actionLegExtendOpen.timeScale = 1
-        actionLegExtendOpen.setLoop(THREE.LoopOnce)
-        actionLegExtendOpen.clampWhenFinished = true
-        actionLegExtendOpen.play()
+        if(is_LegExtendOpen==0){
+            actionLegExtendOpen.reset()
+            actionLegExtendOpen.timeScale = 1
+            actionLegExtendOpen.setLoop(THREE.LoopOnce)
+            actionLegExtendOpen.clampWhenFinished = true
+            actionLegExtendOpen.play()
+            is_LegExtendOpen = 1
+        }
 
+        /*
         actionRopeAction.reset()
         actionRopeAction.timeScale = 1
         actionRopeAction.setLoop(THREE.LoopOnce)
         actionRopeAction.clampWhenFinished = true
-        actionRopeAction.play()
+        actionRopeAction.play()*/
 
        // }).start();
 
@@ -246,26 +264,26 @@ function addLightsDawn(){
     document.getElementById("btn_close").onclick = async function (){
         camera.position.set(-2,8,15) 
         camera.lookAt(0,0,0)
-        
-        /*actionCameraAction.timeScale = -1
-        actionCameraAction.setLoop(THREE.LoopOnce)
-        actionCameraAction.clampWhenFinished = false
-        actionCameraAction.paused = false
-        actionCameraAction.play()*/
 
-        actionLegExtendOpen.timeScale = -1
-        actionLegExtendOpen.setLoop(THREE.LoopOnce)
-        actionLegExtendOpen.clampWhenFinished = false
-        actionLegExtendOpen.paused = false
-        actionLegExtendOpen.play()
+        if(is_LegExtendOpen == 1){
+            actionLegExtendOpen.timeScale = -1
+            actionLegExtendOpen.setLoop(THREE.LoopOnce)
+            actionLegExtendOpen.clampWhenFinished = false
+            actionLegExtendOpen.paused = false
+            actionLegExtendOpen.play()
+            is_LegExtendOpen = 0;
+        }
 
-        setTimeout(function(){
-
-        actionBenchExtendOpen.timeScale = -1
-        actionBenchExtendOpen.setLoop(THREE.LoopOnce)
-        actionBenchExtendOpen.clampWhenFinished = false
-        actionBenchExtendOpen.paused = false
-        actionBenchExtendOpen.play()},290)
+        if(is_BenchExtendOpen == 1){
+            setTimeout(function(){
+                actionBenchExtendOpen.timeScale = -1
+                actionBenchExtendOpen.setLoop(THREE.LoopOnce)
+                actionBenchExtendOpen.clampWhenFinished = false
+                actionBenchExtendOpen.paused = false
+                actionBenchExtendOpen.play()
+                is_BenchExtendOpen = 0;
+            },290)
+        }
 
     }
 
@@ -273,18 +291,20 @@ function addLightsDawn(){
         camera.position.set(-2,8,15) 
         camera.lookAt(0,0,0)
         
-
-        actionRightDoor.timeScale = -1
-        actionRightDoor.setLoop(THREE.LoopOnce)
-        actionRightDoor.clampWhenFinished = false
-        actionRightDoor.paused = false
-        actionRightDoor.play()
-
-        actionLeftDoor.timeScale = -1
-        actionLeftDoor.setLoop(THREE.LoopOnce)
-        actionLeftDoor.clampWhenFinished = false
-        actionLeftDoor.paused = false
-        actionLeftDoor.play()
+        if(is_DoorsOpen == 1){
+            actionRightDoor.timeScale = -1
+            actionRightDoor.setLoop(THREE.LoopOnce)
+            actionRightDoor.clampWhenFinished = false
+            actionRightDoor.paused = false
+            actionRightDoor.play()
+            
+            actionLeftDoor.timeScale = -1
+            actionLeftDoor.setLoop(THREE.LoopOnce)
+            actionLeftDoor.clampWhenFinished = false
+            actionLeftDoor.paused = false
+            actionLeftDoor.play()
+            is_DoorsOpen=0;
+        }
 
     }
 
@@ -298,17 +318,20 @@ function addLightsDawn(){
         actionCameraAction.paused = false
         actionCameraAction.play()*/
 
-        actionRightDoor.reset()
-        actionRightDoor.timeScale = 1
-        actionRightDoor.setLoop(THREE.LoopOnce)
-        actionRightDoor.clampWhenFinished = true
-        actionRightDoor.play()
+        if(is_DoorsOpen == 0){
+            actionRightDoor.reset()
+            actionRightDoor.timeScale = 1
+            actionRightDoor.setLoop(THREE.LoopOnce)
+            actionRightDoor.clampWhenFinished = true
+            actionRightDoor.play()
 
-        actionLeftDoor.reset()
-        actionLeftDoor.timeScale = 1
-        actionLeftDoor.setLoop(THREE.LoopOnce)
-        actionLeftDoor.clampWhenFinished = true
-        actionLeftDoor.play()
+            actionLeftDoor.reset()
+            actionLeftDoor.timeScale = 1
+            actionLeftDoor.setLoop(THREE.LoopOnce)
+            actionLeftDoor.clampWhenFinished = true
+            actionLeftDoor.play()
+            is_DoorsOpen = 1;
+        }
 
     }
 
@@ -368,6 +391,52 @@ function addLightsDawn(){
         }
 
     }
+
+    document.getElementById("btn_reset_view").onclick = function(){
+        resetCamera();   
+    }
+    
+
+    document.getElementById("btn_reset").onclick = function(){
+        actionRightDoor.stop()
+        actionLeftDoor.stop()
+        actionBenchExtendOpen.stop()
+        actionLegExtendOpen.stop()
+
+        is_BenchExtendOpen = 0
+        is_LegExtendOpen = 0
+        is_DoorsOpen = 0
+    }
+    
+    document.getElementById("btn_stop").onclick = function(){
+        if(pausa == 0){
+            actionRightDoor.paused = true
+            actionLeftDoor.paused = true
+            actionBenchExtendOpen.paused = true
+            actionLegExtendOpen.paused = true
+           pausa = 1
+       }else{
+            actionRightDoor.paused = false
+            actionLeftDoor.paused = false
+            actionBenchExtendOpen.paused = false
+            actionLegExtendOpen.paused = false
+           pausa = 0
+       }
+   }
+
+   document.getElementById("btn_texture").onclick = function(){
+    if(changeSinkTexture == 0){
+        resetCamera(); 
+        changeSinkTexture = 1
+    }else{
+        changeSinkTexture = 0
+    }
+    crate1.visible = !crate1.visible
+    crate2.visible = !crate2.visible
+    crate3.visible = !crate3.visible
+    crate4.visible = !crate4.visible
+}
+
 
 
     /* document.getElementById("btn_pause").onclick = function(){
