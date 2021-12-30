@@ -42,7 +42,7 @@ addLightsDawn()
 actionButtons()
 
 function animate(){
-    animateLight()
+    //animateLight()
     requestAnimationFrame(animate)
     mixer.update(clock.getDelta())
     renderer.render(scene, camera)
@@ -82,27 +82,12 @@ function loadScene(){
             //actionCameraAction = mixer.clipAction(cameraAction)
         }
     )
-    /*var scenario = new THREE.GLTFLoader()
-    scenario.load( 
-        'this_tentativa_background/scenario.gltf',
-        function(gltf){
-            scene.add(gltf.scene)
-            gltf.scene.traverse(function(x){
-                //if (x instanceof THREE.Light) x.visible = false
-                //scene.getObjectByName('Botao2').visible = false -> depois de ver na consola qual é o nome 
-                //scene.getObjectByName('door').visible = true
-            }) 
-            scenario.rotateY(180)
-            scenario.position.set(-6,2,9)
-            scenario.scale(150, 150)
-        }
-    )*/
 }
 
-function animateLight(){
+/*function animateLight(){
     const time = Date.now() * 0.0005;
-    DirLight.position.x = Math.sin(time*0.07) * 20;
-    DirLight.position.z = Math.cos(time*0.07) * 20;
+    DirLight.position.x = Math.sin(time*0.07);
+    DirLight.position.z = Math.cos(time*0.07);
     
     renderer.render(scene, camera)
     requestAnimationFrame(animate)
@@ -110,7 +95,7 @@ function animateLight(){
 
 function addLightsMidDay(){
     scene.background = new THREE.Color(0xC1EDFF) 
-}
+}*/
 
 function addLightsSunset(){
     scene.remove(DirLight)
@@ -128,9 +113,9 @@ function addLightsSunset(){
     //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
-/*function addLightsMidDay(){
+function addLightsMidDay(){
 
-    //scene.remove(DirLight)
+    scene.remove(DirLight)
     scene.background = new THREE.Color(0xC1EDFF) 
     
     DirLight.position.set(5,15,00);
@@ -142,7 +127,7 @@ function addLightsSunset(){
     renderer.toneMapping = THREE.ReinhardToneMapping;
     
     //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
-}*/
+}
 
 function addLightsDawn(){
     scene.remove(DirLight)
@@ -156,7 +141,7 @@ function addLightsDawn(){
 
     renderer.toneMapping = THREE.ReinhardToneMapping;
     
-    scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
  function actionButtons(){
