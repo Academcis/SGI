@@ -78,7 +78,7 @@ actionButtons()
 function loadScene(){
     var loader = new THREE.GLTFLoader()
     loader.load(
-        'models/movelJardinagem_v2.gltf',
+        'models/movelJardinagem.gltf',
         function(gltf){
             scene.add(gltf.scene)
             gltf.scene.traverse(function(x){
@@ -286,7 +286,7 @@ let mesh
 var changeSinkTexture = 0
 var changeFurnitureTexture = 0
 var animacao_vasos = 0
-
+var mostrarDimensoes = 0
 
 
 function actionButtons(){
@@ -490,23 +490,39 @@ function actionButtons(){
 
     }
     document.getElementById("btn_show_dimensions").onclick = function(){
-        textoAlturaPrincipal.visible = !textoAlturaPrincipal.visible
-        textoAlturaMeio.visible = !textoAlturaMeio.visible
-        textoAlturaRecipiente.visible = !textoAlturaRecipiente.visible
-        textoLarguraPrincipal.visible = !textoLarguraPrincipal.visible
-        textoProfundidadeNormal.visible = !textoProfundidadeNormal.visible
-        if(dir_aberta == 1){
-            textoProfundidadePortasDir.visible = !textoProfundidadePortasDir.visible
-            if(esq_aberta == 1){
-                textoLarguraPortas.visible = !textoLarguraPortas.visible
-            }else{
-                textoLarguraDireita.visible = !textoLarguraDireita.visible
+        if(mostrarDimensoes == 0){
+            textoAlturaPrincipal.visible = true
+            textoAlturaMeio.visible = true
+            textoAlturaRecipiente.visible = true
+            textoLarguraPrincipal.visible = true
+            textoProfundidadeNormal.visible = true
+            if(dir_aberta == 1){
+                textoProfundidadePortasDir.visible = true
+                if(esq_aberta == 1){
+                    textoLarguraPortas.visible = true
+                }else{
+                    textoLarguraDireita.visible = true
+                }
             }
+            if(esq_aberta == 1 && dir_aberta == 0){
+                textoProfundidadePortasEsq.visible = true
+                textoLarguraEsquerda.visible = true
+            }
+            mostrarDimensoes = 1
+        }else{
+            textoAlturaPrincipal.visible = false
+            textoAlturaMeio.visible = false
+            textoAlturaRecipiente.visible = false
+            textoLarguraPrincipal.visible = false
+            textoLarguraPortas.visible = false
+            textoLarguraDireita.visible = false
+            textoLarguraEsquerda.visible = false
+            textoProfundidadeNormal.visible = false
+            textoProfundidadePortasDir.visible = false
+            textoProfundidadePortasEsq.visible = false
+            mostrarDimensoes = 0
         }
-        if(esq_aberta == 1 && dir_aberta == 0){
-            textoProfundidadePortasEsq.visible = !textoProfundidadePortasEsq.visible
-            textoLarguraEsquerda.visible = !textoLarguraEsquerda.visible
-        }
+        
     }
 
 }
