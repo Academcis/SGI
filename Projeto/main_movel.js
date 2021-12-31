@@ -64,6 +64,11 @@ var doors = []
 var vaso1 = null
 var vaso2 = null
 
+/* Variáveis para as dimensões */
+var textoAlturaPrincipal = null, textoAlturaMeio = null, textoAlturaRecipiente = null
+var textoLarguraDireita = null, textoLarguraEsquerda = null, textoLarguraPortas = null, textoLarguraPrincipal = null
+var textoProfundidadeNormal = null, textoProfundidadePortasDir = null, textoProfundidadePortasEsq = null
+
 loadScene()
 animate()
 //addlights()
@@ -150,6 +155,49 @@ function loadScene(){
                     furniture = objMesh
                     console.log("furniture found")
                     //objMesh.visible = !objMesh.visible
+                }
+
+                if(objMesh.name.includes("Text")){
+                    if(objMesh.name == "TextAlturaPrincipal"){
+                        textoAlturaPrincipal = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextAlturaMeio"){
+                        textoAlturaMeio = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextAlturaRecipiente"){
+                        textoAlturaRecipiente = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextLarguraComPortaDireita"){
+                        textoLarguraDireita = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextLarguraComPortaEsquerda"){
+                        textoLarguraEsquerda = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextLarguraComPortasAbertas"){
+                        textoLarguraPortas = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextLarguraPrincipal"){
+                        textoLarguraPrincipal = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextProfundidadeRecipiente"){
+                        textoProfundidadeNormal = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextProfundidadeRecipienteAbertoDir"){
+                        textoProfundidadePortasDir = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "TextProfundidadeRecipienteAbertoEsq"){
+                        textoProfundidadePortasEsq = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
                 }
             })
             for(var i = 0; i < cratesArray.length; i++){
@@ -240,6 +288,7 @@ var changeFurnitureTexture = 0
 var animacao_vasos = 0
 
 
+
 function actionButtons(){
     document.getElementById("btn_left_door_open").onclick = function(){
         if(esq_aberta == 0){
@@ -301,10 +350,14 @@ function actionButtons(){
          if(pausa == 0){
             actionLeftDoorAction.paused = true
             actionRigthDoorAction.paused = true
+            actionVaso1.paused = true
+            actionVaso2.paused = true
             pausa = 1
         }else{
             actionLeftDoorAction.paused = false
             actionRigthDoorAction.paused = false
+            actionVaso1.paused = false
+            actionVaso2.paused = false
             pausa = 0
         }
     }
@@ -435,6 +488,25 @@ function actionButtons(){
         //     animate()
         // })
 
+    }
+    document.getElementById("btn_show_dimensions").onclick = function(){
+        textoAlturaPrincipal.visible = !textoAlturaPrincipal.visible
+        textoAlturaMeio.visible = !textoAlturaMeio.visible
+        textoAlturaRecipiente.visible = !textoAlturaRecipiente.visible
+        textoLarguraPrincipal.visible = !textoLarguraPrincipal.visible
+        textoProfundidadeNormal.visible = !textoProfundidadeNormal.visible
+        if(dir_aberta == 1){
+            textoProfundidadePortasDir.visible = !textoProfundidadePortasDir.visible
+            if(esq_aberta == 1){
+                textoLarguraPortas.visible = !textoLarguraPortas.visible
+            }else{
+                textoLarguraDireita.visible = !textoLarguraDireita.visible
+            }
+        }
+        if(esq_aberta == 1 && dir_aberta == 0){
+            textoProfundidadePortasEsq.visible = !textoProfundidadePortasEsq.visible
+            textoLarguraEsquerda.visible = !textoLarguraEsquerda.visible
+        }
     }
 
 }
