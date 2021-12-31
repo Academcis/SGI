@@ -1,38 +1,39 @@
+var scene = new THREE.Scene();
 
-var scene = new THREE.Scene()
+var camera = new THREE.PerspectiveCamera(70, 800/600,0.01, 1000);
+camera.position.set(-2,8,15);
+camera.lookAt(0,0,0); //para onde quero apontar a camera (neste caso, para o centro)
 
-var camera = new THREE.PerspectiveCamera(70, 800/600,0.01, 1000)
-camera.position.set(-2,8,15)
-camera.lookAt(0,0,0) //para onde quero apontar a camera (neste caso, para o centro)
+var clock = new THREE.Clock();
+var mixer = new THREE.AnimationMixer(scene);
 
-var clock = new THREE.Clock()
-var mixer = new THREE.AnimationMixer(scene)
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
 
-var raycaster = new THREE.Raycaster()
-var mouse = new THREE.Vector2()
-
+var bulbLight = null, bulbMat = null;
+var lampSphere = null;
 var workBenchGeometry = null, rightDoorGeometry = null, leftDoorGeometry = null, benchGeometry = null, legGeometry = null, legStickGeometry = null
-var crate1 = null, crate2 = null, crate3 = null;
-var cratesArray = []
-var changeTexture = 0
-var is_BenchExtendOpen = 0
-var is_LegExtendOpen = 0
-var is_DoorsOpen = 0
+var crate1 = null, crate2 = null, crate3 = null, palette = null;
+var cratesArray = [];
+var changeTexture = 0;
+var is_BenchExtendOpen = 0;
+var is_LegExtendOpen = 0;
+var is_DoorsOpen = 0;
 var pausa = 0;
 var rotate=0;
 var lightTime =0;
+
 var HemisphereLight = new THREE.HemisphereLight(0x404040, 0x080820, 3);
-scene.add(HemisphereLight)
+scene.add(HemisphereLight);
+
 var DirLight = new THREE.DirectionalLight(0xFFCC99, 1);
 DirLight.castShadow = true;
 
-//var actionBenchExtendDown = null
-var actionBenchExtendOpen = null
-var actionLegExtendOpen = null
-var actionRopeAction = null
-var actionBenchExtendOpenReverse = null
-
-const time = Date.now() * 0.0005;
+var actionBenchExtendOpen = null;
+var actionLegExtendOpen = null;
+var actionRightDoor = null;
+var actionLeftDoor = null;
+var actionRopeAction = null;
 
 var myCanvas = document.getElementById("myCanvas") //- não é preciso pois já tenho o appendChild do body
 
@@ -44,6 +45,9 @@ var myCanvas = document.getElementById("myCanvas") //- não é preciso pois já 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
 renderer.setSize(545,400)
 renderer.shadowMap.enabled = true
+renderer.physicallyCorrectLights = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setPixelRatio( window.devicePixelRatio );
 
 new THREE.OrbitControls(camera, renderer.domElement)
 
@@ -52,8 +56,25 @@ animate()
 addLightsDawn()
 actionButtons()
 
+function addBulb(number){
+    const bulbGeometry = new THREE.SphereGeometry(0.3, 16, 8);
+    bulbLight = new THREE.PointLight(0xFFBC47, number, 100, 2);
+	//0xFFBC47
+    bulbMat = new THREE.MeshStandardMaterial({
+        emissive: 0xFFBC47,
+		emissiveIntensity: 1,
+		color: 0x000000
+    })
+    bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+	bulbLight.position.set( 12.7, 15, -11.9 );
+    bulbLight.castShadow = true;
+    scene.add( bulbLight );
+    //scene.add(new THREE.CameraHelper(bulbLight.shadow.camera))
+}
+
+
+
 function animate(){
-    //animateLight()
     requestAnimationFrame(animate)
     mixer.update(clock.getDelta())
     renderer.render(scene, camera)
@@ -102,22 +123,47 @@ function loadScene(){
                     leftDoorGeometry = objMesh
                 }
 
+                if(objMesh.name == "Sphere"){
+                    sphere = objMesh
+                    sphere.castShadow = false
+                   // sphere.material.clipShadows = true
+                }
+
+              /*  if(objMesh.name == "LampPost"){
+                    lampPost = objMesh
+                    lampPost.castShadow = false
+                   // sphere.material.clipShadows = true
+                }*/
+
                 if(objMesh.name.includes("WoodCube")){ 
                     if(objMesh.name == "WoodCube1"){
                         crate1 = objMesh
                         cratesArray.push(crate1)
                         crate1.visible = !crate1.visible
+                        crate1.castShadow = false
+                        crate1.receiveShadow = false
                     }
                     if(objMesh.name == "WoodCube2"){
                         crate2 = objMesh
                         cratesArray.push(crate2)
                         crate2.visible = !crate2.visible
+                        crate2.castShadow = false
+                        crate2.receiveShadow = false
                     }
                     if(objMesh.name == "WoodCube3"){
                         crate3 = objMesh
                         cratesArray.push(crate3)
                         crate3.visible = !crate3.visible
+                        crate3.castShadow = false
+                        crate3.receiveShadow = false
                     }
+                }
+
+                if(objMesh.name == "Palette"){
+                    palette = objMesh
+                    palette.visible = !palette.visible
+                    palette.castShadow = false
+                    palette.receiveShadow = false
                 }
             })
 
@@ -150,9 +196,26 @@ function addLightsMidDay(){
     scene.background = new THREE.Color(0xC1EDFF) 
 }*/
 
+function addLightsNight(){
+    scene.remove(DirLight)
+    scene.remove(bulbLight)
+    scene.background = new THREE.Color(0x272146) 
+    
+    //DirLight.position.set(-60,60,-200);
+    //DirLight.target.position.set(0,0,0)
+    
+   //scene.add(DirLight)
+    //scene.add(DirLight.target)
+
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+
+    addBulb(1500)
+    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+}
+
 function addLightsSunset(){
     scene.remove(DirLight)
-    
+    scene.remove(bulbLight)
     scene.background = new THREE.Color(0xEFB59D) 
     
     DirLight.position.set(-60,60,-200);
@@ -162,12 +225,14 @@ function addLightsSunset(){
     //scene.add(DirLight.target)
 
     renderer.toneMapping = THREE.ReinhardToneMapping;
-    
+
+    addBulb(500)
     //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
 function addLightsMidDay(){
 
+    scene.remove(bulbLight)
     scene.remove(DirLight)
     scene.background = new THREE.Color(0xC1EDFF) 
     
@@ -179,11 +244,13 @@ function addLightsMidDay(){
 
     renderer.toneMapping = THREE.ReinhardToneMapping;
     
+    addBulb(0)
     //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
 function addLightsDawn(){
-    scene.remove(DirLight)
+    //scene.remove(DirLight)
+    scene.remove(bulbLight)
     scene.background = new THREE.Color(0xFFE5CC) 
     
     DirLight.position.set(30,40,50);
@@ -194,6 +261,7 @@ function addLightsDawn(){
 
     renderer.toneMapping = THREE.ReinhardToneMapping;
     
+    addBulb(400)
     //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
@@ -434,6 +502,10 @@ function resetCamera(){
                 lightTime++;
                 break;
             case 2:
+                addLightsNight();
+                lightTime++;
+                break;
+            case 3:
                 addLightsDawn();
                 lightTime=0;
                 break;
@@ -483,6 +555,7 @@ function resetCamera(){
         crate1.visible = !crate1.visible
         crate2.visible = !crate2.visible
         crate3.visible = !crate3.visible
+        palette.visible = !palette.visible
     }
 
 }
