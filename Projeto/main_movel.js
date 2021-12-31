@@ -7,6 +7,7 @@ camera.lookAt(0,0,0)
 var raycaster = new THREE.Raycaster()
 var mouse = new THREE.Vector2()
 
+var palette = null
 var crate1 = null, crate2 = null, crate3 = null, crate4 = null
 var sinkGeometry = null
 var cratesArray = []
@@ -18,7 +19,6 @@ window.onclick = function(event){
     pickCrateTexture()
     pickDoors()
 }
-
 
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
@@ -32,18 +32,12 @@ var DirLight = new THREE.DirectionalLight(0xFFCC99, 1);
 DirLight.castShadow = true;
 /*End of lights*/
 
-
 var actionLeftDoorAction = null
 var actionRigthDoorAction = null
 var actionVaso1 = null
-var actionVaso2 = null
+var actionVaso2 = null, actionVaso3 = null, actionVaso4 = null
 
 var myCanvas = document.getElementById("myCanvas")
-
-// var grid = new THREE.GridHelper()
-// scene.add(grid)
-// var axes = new THREE.AxesHelper(8)
-// scene.add(axes)
 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
 renderer.setSize(545,400)
@@ -61,8 +55,7 @@ var furniture = null
 var target = null
 var doors = []
 
-var vaso1 = null
-var vaso2 = null
+var vaso1 = null, vaso2 = null, vaso3 = null, vaso4 = null, vaso5 = null, vaso6 = null
 
 /* Variáveis para as dimensões */
 var textoAlturaPrincipal = null, textoAlturaMeio = null, textoAlturaRecipiente = null
@@ -78,7 +71,7 @@ actionButtons()
 function loadScene(){
     var loader = new THREE.GLTFLoader()
     loader.load(
-        'models/movelJardinagem.gltf',
+        'models/movelJardinagem_v2_novo.gltf',
         function(gltf){
             scene.add(gltf.scene)
             gltf.scene.traverse(function(x){
@@ -92,8 +85,12 @@ function loadScene(){
 
             var vaso1animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso1") 
             var vaso2animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso2") 
+            var vaso3animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso3") 
+            var vaso4animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso4") 
             actionVaso1 = mixer.clipAction(vaso1animation)
             actionVaso2 = mixer.clipAction(vaso2animation)
+            actionVaso3 = mixer.clipAction(vaso3animation)
+            actionVaso4 = mixer.clipAction(vaso4animation)
 
             scene.traverse(function(objMesh){
                 if(objMesh.isMesh){
@@ -139,17 +136,37 @@ function loadScene(){
                     }
                 }
 
-                if(objMesh.name == "vaso1"){
-                    vaso1 = objMesh
-                    vaso1.visible = !vaso1.visible
+                if(objMesh.name.includes("vaso")){
+                    if(objMesh.name == "vaso1"){
+                        vaso1 = objMesh
+                        vaso1.visible = !vaso1.visible
+                    }
+
+                    if(objMesh.name == "vaso2s"){
+                        vaso2 = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+
+                    if(objMesh.name == "vaso3"){
+                        vaso3 = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+                    if(objMesh.name == "vaso4"){
+                        vaso4 = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+
+                    if(objMesh.name == "vaso5"){
+                        vaso5 = objMesh
+                        objMesh.visible = !objMesh.visible
+                    }
+
+                    if(objMesh.name == "vaso6"){
+                        vaso6 = objMesh
+                        objMesh.visible = !objMesh.visible
+                    } 
                 }
 
-                if(objMesh.name == "vaso2s"){
-                    vaso2 = objMesh
-                    objMesh.visible = !objMesh.visible
-                }
-                
-                
                 if(objMesh.name == "horizontalWood"){
                     defaultTexture = objMesh.material.map
                     furniture = objMesh
@@ -199,6 +216,11 @@ function loadScene(){
                         objMesh.visible = !objMesh.visible
                     }
                 }
+
+                if(objMesh.name == "paletteTexturas"){
+                    palette = objMesh
+                    objMesh.visible = !objMesh.visible
+                }
             })
             for(var i = 0; i < cratesArray.length; i++){
                 console.log("Mesh added to cratesArray []: " + cratesArray[i].name)
@@ -213,7 +235,6 @@ function animate(){
     renderer.render(scene, camera)
 }
 
-
 function addlights(){
     var ambientLight = new THREE.AmbientLight("white", 0.55)
     scene.add(ambientLight)
@@ -223,12 +244,6 @@ function addlights(){
     pointLight.castShadow = true
     scene.add(pointLight)
 }
-
-// var hemilight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-// hemiLight.color.setHSV( 0.6, 0.75, 0.5 );
-// hemiLight.groundColor.setHSV( 0.095, 0.5, 0.5 );
-// hemiLight.position.set( 0, 500, 0 );
-// scene.add(hemilight);
 
 function addLightsSunset(){
     scene.remove(DirLight)
@@ -287,7 +302,6 @@ var changeSinkTexture = 0
 var changeFurnitureTexture = 0
 var animacao_vasos = 0
 var mostrarDimensoes = 0
-
 
 function actionButtons(){
     document.getElementById("btn_left_door_open").onclick = function(){
@@ -404,8 +418,8 @@ function actionButtons(){
         crate2.visible = !crate2.visible
         crate3.visible = !crate3.visible
         crate4.visible = !crate4.visible
+        palette.visible = !palette.visible
     }
-
 
     document.getElementById("btn_rotate").onclick = function(){
         switch(rotate){
@@ -441,7 +455,6 @@ function actionButtons(){
         camera.lookAt(0,0,0)
     }
 
-
     document.getElementById("btn_day_night").onclick = function(){
         switch(lightTime){
             case 0:
@@ -458,11 +471,14 @@ function actionButtons(){
                 break;
         }
     }
-
     
     document.getElementById("btn_show_objects").onclick = function(){
         vaso1.visible = !vaso1.visible
         vaso2.visible = !vaso2.visible
+        vaso3.visible = !vaso3.visible
+        vaso4.visible = !vaso4.visible
+        vaso5.visible = !vaso5.visible
+        vaso6.visible = !vaso6.visible
         if(animacao_vasos == 0){
             actionVaso1.reset()
             actionVaso1.timeScale = 1
@@ -475,20 +491,23 @@ function actionButtons(){
             actionVaso2.setLoop(THREE.LoopOnce)
             actionVaso2.clampWhenFinished = true
             actionVaso2.play()
+
+            actionVaso3.reset()
+            actionVaso3.timeScale = 1
+            actionVaso3.setLoop(THREE.LoopOnce)
+            actionVaso3.clampWhenFinished = true
+            actionVaso3.play()
+
+            actionVaso4.reset()
+            actionVaso4.timeScale = 1
+            actionVaso4.setLoop(THREE.LoopOnce)
+            actionVaso4.clampWhenFinished = true
+            actionVaso4.play()
             animacao_vasos = 1
         }
         animacao_vasos = 0
-        
-        // new THREE.GLTFLoader().load('models/movel_extra_objects.glb', result => {
-        //     var model1 = result.scene.children[0]
-        //     model1.position.set(-10,0,0)
-        //     model1.material.opacity = 0.1
-        //     model1.material.transparent = true
-        //     scene.add(model1)
-        //     animate()
-        // })
-
     }
+
     document.getElementById("btn_show_dimensions").onclick = function(){
         if(mostrarDimensoes == 0){
             textoAlturaPrincipal.visible = true
@@ -522,21 +541,8 @@ function actionButtons(){
             textoProfundidadePortasEsq.visible = false
             mostrarDimensoes = 0
         }
-        
     }
-
 }
-
-// window.addEventListener('click', event => {
-//     raycaster.setFromCamera(mouse, camera)
-//     const found = raycaster.intersectObjects(scene.children)
-//     if(found.length > 0 && (found[0].object.getObjectByName() == doors[0] || found[0].object.getObjectByName() == doors[1])) {
-//         console.log('Found -> ' + found[0].object.getObjectByName())
-//     }
-//     if(found.length > 0){
-//         console.log(found[0].object.getObjectByName())
-//     }
-// })
 
 function pickDoors(){
     raycaster.setFromCamera(mouse,camera)
@@ -598,4 +604,3 @@ function changeRightDoorState(){
         dir_aberta = 0
     }
 }
-
