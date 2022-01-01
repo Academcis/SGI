@@ -7,6 +7,9 @@ camera.lookAt(0,0,0)
 var raycaster = new THREE.Raycaster()
 var mouse = new THREE.Vector2()
 
+var bulbLight = null, bulbMat = null
+var lampSphere = null
+
 var palette = null
 var crate1 = null, crate2 = null, crate3 = null, crate4 = null
 var sinkGeometry = null
@@ -42,6 +45,9 @@ var myCanvas = document.getElementById("myCanvas")
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
 renderer.setSize(545,400)
 renderer.shadowMap.enabled = true
+renderer.physicallyCorrectLights = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setPixelRatio( window.devicePixelRatio );
 
 new THREE.OrbitControls(camera, renderer.domElement)
 
@@ -67,6 +73,22 @@ animate()
 //addlights()
 addLightsDawn()
 actionButtons()
+
+function addBulb(number){
+    const bulbGeometry = new THREE.SphereGeometry(0.3, 16, 8);
+    bulbLight = new THREE.PointLight(0xFFBC47, number, 100, 2);
+	//0xFFBC47
+    bulbMat = new THREE.MeshStandardMaterial({
+        emissive: 0xFFBC47,
+		emissiveIntensity: 1,
+		color: 0x000000
+    })
+    bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+	bulbLight.position.set( 12.7, 15, -11.9 );
+    bulbLight.castShadow = true;
+    scene.add( bulbLight );
+    //scene.add(new THREE.CameraHelper(bulbLight.shadow.camera))
+}
 
 function loadScene(){
     var loader = new THREE.GLTFLoader()
@@ -111,6 +133,16 @@ function loadScene(){
 
                 if(objMesh.name == "sink"){
                     sinkGeometry = objMesh
+                }
+
+                if(objMesh.name == "Sphere"){
+                    sphere = objMesh
+                    sphere.castShadow = false
+                }
+
+                if(objMesh.name == "LampPost"){
+                    lampPost = objMesh
+                    lampPost.castShadow = false
                 }
 
                 if(objMesh.name.includes("cube")){ 
@@ -247,51 +279,43 @@ function addlights(){
     scene.add(pointLight)
 }
 
+function addLightsNight(){
+    scene.remove(DirLight)
+    scene.remove(bulbLight)
+    scene.background = new THREE.Color(0x272146) 
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    addBulb(1500)
+}
+
 function addLightsSunset(){
     scene.remove(DirLight)
-    
+    scene.remove(bulbLight)
     scene.background = new THREE.Color(0xEFB59D) 
-    
     DirLight.position.set(-60,60,-200);
-    //DirLight.target.position.set(0,0,0)
-    
     scene.add(DirLight)
-    //scene.add(DirLight.target)
-
     renderer.toneMapping = THREE.ReinhardToneMapping;
-    
-    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+    addBulb(500)
 }
 
 function addLightsMidDay(){
 
     scene.remove(DirLight)
+    scene.remove(bulbLight)
     scene.background = new THREE.Color(0xC1EDFF) 
-    
     DirLight.position.set(5,15,00);
-    //DirLight.target.position.set(0,0,0)
-    
     scene.add(DirLight)
-    //scene.add(DirLight.target)
-
     renderer.toneMapping = THREE.ReinhardToneMapping;
-    
-    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+    addBulb(0)
 }
 
 function addLightsDawn(){
     scene.remove(DirLight)
+    scene.remove(bulbLight)
     scene.background = new THREE.Color(0xFFE5CC) 
-    
     DirLight.position.set(30,40,50);
-    //DirLight.target.position.set(0,0,0)
-    
     scene.add(DirLight)
-    //scene.add(DirLight.target)
-
     renderer.toneMapping = THREE.ReinhardToneMapping;
-    
-    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
+    addBulb(400)
 }
 
 var esq_aberta = 0
@@ -306,6 +330,76 @@ var animacao_vasos = 0
 var mostrarDimensoes = 0
 
 function actionButtons(){
+    document.getElementById("btn_open_doors").onclick = function(){
+        if(esq_aberta == 0 && dir_aberta == 1){
+            actionLeftDoorAction.reset()
+            actionLeftDoorAction.timeScale = 1
+            actionLeftDoorAction.setLoop(THREE.LoopOnce)
+            actionLeftDoorAction.clampWhenFinished = true
+            actionLeftDoorAction.play()
+            esq_aberta = 1
+        }
+        if(esq_aberta == 1 && dir_aberta == 0){
+            actionRigthDoorAction.reset()
+            actionRigthDoorAction.timeScale = 1
+            actionRigthDoorAction.setLoop(THREE.LoopOnce)
+            actionRigthDoorAction.clampWhenFinished = true
+            actionRigthDoorAction.play()
+            dir_aberta = 1
+        }
+        if(esq_aberta == 0 && dir_aberta == 0){
+            actionLeftDoorAction.reset()
+            actionLeftDoorAction.timeScale = 1
+            actionLeftDoorAction.setLoop(THREE.LoopOnce)
+            actionLeftDoorAction.clampWhenFinished = true
+            actionLeftDoorAction.play()
+
+            actionRigthDoorAction.reset()
+            actionRigthDoorAction.timeScale = 1
+            actionRigthDoorAction.setLoop(THREE.LoopOnce)
+            actionRigthDoorAction.clampWhenFinished = true
+            actionRigthDoorAction.play()
+
+            dir_aberta = 1
+            esq_aberta = 1
+        }
+     }
+
+     document.getElementById("btn_close_doors").onclick = function(){
+        if(esq_aberta == 1 && dir_aberta == 0){
+            actionLeftDoorAction.timeScale = -1  
+            actionLeftDoorAction.setLoop(THREE.LoopOnce)   
+            actionLeftDoorAction.clampWhenFinished = true
+            actionLeftDoorAction.paused = false  
+            actionLeftDoorAction.play() 
+            esq_aberta = 0
+        }
+        if(esq_aberta == 0 && dir_aberta == 1){
+            actionRigthDoorAction.timeScale = -1  
+            actionRigthDoorAction.setLoop(THREE.LoopOnce)   
+            actionRigthDoorAction.clampWhenFinished = true
+            actionRigthDoorAction.paused = false  
+            actionRigthDoorAction.play() 
+            dir_aberta = 0
+        }
+        if(esq_aberta == 1 && dir_aberta == 1){
+            actionLeftDoorAction.timeScale = -1  
+            actionLeftDoorAction.setLoop(THREE.LoopOnce)   
+            actionLeftDoorAction.clampWhenFinished = true
+            actionLeftDoorAction.paused = false  
+            actionLeftDoorAction.play() 
+
+            actionRigthDoorAction.timeScale = -1  
+            actionRigthDoorAction.setLoop(THREE.LoopOnce)   
+            actionRigthDoorAction.clampWhenFinished = true
+            actionRigthDoorAction.paused = false  
+            actionRigthDoorAction.play() 
+
+            dir_aberta = 0
+            esq_aberta = 0
+        }
+     }
+
     document.getElementById("btn_left_door_open").onclick = function(){
         if(esq_aberta == 0){
             camera.position.set(3,3,8)
@@ -468,6 +562,10 @@ function actionButtons(){
                 lightTime++;
                 break;
             case 2:
+                addLightsNight();
+                lightTime++;
+                break;    
+            case 3:
                 addLightsDawn();
                 lightTime=0;
                 break;
