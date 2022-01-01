@@ -49,7 +49,12 @@ renderer.physicallyCorrectLights = true;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.setPixelRatio( window.devicePixelRatio );
 
-new THREE.OrbitControls(camera, renderer.domElement)
+new THREE.OrbitControls(camera, renderer.domElement) //ISTO ESTÁ BEM ASSIM?
+
+/* Variáveis para as dimensões */
+var textoAlturaPrincipal = null, textoAlturaMeio = null, textoAlturaRecipiente = null
+var textoLarguraDireita = null, textoLarguraEsquerda = null, textoLarguraPortas = null, textoLarguraPrincipal = null
+var textoProfundidadeNormal = null, textoProfundidadePortasDir = null, textoProfundidadePortasEsq = null
 
 loadScene()
 animate()
