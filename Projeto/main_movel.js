@@ -268,7 +268,7 @@ function animate(){
     mixer.update(clock.getDelta())
     renderer.render(scene, camera)
 }
-
+/*
 function addlights(){
     var ambientLight = new THREE.AmbientLight("white", 0.55)
     scene.add(ambientLight)
@@ -277,7 +277,7 @@ function addlights(){
     pointLight.position.set(10,6,0)
     pointLight.castShadow = true
     scene.add(pointLight)
-}
+}*/
 
 function addLightsNight(){
     scene.remove(DirLight)

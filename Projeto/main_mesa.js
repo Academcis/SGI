@@ -10,6 +10,13 @@ var mixer = new THREE.AnimationMixer(scene);
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
+/* Variáveis para as dimensões */
+var textoAltura = null,textoAlturaExtensao = null, textoAlturaMeio = null, textoAlturaRecipiente = null
+var textoLarguraComPortaDireita = null, textoLarguraComPortaEsquerda = null, textoLarguraCom2Portas = null, textoLarguraComExtensao = null, textoLarguraSemExtensao = null
+var textoProfundidadePrincipal = null, textoProfundidadePortasDir = null, textoProfundidadePortasEsq = null
+var mostrarDimensoes = 0
+
+var marbleMesh = null, defaultTextureMarble = null;
 var bulbLight = null, bulbMat = null;
 var lampSphere = null;
 var workBenchGeometry = null, rightDoorGeometry = null, leftDoorGeometry = null, benchGeometry = null, legGeometry = null, legStickGeometry = null
@@ -18,7 +25,7 @@ var cratesArray = [];
 var changeTexture = 0;
 var is_BenchExtendOpen = 0;
 var is_LegExtendOpen = 0;
-var is_DoorsOpen = 0;
+var dir_aberta = 0, esq_aberta=0;
 var pausa = 0;
 var rotate=0;
 var lightTime =0;
@@ -37,11 +44,6 @@ var actionRopeAction = null;
 
 var myCanvas = document.getElementById("myCanvas") //- não é preciso pois já tenho o appendChild do body
 
-//var grid = new THREE.GridHelper()
-//scene.add(grid)
-//var axes = new THREE.AxesHelper(5) //tamanho dos eixos
-//scene.add(axes)
-
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
 renderer.setSize(545,400)
 renderer.shadowMap.enabled = true
@@ -49,7 +51,7 @@ renderer.physicallyCorrectLights = true;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.setPixelRatio( window.devicePixelRatio );
 
-new THREE.OrbitControls(camera, renderer.domElement) //ISTO ESTÁ BEM ASSIM?
+new THREE.OrbitControls(camera, renderer.domElement) //ISTO ESTÁ BEM ASSIM? como assim?
 
 /* Variáveis para as dimensões */
 var textoAlturaPrincipal = null, textoAlturaMeio = null, textoAlturaRecipiente = null
@@ -92,11 +94,9 @@ function loadScene(){
         'models/workBenchM_v2.gltf',
         function(gltf){
             scene.add(gltf.scene)
-            gltf.scene.traverse(function(x){
+            gltf.scene.traverse(function(x){ //para tornar invisivel a luz que possa existir a mais
                 if (x instanceof THREE.Light) x.visible = false
-                //scene.getObjectByName('Botao2').visible = false -> depois de ver na consola qual é o nome 
-                //scene.getObjectByName('door').visible = true
-            }) //para tornar invisivel a luz que possa existir a mais
+            }) 
 
             scene.traverse(function(objMesh){
                 if(objMesh.isMesh){
@@ -131,14 +131,12 @@ function loadScene(){
                 if(objMesh.name == "Sphere"){
                     sphere = objMesh
                     sphere.castShadow = false
-                   // sphere.material.clipShadows = true
                 }
 
-              /*  if(objMesh.name == "LampPost"){
+                if(objMesh.name == "LampPost"){
                     lampPost = objMesh
                     lampPost.castShadow = false
-                   // sphere.material.clipShadows = true
-                }*/
+                }
 
                 if(objMesh.name.includes("WoodCube")){ 
                     if(objMesh.name == "WoodCube1"){
@@ -170,6 +168,51 @@ function loadScene(){
                     palette.castShadow = false
                     palette.receiveShadow = false
                 }
+
+                if(objMesh.name == "stoneBench"){
+                    marbleMesh = objMesh
+                    defaultTextureMarble = marbleMesh.material.map
+                }
+
+                if(objMesh.name.includes("Text")){
+                    objMesh.visible = !objMesh.visible
+                    if(objMesh.name == "TextAltura"){
+                        textoAltura = objMesh
+                    }
+                    if(objMesh.name == "TextAlturaMeio"){
+                        textoAlturaMeio = objMesh
+                    }
+                    if(objMesh.name == "TextAlturaExtensao"){
+                        textoAlturaExtensao = objMesh
+                    }
+                    if(objMesh.name == "TextAlturaRecipiente"){
+                        textoAlturaRecipiente = objMesh
+                    }
+                    if(objMesh.name == "TextLarguraCom2Portas"){
+                        textoLarguraCom2Portas = objMesh
+                    }
+                    if(objMesh.name == "TextLarguraComExtensao"){
+                        textoLarguraComExtensao = objMesh
+                    }
+                    if(objMesh.name == "TextLarguraSemExtensao"){
+                        textoLarguraSemExtensao = objMesh
+                    }
+                    if(objMesh.name == "TextLarguraComPortaDireita"){
+                        textoLarguraDireita = objMesh
+                    }
+                    if(objMesh.name == "TextLarguraComPortaEsquerda"){
+                        textoLarguraEsquerda = objMesh
+                    }
+                    if(objMesh.name == "TextProfundidadePrincipal"){
+                        textoProfundidadePrincipal = objMesh
+                    }
+                    if(objMesh.name == "TextProfundidadePortaDireita"){
+                        textoProfundidadePortasDir = objMesh
+                    }
+                    if(objMesh.name == "TextProfundidadePortaEsquerda"){
+                        textoProfundidadePortasEsq = objMesh
+                    }
+                }
             })
 
             var BenchExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaBenchOpen") 
@@ -180,26 +223,13 @@ function loadScene(){
             //var cameraAction = THREE.AnimationClip.findByName(gltf.animations, "NlaCameraAction")
             actionBenchExtendOpen = mixer.clipAction(BenchExtendOpen)
             actionLegExtendOpen = mixer.clipAction(legExtendOpen)
-            actionRightDoor = mixer.clipAction(RightDoor)
-            actionLeftDoor = mixer.clipAction(LeftDoor)
+            actionLeftDoor = mixer.clipAction(RightDoor)
+            actionRightDoor = mixer.clipAction(LeftDoor)
             actionRopeAction = mixer.clipAction(RopeAction)
             //actionCameraAction = mixer.clipAction(cameraAction)
         }
     )
 }
-
-/*function animateLight(){
-    const time = Date.now() * 0.0005;
-    DirLight.position.x = Math.sin(time*0.07);
-    DirLight.position.z = Math.cos(time*0.07);
-    
-    renderer.render(scene, camera)
-    requestAnimationFrame(animate)
-}
-
-function addLightsMidDay(){
-    scene.background = new THREE.Color(0xC1EDFF) 
-}*/
 
 function addLightsNight(){
     scene.remove(DirLight)
@@ -411,20 +441,40 @@ function resetCamera(){
     document.getElementById("btn_close_doors").onclick = function (){
         camera.position.set(-2,8,15) 
         camera.lookAt(0,0,0)
-        
-        if(is_DoorsOpen == 1){
-            actionRightDoor.timeScale = -1
-            actionRightDoor.setLoop(THREE.LoopOnce)
-            actionRightDoor.clampWhenFinished = false
-            actionRightDoor.paused = false
-            actionRightDoor.play()
-            
+
+        if(esq_aberta == 1 && dir_aberta == 0){
             actionLeftDoor.timeScale = -1
             actionLeftDoor.setLoop(THREE.LoopOnce)
             actionLeftDoor.clampWhenFinished = false
             actionLeftDoor.paused = false
             actionLeftDoor.play()
-            is_DoorsOpen=0;
+            esq_aberta=0;
+        }
+
+        if(esq_aberta == 0 && dir_aberta == 1){
+            actionLeftDoor.timeScale = -1
+            actionLeftDoor.setLoop(THREE.LoopOnce)
+            actionLeftDoor.clampWhenFinished = false
+            actionLeftDoor.paused = false
+            actionLeftDoor.play()
+            dir_aberta=0;
+        }
+        
+        if(esq_aberta == 1 && dir_aberta == 1){
+            actionLeftDoor.timeScale = -1
+            actionLeftDoor.setLoop(THREE.LoopOnce)
+            actionLeftDoor.clampWhenFinished = false
+            actionLeftDoor.paused = false
+            actionLeftDoor.play()
+
+            actionRightDoor.timeScale = -1
+            actionRightDoor.setLoop(THREE.LoopOnce)
+            actionRightDoor.clampWhenFinished = false
+            actionRightDoor.paused = false
+            actionRightDoor.play()
+
+            esq_aberta=0;
+            dir_aberta=0;
         }
 
     }
@@ -438,8 +488,25 @@ function resetCamera(){
         actionCameraAction.clampWhenFinished = false
         actionCameraAction.paused = false
         actionCameraAction.play()*/
+        if(esq_aberta == 0 && dir_aberta == 1){
+            actionLeftDoor.reset()
+            actionLeftDoor.timeScale = 1
+            actionLeftDoor.setLoop(THREE.LoopOnce)
+            actionLeftDoor.clampWhenFinished = true
+            actionLeftDoor.play()
+            esq_aberta = 1;
+        }
 
-        if(is_DoorsOpen == 0){
+        if(esq_aberta == 1 && dir_aberta == 0){
+            actionRightDoor.reset()
+            actionRightDoor.timeScale = 1
+            actionRightDoor.setLoop(THREE.LoopOnce)
+            actionRightDoor.clampWhenFinished = true
+            actionRightDoor.play()
+            dir_aberta = 1;
+        }
+
+        if(esq_aberta == 0 && dir_aberta == 0){
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
             actionRightDoor.setLoop(THREE.LoopOnce)
@@ -451,9 +518,61 @@ function resetCamera(){
             actionLeftDoor.setLoop(THREE.LoopOnce)
             actionLeftDoor.clampWhenFinished = true
             actionLeftDoor.play()
-            is_DoorsOpen = 1;
+
+            dir_aberta = 1
+            esq_aberta = 1
         }
 
+    }
+
+    document.getElementById("btn_open_left_door").onclick = function (){
+        if(esq_aberta == 0){
+            camera.position.set(3,5,10)
+            camera.lookAt(0,0,5)
+            actionLeftDoor.reset()
+            actionLeftDoor.timeScale = 1
+            actionLeftDoor.setLoop(THREE.LoopOnce)
+            actionLeftDoor.clampWhenFinished = true
+            actionLeftDoor.play()
+            esq_aberta = 1
+        }
+    }
+
+    document.getElementById("btn_close_left_door").onclick = function (){
+        if(esq_aberta == 1){
+            resetCamera()
+            actionLeftDoor.timeScale = -1
+            actionLeftDoor.setLoop(THREE.LoopOnce)
+            actionLeftDoor.clampWhenFinished = false
+            actionLeftDoor.paused = false
+            actionLeftDoor.play()
+            esq_aberta = 0
+        }
+    }
+
+    document.getElementById("btn_open_right_door").onclick = function (){
+        if(dir_aberta == 0){
+            camera.position.set(-4,5,10)
+            camera.lookAt(0,0,5)
+            actionRightDoor.reset()
+            actionRightDoor.timeScale = 1
+            actionRightDoor.setLoop(THREE.LoopOnce)
+            actionRightDoor.clampWhenFinished = true
+            actionRightDoor.play()
+            dir_aberta = 1
+        }
+    }
+
+    document.getElementById("btn_close_right_door").onclick = function (){
+        if(dir_aberta == 1){
+            resetCamera()
+            actionRightDoor.timeScale = -1
+            actionRightDoor.setLoop(THREE.LoopOnce)
+            actionRightDoor.clampWhenFinished = false
+            actionRightDoor.paused = false
+            actionRightDoor.play()
+            dir_aberta = 0
+        }
     }
 
     document.getElementById("btn_rotate").onclick = function (){
@@ -563,6 +682,49 @@ function resetCamera(){
         palette.visible = !palette.visible
     }
 
+    document.getElementById("btn_show_dimensions").onclick = function(){
+        if(mostrarDimensoes == 0){
+            textoAltura.visible = true
+            textoAlturaMeio.visible = true
+            textoAlturaRecipiente.visible = true
+            if(is_BenchExtendOpen==1){
+                textoAlturaExtensao.visible = true
+                textoLarguraComExtensao.visible = true
+            }else{
+                textoLarguraSemExtensao.visible = true
+            }
+            textoProfundidadePrincipal.visible = true
+            if(dir_aberta == 1){
+                textoProfundidadePortasDir.visible = true
+                if(esq_aberta == 1){
+                    textoLarguraCom2Portas.visible = true
+                }else{
+                    textoLarguraDireita.visible = true
+                }
+            }
+            if(esq_aberta == 1 && dir_aberta == 0){
+                textoProfundidadePortasEsq.visible = true
+                textoLarguraEsquerda.visible = true
+            }
+            
+            mostrarDimensoes = 1
+        }else{
+            textoAltura.visible = false
+            textoAlturaMeio.visible = false
+            textoAlturaRecipiente.visible = false
+            textoAlturaExtensao.visible = false
+            textoLarguraComExtensao.visible = false
+            textoLarguraSemExtensao.visible = false
+            textoLarguraCom2Portas.visible = false
+            textoLarguraDireita.visible = false
+            textoLarguraEsquerda.visible = false
+            textoProfundidadePrincipal.visible = false
+            textoProfundidadePortasDir.visible = false
+            textoProfundidadePortasEsq.visible = false
+            mostrarDimensoes = 0
+        }
+    }
+
 }
 
 window.onclick = function(event){
@@ -584,6 +746,13 @@ function pickCrateTexture(){
             rightDoorGeometry.material = intersectedCrates[0].object.material
             leftDoorGeometry.material = intersectedCrates[0].object.material
             benchGeometry.material = intersectedCrates[0].object.material
+            if(workBenchGeometry.material == cratesArray[2].material){
+                const textureMarble = new THREE.TextureLoader().load('models/materials/blackMarble.JPG')
+                textureMarble.flipY = false
+                marbleMesh.material.map = textureMarble
+            }else{
+                marbleMesh.material.map = defaultTextureMarble
+            }
         }
     }    
 }
