@@ -71,7 +71,7 @@ actionButtons()
 function loadScene(){
     var loader = new THREE.GLTFLoader()
     loader.load(
-        'models/movelJardinagem_v2_novo.gltf',
+        'models/movelJardinagem.gltf',
         function(gltf){
             scene.add(gltf.scene)
             gltf.scene.traverse(function(x){
@@ -220,6 +220,8 @@ function loadScene(){
                 if(objMesh.name == "paletteTexturas"){
                     palette = objMesh
                     objMesh.visible = !objMesh.visible
+                    palette.castShadow = false
+                    palette.receiveShadow = false
                 }
             })
             for(var i = 0; i < cratesArray.length; i++){
