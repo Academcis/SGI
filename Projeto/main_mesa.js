@@ -84,7 +84,7 @@ function animate(){
 function loadScene(){
     var loadBench = new THREE.GLTFLoader()
     loadBench.load( 
-        'this_tentativa_background/workBenchM_v2.gltf',
+        'models/workBenchM_v2.gltf',
         function(gltf){
             scene.add(gltf.scene)
             gltf.scene.traverse(function(x){
