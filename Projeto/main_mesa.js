@@ -11,14 +11,16 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
 var animacao_vasos = 0;
-var vaso1 = null;
-var actionVaso1 = null;
 
 /* Variáveis para as dimensões */
 var textoAltura = null,textoAlturaExtensao = null, textoAlturaMeio = null, textoAlturaRecipiente = null
 var textoLarguraComPortaDireita = null, textoLarguraComPortaEsquerda = null, textoLarguraCom2Portas = null, textoLarguraComExtensao = null, textoLarguraSemExtensao = null
 var textoProfundidadePrincipal = null, textoProfundidadePortasDir = null, textoProfundidadePortasEsq = null
 var mostrarDimensoes = 0
+
+/* Objetos extras */
+var vasosEmpilhadas = null, vasoMedio = null, vasoPequeno = null, vasoGrande = null, vaso1 = null
+var choppedWood = null, pottery = null, rope = null
 
 var marbleMesh = null, defaultTextureMarble = null;
 var bulbLight = null, bulbMat = null;
@@ -95,7 +97,7 @@ function animate(){
 function loadScene(){
     var loadBench = new THREE.GLTFLoader()
     loadBench.load( 
-        'models/workBenchM_v2.gltf',
+        'models/workBenchM.gltf',
         function(gltf){
             scene.add(gltf.scene)
             gltf.scene.traverse(function(x){ //para tornar invisivel a luz que possa existir a mais
