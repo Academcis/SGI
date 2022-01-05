@@ -10,6 +10,8 @@ var mixer = new THREE.AnimationMixer(scene);
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
+var targetPosition = null;
+
 /* Variáveis para as dimensões */
 var textoAltura = null,textoAlturaExtensao = null, textoAlturaMeio = null, textoAlturaRecipiente = null
 var textoLarguraComPortaDireita = null, textoLarguraComPortaEsquerda = null, textoLarguraCom2Portas = null, textoLarguraComExtensao = null, textoLarguraSemExtensao = null
@@ -219,14 +221,12 @@ function loadScene(){
             var legExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaLegOpen")
             var RightDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaRightDoor")
             var LeftDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaLeftDoor")
-            var RopeAction = THREE.AnimationClip.findByName(gltf.animations,"NlaRopeAction")
-            //var cameraAction = THREE.AnimationClip.findByName(gltf.animations, "NlaCameraAction")
+            //var RopeAction = THREE.AnimationClip.findByName(gltf.animations,"NlaRopeAction")
             actionBenchExtendOpen = mixer.clipAction(BenchExtendOpen)
             actionLegExtendOpen = mixer.clipAction(legExtendOpen)
             actionLeftDoor = mixer.clipAction(RightDoor)
             actionRightDoor = mixer.clipAction(LeftDoor)
-            actionRopeAction = mixer.clipAction(RopeAction)
-            //actionCameraAction = mixer.clipAction(cameraAction)
+            //actionRopeAction = mixer.clipAction(RopeAction)
         }
     )
 }
@@ -235,17 +235,10 @@ function addLightsNight(){
     scene.remove(DirLight)
     scene.remove(bulbLight)
     scene.background = new THREE.Color(0x272146) 
-    
-    //DirLight.position.set(-60,60,-200);
-    //DirLight.target.position.set(0,0,0)
-    
-   //scene.add(DirLight)
-    //scene.add(DirLight.target)
 
     renderer.toneMapping = THREE.ReinhardToneMapping;
 
     addBulb(1500)
-    //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
 function addLightsSunset(){
@@ -308,80 +301,16 @@ function resetCamera(){
 
  function actionButtons(){
      document.getElementById("btn_open").onclick = function (){
-        //let time = {t: 0};
-        //var startQuaternion = camera.quaternion.clone() //set initial angle
-        /*curvePath = new THREE.CurvePath();
-        curvePath = findAPath(startingPoint, endingPoint, curvePath);
-
         
-        curveGeometry = new THREE.Geometry();
-        curveGeometry.vertices = curvePath.getPoints( 100 );
-*/
-        camera.position.set(-7,9,7) 
-        camera.lookAt(-2,-2,-12)
-      
-        /*setTimeout(function(){
-            camera.position.set(-3,8,14)
-            camera.lookAt(-1,-1,-1)
-        }, 1000)
+        //const startQuaternion = camera.quaternion.clone(); //set initial angle
+        
+        camera.position.set(-7,9,7)
+        camera.lookAt(-2, -2, -12);
+        /*const endQuaternion = camera.quaternion.clone(); //set destination angle
+        camera.quaternion.copy(startQuaternion);
 
-        setTimeout(function(){
-            camera.position.set(-4,8,13)
-            camera.lookAt(-1,-1,-2)
-        }, 1000)
+        THREE.Quaternion.slerp(startQuaternion, endQuaternion, camera.quaternion, 0.01);*/
 
-        setTimeout(function(){
-            camera.position.set(-5,8,12)
-            camera.lookAt(-1,-1,-3)
-        }, 1000)
-
-        setTimeout(function(){
-            camera.position.set(-5,8,11)
-            camera.lookAt(-1,-1,-3)
-        }, 1000)
-
-        setTimeout(function(){
-            camera.position.set(-5,8,10)
-            camera.lookAt(-1,-1,-5)
-        }, 1000)
-
-        setTimeout(function(){
-            camera.position.set(-6,8,9)
-            camera.lookAt(-1,-1,-7)
-        }, 1000)
-
-        setTimeout(function(){
-            camera.position.set(-7,9,7)
-            camera.lookAt(-2,-2,-12)
-        }, 1000)*/
-/*
-        for(var i=-2; i>-8;i--){
-            for (var j=15;j>6;j--){
-                for(var k = 0;k>-13;k--){
-                setTimeout(function(){
-                    camera.position.set(i,9,j)
-                    camera.lookAt(-2,-2,k)
-                }, 500)
-                
-                }
-            }
-        }
-
-        camera.lookAt(-2,-2,-12)*/
-        //var endQuaternion = camera.quaternion.clone() //set destination angle
-        //camera.quaternion.copy(startQuaternion)
-
-        /*new TWEEN.Tween(time)
-        .to({t: 1}, 1000) //duration in milliseconds
-        .onUpdate(() => {
-            THREE.Quaternion.slerp(startQuaternion, endQuaternion, camera.quaternion, time.t);
-        })
-        .easing(TWEEN.Easing.Quadratic.InOut).onComplete(() => {*/
-        /*actionCameraAction.reset()
-        actionCameraAction.timeScale = 1
-        actionCameraAction.setLoop(THREE.LoopOnce)
-        actionCameraAction.clampWhenFinished = true
-        actionCameraAction.play()*/
 
         if(is_BenchExtendOpen==0){
             actionBenchExtendOpen.reset()
@@ -400,15 +329,6 @@ function resetCamera(){
             actionLegExtendOpen.play()
             is_LegExtendOpen = 1
         }
-
-        /*
-        actionRopeAction.reset()
-        actionRopeAction.timeScale = 1
-        actionRopeAction.setLoop(THREE.LoopOnce)
-        actionRopeAction.clampWhenFinished = true
-        actionRopeAction.play()*/
-
-       // }).start();
 
     }
 
@@ -483,11 +403,6 @@ function resetCamera(){
         camera.position.set(-1,5,10) 
         camera.lookAt(0,0,0)
         
-        /*actionCameraAction.timeScale = -1
-        actionCameraAction.setLoop(THREE.LoopOnce)
-        actionCameraAction.clampWhenFinished = false
-        actionCameraAction.paused = false
-        actionCameraAction.play()*/
         if(esq_aberta == 0 && dir_aberta == 1){
             actionLeftDoor.reset()
             actionLeftDoor.timeScale = 1
@@ -593,10 +508,6 @@ function resetCamera(){
                     camera.position.set(10,7,-15)
                     rotate+=1;
                     break;
-               /* case 4:
-                    camera.position.set(18,7,-6)
-                    rotate+=1;
-                    break;*/
                 case 4:
                     camera.position.set(17,7,1)
                     rotate+=1;
