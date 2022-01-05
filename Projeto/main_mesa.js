@@ -10,7 +10,9 @@ var mixer = new THREE.AnimationMixer(scene);
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
-var targetPosition = null;
+var animacao_vasos = 0;
+var vaso1 = null;
+var actionVaso1 = null;
 
 /* Variáveis para as dimensões */
 var textoAltura = null,textoAlturaExtensao = null, textoAlturaMeio = null, textoAlturaRecipiente = null
@@ -215,17 +217,24 @@ function loadScene(){
                         textoProfundidadePortasEsq = objMesh
                     }
                 }
+
+                if(objMesh.name == "vaso1"){
+                    vaso1 = objMesh
+                    vaso1.visible = !vaso1.visible
+                }
             })
 
             var BenchExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaBenchOpen") 
             var legExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaLegOpen")
             var RightDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaRightDoor")
             var LeftDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaLeftDoor")
+            var vaso1animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso1") 
             //var RopeAction = THREE.AnimationClip.findByName(gltf.animations,"NlaRopeAction")
             actionBenchExtendOpen = mixer.clipAction(BenchExtendOpen)
             actionLegExtendOpen = mixer.clipAction(legExtendOpen)
             actionLeftDoor = mixer.clipAction(RightDoor)
             actionRightDoor = mixer.clipAction(LeftDoor)
+            actionVaso1 = mixer.clipAction(vaso1animation)
             //actionRopeAction = mixer.clipAction(RopeAction)
         }
     )
@@ -633,6 +642,21 @@ function resetCamera(){
             textoProfundidadePortasDir.visible = false
             textoProfundidadePortasEsq.visible = false
             mostrarDimensoes = 0
+        }
+    }
+
+    document.getElementById("btn_show_objects").onclick = function (){
+        vaso1.visible = !vaso1.visible
+        if(animacao_vasos == 0){
+            actionVaso1.reset()
+            actionVaso1.timeScale = 1
+            actionVaso1.setLoop(THREE.LoopOnce)
+            actionVaso1.clampWhenFinished = true
+            actionVaso1.play()
+
+            animacao_vasos = 1;
+        }else{
+            animacao_vasos = 0;
         }
     }
 
