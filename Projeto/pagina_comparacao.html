@@ -20,9 +20,11 @@
         <link rel="stylesheet" type="text/css" href="style.css">
 
         <!-- links para o Dropdown usando javascript -->
+        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         
@@ -278,245 +280,196 @@
       <!-- End of Header and Navbar -->
 
       <br><br><br>
-      <div class="center" style="margin-left: 35%; margin-right: 35%; background-color: #7D7C7C; color: white; font-size: 20px; font-family: 'Oxygen'; text-align: center; height: 60px;">
-        <span style="position: relative; top: 15px;">Pesquisa Efetuada: móvel de jardinagem</span>
+    
+      <div class=" col-6" style=" background-color: #CCCCCC;" >
+        <!-- inicio da primeira divisão -->
+            <!-- Imagem modelação 3D -->
+            <!-- <img src="imagens/exemplo_interacao.png" alt="icon interacao" style="width: 66%; margin-left: 6%; margin-top: 20px; margin-bottom: 10%;"> -->
+            <div style="width: 66%;  margin-left: 6%; margin-top: 20px; margin-bottom: 10%; display: inline-block;">
+              <canvas id="myCanvasMesa"></canvas>
+            </div>
+            <div style="float: right; margin-right: 6%; margin-top: 5px; width: 22%; height: 50%;">
+              <!-- Botões interação 3D -->
+              <div >
+                <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Portas</p>
+                <button id ="btn_open_doors"  class="btn rounded-0 botao-direita" style="width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen';">
+                  Abrir
+                </button>
+                
+                <button id ="btn_close_doors" class="btn rounded-0 botao-esquerda" style="width: 50%; height: 45%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;">
+                  Fechar
+                </button>
+              </div>
+
+              <div >
+                <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Porta Esquerda</p>
+                <button id ="btn_open_left_door"  class="btn rounded-0 botao-direita" style="width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen';">
+                  Abrir
+                </button>
+                
+                <button id ="btn_close_left_door" class="btn rounded-0 botao-esquerda" style="width: 50%; height: 45%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;">
+                  Fechar
+                </button>
+              </div>
+              
+              <div >
+                <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Porta Direita</p>
+                <button id ="btn_open_right_door"  class="btn rounded-0 botao-direita" style="width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen';">
+                  Abrir
+                </button>
+                
+                <button id ="btn_close_right_door" class="btn rounded-0 botao-esquerda" style="width: 50%; height: 45%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;">
+                  Fechar
+                </button>
+              </div>
+
+              <div >
+                <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Lado</p>
+                <button id="btn_open" class="btn rounded-0 botao-direita" style="margin-bottom: 17%; width: 50%; height: 45%;  font-family: 'Oxygen';" >
+                  Abrir
+                </button>
+                
+                <button id="btn_close" class="btn rounded-0 botao-esquerda" style="width: 50%; height: 45%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;">
+                  Fechar
+                </button>
+              </div>
+
+              <div >
+                <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Animações</p>
+                <button id ="btn_stop"  class="btn rounded-0 botao-direita" style="width: 50%; height: 45%; margin-bottom: 17%; font-family: 'Oxygen';">
+                  Parar
+                </button>
+                
+                <button id ="btn_reset" class="btn rounded-0 botao-esquerda" style="width: 50%; height: 45%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;">
+                  Reset
+                </button>
+              </div>
+            </div>
+            <div style="margin-left: 6%; width: 88%; height: 15%; margin-bottom: 60px; margin-top: -30px;">
+                <button class="btn rounded-0 botao-direita" style="width: 30%; height: 38%; font-family: 'Oxygen'; margin-bottom: 2%;" id="btn_reset_view">
+                  <i class="bi bi-fullscreen" style="font-size:18px; margin-right: 12px;"></i> Vista Original
+                </button>
+
+                <button class="btn rounded-0 botao-esquerda" style=" color: white;  width: 30%; height: 38%; font-family: 'Oxygen'; margin-left: 5%; margin-bottom: 2%;" id="btn_show_dimensions">
+                  <i class="bi bi-arrows-move" style="font-size:18px; margin-right: 12px;"></i>  Mostrar Dimensões
+                </button>
+                
+                <button  class="btn rounded-0 botao-direita" style=" width: 30%; height: 38%; font-family: 'Oxygen'; margin-left: 4%; margin-bottom: 2%;" id="btn_light">
+                  <i class="bi bi-brightness-high" style="font-size:18px; margin-right: 12px;"></i> Manhã / Dia / Tarde 
+                </button>
+
+                
+                <button  class="btn rounded-0 botao-direita" style="width: 30%; height: 38%;  font-family: 'Oxygen';" id="btn_rotate">
+                  <i class="bi bi-arrow-repeat" style="font-size:18px; margin-right: 12px;"></i> Rodar
+                </button>
+                
+                <button   class="btn rounded-0 botao-esquerda" style="color: white;  width: 30%; height: 38%; font-family: 'Oxygen'; margin-left: 5%;" id="btn_show_objects">
+                  <i class="bi bi-box" style="font-size:18px; margin-right: 12px;"></i> Mostrar objetos extra
+                </button>
+
+                <button class="btn rounded-0 botao-direita" style="width: 30%; height: 38%; font-family: 'Oxygen'; margin-left: 4%;" id="btn_texture">
+                  <i class="bi bi-palette" style="font-size:18px; margin-right: 12px;"></i> Textura
+                </button>
+              </div>
+
+        <!-- fim da segunda divisão -->
       </div>
       
-      <br>
+    </div>
+  </div>
+  <!-- End of Product info -->
 
-      <!-- Dropdowb menu -->
-      <div class="btn-group" style="float: right; margin-top: -20px; margin-right: 25px;">
-        <!-- Dropdown text -->
-        <span style="font-family: 'Oxygen'; position: relative; top: 9px;"><strong>3 artigos</strong> - ORDENAR : Artigos Mais Procurados</span>
-        <!-- Dropdown button -->
-        <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: white; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-          <img src="imagens/keyboard_arrow_down_black_24dp.svg" >
-        </button>
-
-        <!-- Dropdown items -->
-        <div class="dropdown-menu dropdown-menu-right rounded-0" style=" width:378px; margin-left: 20px;">
-          <a class="dropdown-item " >Artigos mais procurados</a>
-          <hr style="margin: 4px;">
-          <a class="dropdown-item " >Preço - mais baratos</a>
-          <hr style="margin: 4px;">
-          <a class="dropdown-item " >Preço - mais caros</a>
-          <hr style="margin: 4px;">
-          <a class="dropdown-item " >Por melhor classificação</a>
-          <hr style="margin: 4px;">
-          <a class="dropdown-item " >Produtos nas tendências</a>
-          <hr style="margin: 4px;">
-          <a class="dropdown-item " >Por ordem alfabética</a>
+  <div class=" col-6" style=" background-color: #CCCCCC;" >
+    <!-- inicio da primeira divisão -->
+        <!-- Imagem modelação 3D -->
+        <!-- <img src="imagens/exemplo_interacao.png" alt="icon interacao" style="width: 66%; margin-left: 6%; margin-top: 20px; margin-bottom: 10%;"> -->
+        <div style="width: 66%;  margin-left: 6%; margin-top: 20px; margin-bottom: 10%; display: inline-block;">
+          <canvas id="myCanvasMovel" data-engine="main_movel.js"></canvas>
         </div>
-      </div>
+        <div style="float: right; margin-right: 6%; margin-top: 5px; width: 22%; height: 50%;">
+            <!-- Botões interação 3D -->
+            <div >
+              <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Portas </p>
+              <button class="btn rounded-0 botao-direita" style="width: 50%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_open_doors">
+                Abrir
+              </button>
+              
+              <button class="btn rounded-0 botao-esquerda" style="width: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;" id="btn_close_doors">
+                Fechar
+              </button>
+            </div>
 
-      <hr style="border: 1px solid ; margin: 20px; ">
-      <div style="margin: 20px;">
-        <div class=" col-3" style=" background-color: #F0F0F0;" >
-          <p style="font-size: 25px; font-family: 'Oxygen'; margin-left: 20px;"><b>Filtros</b></p>
-
-          <!-- Dropdown Preço -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span  style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px;  font-size: 18px;">Preço</span>
-            <!-- Dropdown button -->
-            <button type="button" class=" btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
+            <div>
+              <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Porta Esquerda</p>
+              <button class="btn rounded-0 botao-direita" style="width: 50%; margin-bottom: 17%; font-family: 'Oxygen'; " id="btn_left_door_open">
+                Abrir
+              </button>
+              
+              <button class="btn rounded-0 botao-esquerda" style="width: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;" id="btn_left_door_close">
+                Fechar
+              </button>
+            </div>
+            
+            <div >
+              <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Porta Direita</p>
+              <button class="btn rounded-0 botao-direita" style="width: 50%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_right_door_open">
+                Abrir
+              </button>
+              
+              <button class="btn rounded-0 botao-esquerda" style="width: 50%; margin-bottom: 17%; color: white; font-family: 'Oxygen'; float: right;" id="btn_right_door_close">
+                Fechar
+              </button>
+            </div>
+            
+            <div >
+              <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Animações</p>
+              <button class="btn rounded-0 botao-direita" style="width: 50%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_pause">
+                Parar
+              </button>
+              
+              <button class="btn rounded-0 botao-esquerda" style="margin-bottom: 17%;  width: 50%; color: white; font-family: 'Oxygen'; float: right;" id="btn_stop">
+                Reset
+              </button>
+            </div>
+            <div >
+              <p style="border: 1px solid; margin-bottom: -2px; text-align: center; border-radius: 0px 40px 0px 0px; border-left: none;"> Mudar Textura</p>
+              <button class="btn rounded-0 botao-direita" style="width: 50%; margin-bottom: 17%; font-family: 'Oxygen';" id="btn_main_texture">
+                Móvel
+              </button>
+              <button class="btn rounded-0 botao-esquerda" style="width: 50%; color: white;  margin-bottom: 17%; font-family: 'Oxygen'; float: right;" id="btn_change_sink_texture">
+                Pia
+              </button>
+            </div>  
+          </div>
+          <div style="margin-left: 6%; width: 88%; height: 15%; margin-bottom: 60px; margin-top: -30px;">
+            <button class="btn rounded-0 botao-direita" style="width: 30%; height: 38%; font-family: 'Oxygen'; margin-bottom: 2%;" id="btn_reset_view">
+              <i class="bi bi-fullscreen" style="font-size:18px; margin-right: 12px;"></i> Vista original
+            </button>  
+            <button class="btn rounded-0 botao-esquerda" style=" color: white;  width: 30%; height: 38%; font-family: 'Oxygen'; margin-left: 5%; margin-bottom: 2%;" id="btn_show_dimensions">
+              <i class="bi bi-arrows-move" style="font-size:18px; margin-right: 12px;"></i>  Mostrar Dimensões
             </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
-
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Marcas -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Marcas</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
+            <button class="btn rounded-0 botao-direita" style="width: 30%; height: 38%; font-family: 'Oxygen'; margin-left: 4%; margin-bottom: 2%;" id="btn_day_night">
+              <i class="bi bi-brightness-high" style="font-size:18px; margin-right: 12px;"></i> Manhã / Dia / Tarde
             </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
 
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Matérias -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Matérias</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
+            <button class="btn rounded-0 botao-direita" style="width: 30%; height: 38%;  font-family: 'Oxygen';" id="btn_rotate">
+              <i class="bi bi-arrow-repeat" style="font-size:18px; margin-right: 12px;"></i> Rodar
             </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
-
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Categoria -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Categoria</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
+            
+            <button class="btn rounded-0 botao-esquerda" style=" color: white; width:30%; height: 38%; font-family: 'Oxygen'; margin-left: 5%;" id="btn_show_objects">
+              <i class="bi bi-box" style="font-size:18px; margin-right: 12px;"></i> Mostrar objetos extra
             </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
-
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Tamanhos -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Tamanhos</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
+            <button class="btn rounded-0 botao-direita" style="width: 30%; height: 38%; font-family: 'Oxygen'; margin-left: 4%;" id="btn_change_doors_color">
+              <i class="bi bi-brush" style="font-size:18px; margin-right: 12px;"></i> Mudar Cor Portas
             </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
           </div>
 
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Em Destaque -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Em destaque</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
-            </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
-
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Cores Disponíveis -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Cores disponíveis</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
-            </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
-
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Seleção Responsável -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Seleção Responsável</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
-            </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
-
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-          <!-- Dropdown Opinião dos clientes -->
-          <div class="btn-group" style ="margin-left: 20px;">
-            <!-- Dropdown text -->
-            <span style="font-family: 'Oxygen'; position: relative; top: 9px; width:255px; font-size: 18px;">Opinião dos clientes</span>
-            <!-- Dropdown button -->
-            <button type="button" class="btn btn-secondary  dropdown-toggle-split rounded-0" style="background-color: #F0F0F0; border: none; " data-toggle="dropdown" aria-haspopup="true" >
-              <img src="imagens/plus-sign.png" style="width: 14px;">
-            </button>
-    
-            <!-- Dropdown items -->
-            <div class="dropdown-menu dropdown-menu-right rounded-0" style=" background-color: #F0F0F0; width:300px; margin-left: 20px; margin-top: 6px; border: none;">
-              <a class="dropdown-item " >Artigos mais procurados</a>
-            </div>
-          </div>
-
-          <hr style="border: 1px solid ; margin-right: 20px; margin-left: 20px; margin-top: 4px; margin-bottom: 4px;">
-
-        </div>
-        <div class=" col-1" style=" background-color: white;" ></div>
-        <div class=" col-8" style=" background-color: white;" >
-          <!-- First row -->
-          <div style=" height: 360px; ">
-            <div style="background-color: white; width: 31%; height: 100%; border: 1px solid; box-shadow: 0px 10px 5px lightgray">
-               <img src="imagens/mesaJardim_1.png" style="width: 100%;"> 
-               <hr style="border: 1px solid;">
-               <div style=" line-height: 5px; display: inline; font-family: 'Oxygen';">
-                <p style="margin-left: 10px;">Mesa de jardinagem, em acácia, Wassif</p>
-                <p style="margin-left: 10px; font-size: 14px;"><b>LA REDOUTE INTERIEURS</b></p>
-                <P style="margin-left: 10px;">299,00€</P>
-               </div>
-            </div>
-            <div style="background-color: white; width: 31%; height: 100%; float: left; margin-top: -360px; margin-left: 34%; border: 1px solid; box-shadow: 0px 10px 5px lightgray">
-              <img src="imagens/mesa_wassif_3_niveis.jpg" style="width: 93%;"> 
-              <hr style="border: 1px solid;">
-               <div style=" line-height: 5px; display: inline; font-family: 'Oxygen';">
-                <p style="margin-left: 10px;">Mesa de jardinagem Wassif, 3 níveis</p>
-                <p style="margin-left: 10px; font-size: 14px;"><b>LA REDOUTE INTERIEURS</b></p>
-                <P style="margin-left: 10px;">299,00€</P>
-               </div>
-            </div>
-            <div style="background-color: white; width: 31%; height: 100%; float: right; margin-top: -360px; border: 1px solid; box-shadow: 0px 10px 5px lightgray">
-              <img src="imagens/movel_jardinagem.jpg" style="width: 93%;"> 
-              <hr style="border: 1px solid;">
-              <div style=" line-height: 5px; display: inline; font-family: 'Oxygen';">
-               <p style="margin-left: 10px;">Móvel de jardinagem Wassif, c/ divisória</p>
-               <p style="margin-left: 10px; font-size: 14px;"><b>LA REDOUTE INTERIEURS</b></p>
-               <P style="margin-left: 10px;">159,00€</P>
-              </div>
-            </div>
-          </div>
-
-          <br><br>
-
-          <!-- Second row -->
-          <div style=" height: 360px">
-            <div style="background-color: white; width: 31%; height: 100%; border: 1px solid; box-shadow: 0px 10px 5px lightgray">
-              <img src="imagens/mesa_jardinagem_em_metal.jpg" style="width: 93%;"> 
-              <hr style="border: 1px solid;">
-              <div style=" line-height: 5px; display: inline; font-family: 'Oxygen';">
-               <p style="margin-left: 10px;">Mesa de jardinagem, em metal</p> 
-               <p style="margin-left: 10px; font-size: 14px;"><b>AM PM</b></p>
-               <P style="margin-left: 10px;">329,00€</P>
-              </div>
-            </div>
-           </div>
-        </div>
-      </div>
+    <!-- fim da segunda divisão -->
+  </div>
+  
+</div>
+</div>
+<!-- End of Product info -->
 
       <script>
         function openRightMenu() {
@@ -527,6 +480,15 @@
           document.getElementById("rightMenu").style.display = "none";
         }
       </script>
+
+    <script src="node_modules/three/build/three.min.js"></script>
+    <script src="node_modules/three/examples/js/controls/OrbitControls.js"></script>
+    <script src="node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+
+
+
+    <script src="main_mesa.js"></script>
+    <script src="main_movel.js"></script>
    
     </body>
 </html>

@@ -1,3 +1,5 @@
+//const { Vector3 } = Require("three");
+
 var scene = new THREE.Scene();
 
 var camera = new THREE.PerspectiveCamera(70, 800/600,0.01, 1000);
@@ -48,7 +50,7 @@ var actionRightDoor = null;
 var actionLeftDoor = null;
 var actionRopeAction = null;
 
-var myCanvas = document.getElementById("myCanvas") //- não é preciso pois já tenho o appendChild do body
+var myCanvas = document.getElementById("myCanvasMesa")
 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
 renderer.setSize(545,400)
@@ -57,7 +59,7 @@ renderer.physicallyCorrectLights = true;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.setPixelRatio( window.devicePixelRatio );
 
-new THREE.OrbitControls(camera, renderer.domElement) //ISTO ESTÁ BEM ASSIM? como assim?
+var controls = new THREE.OrbitControls(camera, renderer.domElement) 
 
 /* Variáveis para as dimensões */
 var textoAlturaPrincipal = null, textoAlturaMeio = null, textoAlturaRecipiente = null
@@ -89,6 +91,7 @@ function addBulb(number){
 
 function animate(){
     requestAnimationFrame(animate)
+    TWEEN.update();
     mixer.update(clock.getDelta())
     renderer.render(scene, camera)
 }
@@ -304,24 +307,41 @@ function addLightsDawn(){
     //scene.add(new THREE.CameraHelper(DirLight.shadow.camera));
 }
 
+function resetCameraSmooth(){
+    //camera.position.set(-2,8,15)
+    smoothTransition(camera.position, {x:-2,y:8,z:15})
+    setTimeout(function(){camera.lookAt(0,0,0)},1000)
+    rotate = 0;
+}
+
 function resetCamera(){
-    camera.position.set(-2,8,15) 
+    camera.position.set(-2,8,15)
+    //smoothTransition(camera.position, {x:-2,y:8,z:15})
     camera.lookAt(0,0,0)
     rotate = 0;
 }
 
+function smoothTransition(initialCoords, destinationCoords){
+    tween = new TWEEN.Tween(initialCoords)
+    .to(destinationCoords, 1000)
+    .easing(TWEEN.Easing.Quadratic.Out)
+    .onUpdate(() => {
+        camera.position.x = initialCoords.x;
+        camera.position.y = initialCoords.y;
+        camera.position.z = initialCoords.z;
+
+
+    }).start()
+}
+
  function actionButtons(){
      document.getElementById("btn_open").onclick = function (){
-        
-        //const startQuaternion = camera.quaternion.clone(); //set initial angle
-        
-        camera.position.set(-7,9,7)
-        camera.lookAt(-2, -2, -12);
-        /*const endQuaternion = camera.quaternion.clone(); //set destination angle
-        camera.quaternion.copy(startQuaternion);
+        //startTransition = 1
 
-        THREE.Quaternion.slerp(startQuaternion, endQuaternion, camera.quaternion, 0.01);*/
-
+        if(rotate!=0){
+            resetCamera()
+        }
+        smoothTransition({x:-2, y:8, z:15},{x:-7, y:9, z:7})
 
         if(is_BenchExtendOpen==0){
             actionBenchExtendOpen.reset()
@@ -344,8 +364,11 @@ function resetCamera(){
     }
 
     document.getElementById("btn_close").onclick = async function (){
-        camera.position.set(-2,8,15) 
-        camera.lookAt(0,0,0)
+        //returnTransition = 1
+        if(rotate!=0){
+            resetCamera()
+        }
+        resetCameraSmooth()
 
         if(is_LegExtendOpen == 1){
             actionLegExtendOpen.timeScale = -1
@@ -370,8 +393,10 @@ function resetCamera(){
     }
 
     document.getElementById("btn_close_doors").onclick = function (){
-        camera.position.set(-2,8,15) 
-        camera.lookAt(0,0,0)
+        if(rotate!=0){
+            resetCamera()
+        }
+       resetCameraSmooth()
 
         if(esq_aberta == 1 && dir_aberta == 0){
             actionLeftDoor.timeScale = -1
@@ -411,10 +436,13 @@ function resetCamera(){
     }
 
     document.getElementById("btn_open_doors").onclick = function (){
-        camera.position.set(-1,5,10) 
-        camera.lookAt(0,0,0)
+        if(rotate!=0){
+            resetCamera()
+        }
+        
         
         if(esq_aberta == 0 && dir_aberta == 1){
+            smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
             actionLeftDoor.reset()
             actionLeftDoor.timeScale = 1
             actionLeftDoor.setLoop(THREE.LoopOnce)
@@ -424,6 +452,7 @@ function resetCamera(){
         }
 
         if(esq_aberta == 1 && dir_aberta == 0){
+            smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
             actionRightDoor.setLoop(THREE.LoopOnce)
@@ -433,6 +462,7 @@ function resetCamera(){
         }
 
         if(esq_aberta == 0 && dir_aberta == 0){
+            smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
             actionRightDoor.setLoop(THREE.LoopOnce)
@@ -452,9 +482,17 @@ function resetCamera(){
     }
 
     document.getElementById("btn_open_left_door").onclick = function (){
+        if(rotate!=0){
+            resetCamera()
+        }
         if(esq_aberta == 0){
-            camera.position.set(3,5,10)
-            camera.lookAt(0,0,5)
+            //smoothTransition(camera.position,{x:3, y:5, z:10})
+            smoothTransition({x:-2, y:8, z:15},{x:3, y:5, z:10})
+            if(is_BenchExtendOpen==0){
+                camera.lookAt(-7,-3,0)
+            }else{
+                camera.lookAt(-9,4,0)
+            }
             actionLeftDoor.reset()
             actionLeftDoor.timeScale = 1
             actionLeftDoor.setLoop(THREE.LoopOnce)
@@ -465,8 +503,11 @@ function resetCamera(){
     }
 
     document.getElementById("btn_close_left_door").onclick = function (){
+        if(rotate!=0){
+            resetCameraSmooth()
+        }
         if(esq_aberta == 1){
-            resetCamera()
+            resetCameraSmooth()
             actionLeftDoor.timeScale = -1
             actionLeftDoor.setLoop(THREE.LoopOnce)
             actionLeftDoor.clampWhenFinished = false
@@ -477,9 +518,12 @@ function resetCamera(){
     }
 
     document.getElementById("btn_open_right_door").onclick = function (){
+        if(rotate!=0){
+            resetCamera()
+        }
         if(dir_aberta == 0){
-            camera.position.set(-4,5,10)
-            camera.lookAt(0,0,5)
+            smoothTransition({x:-2, y:8, z:15},{x:-2, y:5, z:10})
+            camera.lookAt(7,-3,0)
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
             actionRightDoor.setLoop(THREE.LoopOnce)
@@ -490,8 +534,12 @@ function resetCamera(){
     }
 
     document.getElementById("btn_close_right_door").onclick = function (){
-        if(dir_aberta == 1){
+        if(rotate!=0){
             resetCamera()
+        }
+        if(dir_aberta == 1){
+            resetCameraSmooth()
+            camera.lookAt(0,0,0)
             actionRightDoor.timeScale = -1
             actionRightDoor.setLoop(THREE.LoopOnce)
             actionRightDoor.clampWhenFinished = false
@@ -502,6 +550,10 @@ function resetCamera(){
     }
 
     document.getElementById("btn_rotate").onclick = function (){
+            if(rotate==0){
+                resetCamera()
+            }
+            
             switch(rotate){
                 case 0:
                     camera.position.set(-20,8,9) 
@@ -532,8 +584,8 @@ function resetCamera(){
                     rotate=0;
                     break;
             }
+            camera.lookAt(0,0,0)
 
-        camera.lookAt(0,0,0)
 
     }
 
@@ -560,7 +612,7 @@ function resetCamera(){
     }
 
     document.getElementById("btn_reset_view").onclick = function(){
-        resetCamera();   
+        resetCameraSmooth()
     }
     
 

@@ -40,7 +40,7 @@ var actionRigthDoorAction = null
 var actionVaso1 = null
 var actionVaso2 = null, actionVaso3 = null, actionVaso4 = null
 
-var myCanvas = document.getElementById("myCanvas")
+var myCanvas = document.getElementById("myCanvasMovel")
 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
 renderer.setSize(545,400)
