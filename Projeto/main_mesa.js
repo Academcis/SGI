@@ -277,7 +277,6 @@ function loadScene(){
             var legExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaLegOpen")
             var RightDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaRightDoor")
             var LeftDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaLeftDoor")
-            // var vaso1animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso1") 
             var vasosEmpilhadosAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaVasosEmpilhados")
             var vasoPequenoAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaVasoPequenoJ")
             var vasoMedioAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaVasoMedioJ")
@@ -290,8 +289,14 @@ function loadScene(){
             actionLegExtendOpen = mixer.clipAction(legExtendOpen)
             actionLeftDoor = mixer.clipAction(RightDoor)
             actionRightDoor = mixer.clipAction(LeftDoor)
-            actionVaso1 = mixer.clipAction(vaso1animation)
-            //actionRopeAction = mixer.clipAction(RopeAction)
+            actionRopeAction = mixer.clipAction(RopeAction)
+            actionVasosEmpilhados = mixer.clipAction(vasosEmpilhadosAnimation)
+            actionVasoPequeno = mixer.clipAction(vasoPequenoAnimation)
+            actionVasoMedio = mixer.clipAction(vasoMedioAnimation)
+            actionVasoGrande = mixer.clipAction(vasoGrandeAnimation)
+            actionSmallBush = mixer.clipAction(smallBushAnimation)
+            actionPottery = mixer.clipAction(potteryAnimation)
+            actionChoopedWood = mixer.clipAction(choppedWoodAnimation)
 
             var box = new THREE.BoxGeometry(0.1,0.1,0.1);
             var boxMaterial = new THREE.MeshBasicMaterial({color: "white"});
@@ -305,14 +310,7 @@ function loadScene(){
             cube.add(leftDoorGeometry);
             cube.add(marbleMesh);
             cube.add(legStickGeometry);
-            actionVasosEmpilhados = mixer.clipAction(vasosEmpilhadosAnimation)
-            actionVasoPequeno = mixer.clipAction(vasoPequenoAnimation)
-            actionVasoMedio = mixer.clipAction(vasoMedioAnimation)
-            actionVasoGrande = mixer.clipAction(vasoGrandeAnimation)
-            actionSmallBush = mixer.clipAction(smallBushAnimation)
-            actionPottery = mixer.clipAction(potteryAnimation)
-            actionChoopedWood = mixer.clipAction(choppedWoodAnimation)
-            actionRopeAction = mixer.clipAction(RopeAction)
+            
         }
     )
 }
