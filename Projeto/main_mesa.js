@@ -57,9 +57,9 @@ var actionChoopedWood = null, actionPottery = null, actionRope = null, actionSma
 var actionVasoPequeno = null, actionVasosEmpilhados = null;
 
 
-var myCanvas = document.getElementById("myCanvasMesa")
+var myCanvasMesa = document.getElementById("myCanvasMesa")
 
-var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
+var renderer = new THREE.WebGLRenderer({canvas:myCanvasMesa})
 renderer.setSize(545,400)
 renderer.shadowMap.enabled = true
 renderer.physicallyCorrectLights = true;

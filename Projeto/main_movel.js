@@ -40,9 +40,9 @@ var actionRigthDoorAction = null
 var actionVaso1 = null
 var actionVaso2 = null, actionVaso3 = null, actionVaso4 = null
 
-var myCanvas = document.getElementById("myCanvasMovel")
+var myCanvasMovel = document.getElementById("myCanvasMovel")
 
-var renderer = new THREE.WebGLRenderer({canvas:myCanvas})
+var renderer = new THREE.WebGLRenderer({canvas:myCanvasMovel})
 renderer.setSize(545,400)
 renderer.shadowMap.enabled = true
 renderer.physicallyCorrectLights = true;
@@ -330,7 +330,7 @@ var animacao_vasos = 0
 var mostrarDimensoes = 0
 
 function actionButtons(){
-    document.getElementById("btn_open_doors").onclick = function(){
+    document.getElementById("btn_open_doors_M").onclick = function(){
         if(esq_aberta == 0 && dir_aberta == 1){
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
@@ -365,7 +365,7 @@ function actionButtons(){
         }
      }
 
-     document.getElementById("btn_close_doors").onclick = function(){
+     document.getElementById("btn_close_doors_M").onclick = function(){
         if(esq_aberta == 1 && dir_aberta == 0){
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
@@ -400,7 +400,7 @@ function actionButtons(){
         }
      }
 
-    document.getElementById("btn_left_door_open").onclick = function(){
+    document.getElementById("btn_left_door_open_M").onclick = function(){
         if(esq_aberta == 0){
             camera.position.set(3,3,8)
             camera.lookAt(0,0,5)
@@ -414,7 +414,7 @@ function actionButtons(){
         
      }
 
-     document.getElementById("btn_left_door_close").onclick = function(){
+     document.getElementById("btn_left_door_close_M").onclick = function(){
         if(esq_aberta == 1){
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
@@ -425,7 +425,7 @@ function actionButtons(){
         }
      }
 
-     document.getElementById("btn_right_door_open").onclick = function() {
+     document.getElementById("btn_right_door_open_M").onclick = function() {
         if(dir_aberta == 0){
             camera.position.set(-4,5,10)
             camera.lookAt(2,2,8)
@@ -438,7 +438,7 @@ function actionButtons(){
         }
      }
 
-     document.getElementById("btn_right_door_close").onclick = function() {
+     document.getElementById("btn_right_door_close_M").onclick = function() {
         if(dir_aberta == 1){
             actionRigthDoorAction.timeScale = -1  
             actionRigthDoorAction.setLoop(THREE.LoopOnce)   
@@ -449,14 +449,14 @@ function actionButtons(){
         }
     }
 
-     document.getElementById("btn_stop").onclick = function(){
+     document.getElementById("btn_stop_M").onclick = function(){
          actionLeftDoorAction.stop()
          actionRigthDoorAction.stop()
          dir_aberta = 0
          esq_aberta = 0
      }
      
-     document.getElementById("btn_pause").onclick = function(){
+     document.getElementById("btn_pause_M").onclick = function(){
          if(pausa == 0){
             actionLeftDoorAction.paused = true
             actionRigthDoorAction.paused = true
@@ -472,13 +472,13 @@ function actionButtons(){
         }
     }
 
-    document.getElementById("btn_reset_view").onclick = function(){
+    document.getElementById("btn_reset_view_M").onclick = function(){
         camera.position.set(0,6,15) 
         camera.lookAt(0,0,0) 
         rotate = 0
     }
 
-    document.getElementById("btn_main_texture").onclick = function(){
+    document.getElementById("btn_main_texture_M").onclick = function(){
         const texture = new THREE.TextureLoader().load('models/materials/marble.jpg')
         texture.flipY = false
         if(changeFurnitureTexture == 0){
@@ -490,7 +490,7 @@ function actionButtons(){
         }
     }
 
-    document.getElementById("btn_change_doors_color").onclick = function(){
+    document.getElementById("btn_change_doors_color_M").onclick = function(){
         if(alterarCorPortas == 0){
             leftDoor.material.color = newColor
             rightDoor.material.color = newColor
@@ -502,7 +502,7 @@ function actionButtons(){
         }
     }
 
-    document.getElementById("btn_change_sink_texture").onclick = function(){
+    document.getElementById("btn_change_sink_texture_M").onclick = function(){
         if(changeSinkTexture == 0){
             camera.position.set(0,6,15) 
             camera.lookAt(0,0,0) 
@@ -517,7 +517,7 @@ function actionButtons(){
         palette.visible = !palette.visible
     }
 
-    document.getElementById("btn_rotate").onclick = function(){
+    document.getElementById("btn_rotate_M").onclick = function(){
         switch(rotate){
             case 0:
                 camera.position.set(-10,6,4) 
@@ -551,7 +551,7 @@ function actionButtons(){
         camera.lookAt(0,0,0)
     }
 
-    document.getElementById("btn_day_night").onclick = function(){
+    document.getElementById("btn_day_night_M").onclick = function(){
         switch(lightTime){
             case 0:
                 addLightsMidDay();
@@ -572,7 +572,7 @@ function actionButtons(){
         }
     }
     
-    document.getElementById("btn_show_objects").onclick = function(){
+    document.getElementById("btn_show_objects_M").onclick = function(){
         vaso1.visible = !vaso1.visible
         vaso2.visible = !vaso2.visible
         vaso3.visible = !vaso3.visible
@@ -608,7 +608,7 @@ function actionButtons(){
         animacao_vasos = 0
     }
 
-    document.getElementById("btn_show_dimensions").onclick = function(){
+    document.getElementById("btn_show_dimensions_M").onclick = function(){
         if(mostrarDimensoes == 0){
             textoAlturaPrincipal.visible = true
             textoAlturaMeio.visible = true
