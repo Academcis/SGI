@@ -63,7 +63,7 @@ var doors = []
 
 var vaso1 = null, vaso2 = null, vaso3 = null, vaso4 = null, vaso5 = null, vaso6 = null
 
-/* Variáveis para as dimensões */
+/* Variáveis para o texto das dimensões */
 var textoAlturaPrincipal = null, textoAlturaMeio = null, textoAlturaRecipiente = null
 var textoLarguraDireita = null, textoLarguraEsquerda = null, textoLarguraPortas = null, textoLarguraPrincipal = null
 var textoProfundidadeNormal = null, textoProfundidadePortasDir = null, textoProfundidadePortasEsq = null

@@ -17,15 +17,15 @@ var cube= null;
 
 var animacao_vasos = 0;
 
-/* Variáveis para as dimensões */
+/* Variáveis para o texto das dimensões */
 var textoAltura = null,textoAlturaExtensao = null, textoAlturaMeio = null, textoAlturaRecipiente = null
 var textoLarguraComPortaDireita = null, textoLarguraComPortaEsquerda = null, textoLarguraCom2Portas = null, textoLarguraComExtensao = null, textoLarguraSemExtensao = null
 var textoProfundidadePrincipal = null, textoProfundidadePortasDir = null, textoProfundidadePortasEsq = null
 var mostrarDimensoes = 0
 
 /* Objetos extras */
-var vasosEmpilhadas = null, vasoMedio = null, vasoPequeno = null, vasoGrande = null, vaso1 = null
-var choppedWood = null, pottery = null, rope = null
+var vasosEmpilhados = null, vasoPequeno = null, vasoMedio = null, vasoGrande = null;
+var choppedWood = null, pottery = null, rope = null, smallBushes = null;
 
 var marbleMesh = null, defaultTextureMarble = null;
 var bulbLight = null, bulbMat = null;
@@ -38,8 +38,8 @@ var is_BenchExtendOpen = 0;
 var is_LegExtendOpen = 0;
 var dir_aberta = 0, esq_aberta=0;
 var pausa = 0;
-var rotate=0;
-var lightTime =0;
+var rotate = 0;
+var lightTime = 0;
 
 
 var HemisphereLight = new THREE.HemisphereLight(0x404040, 0x080820, 3);
@@ -53,6 +53,9 @@ var actionLegExtendOpen = null;
 var actionRightDoor = null;
 var actionLeftDoor = null;
 var actionRopeAction = null;
+var actionChoopedWood = null, actionPottery = null, actionRope = null, actionSmallBush = null, actionVasoGrande = null, actionVasoMedio = null;
+var actionVasoPequeno = null, actionVasosEmpilhados = null;
+
 
 var myCanvas = document.getElementById("myCanvasMesa")
 
@@ -233,18 +236,56 @@ function loadScene(){
                     }
                 }
 
-                if(objMesh.name == "vaso1"){
-                    vaso1 = objMesh
-                    vaso1.visible = !vaso1.visible
+                if(objMesh.name.includes("vaso")){
+                    if(objMesh.name == "vasoPequeno"){
+                        vasoPequeno = objMesh
+                        vasoPequeno.visible = !vasoPequeno.visible
+                    }
+                    if(objMesh.name == "vasoMedio"){
+                        vasoMedio = objMesh
+                        vasoMedio.visible = !vasoMedio.visible
+                    }
+                    if(objMesh.name == "vasoGrande"){
+                        vasoGrande = objMesh
+                        vasoGrande.visible = !vasoGrande.visible
+                    }
+                    if(objMesh.name == "vasosEmpilhados"){
+                        vasosEmpilhados = objMesh
+                        vasosEmpilhados.visible = !vasosEmpilhados.visible
+                    }
                 }
+                if(objMesh.name == "pottery"){
+                    pottery = objMesh
+                    pottery.visible = !pottery.visible
+                }
+                if(objMesh.name == "choppedWood"){
+                    choppedWood = objMesh
+                    choppedWood.visible = !choppedWood.visible
+                }
+                if(objMesh.name == "smallBushes"){
+                    smallBushes = objMesh
+                    smallBushes.visible = !smallBushes.visible
+                }
+                if(objMesh.name == "rope"){
+                    rope = objMesh
+                    rope.visible = !rope.visible
+                }
+                
             })
 
             var BenchExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaBenchOpen") 
             var legExtendOpen = THREE.AnimationClip.findByName(gltf.animations, "NlaLegOpen")
             var RightDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaRightDoor")
             var LeftDoor = THREE.AnimationClip.findByName(gltf.animations,"NlaLeftDoor")
-            var vaso1animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso1") 
-            //var RopeAction = THREE.AnimationClip.findByName(gltf.animations,"NlaRopeAction")
+            // var vaso1animation = THREE.AnimationClip.findByName(gltf.animations, "NlaVaso1") 
+            var vasosEmpilhadosAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaVasosEmpilhados")
+            var vasoPequenoAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaVasoPequenoJ")
+            var vasoMedioAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaVasoMedioJ")
+            var vasoGrandeAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaVasoGrande")
+            var smallBushAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaSmallBush")
+            var potteryAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaPottery")
+            var choppedWoodAnimation = THREE.AnimationClip.findByName(gltf.animations, "NlaChoppedWood")
+            var RopeAction = THREE.AnimationClip.findByName(gltf.animations,"NlaRope")
             actionBenchExtendOpen = mixer.clipAction(BenchExtendOpen)
             actionLegExtendOpen = mixer.clipAction(legExtendOpen)
             actionLeftDoor = mixer.clipAction(RightDoor)
@@ -264,6 +305,14 @@ function loadScene(){
             cube.add(leftDoorGeometry);
             cube.add(marbleMesh);
             cube.add(legStickGeometry);
+            actionVasosEmpilhados = mixer.clipAction(vasosEmpilhadosAnimation)
+            actionVasoPequeno = mixer.clipAction(vasoPequenoAnimation)
+            actionVasoMedio = mixer.clipAction(vasoMedioAnimation)
+            actionVasoGrande = mixer.clipAction(vasoGrandeAnimation)
+            actionSmallBush = mixer.clipAction(smallBushAnimation)
+            actionPottery = mixer.clipAction(potteryAnimation)
+            actionChoopedWood = mixer.clipAction(choppedWoodAnimation)
+            actionRopeAction = mixer.clipAction(RopeAction)
         }
     )
 }
@@ -732,16 +781,75 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_show_objects").onclick = function (){
-        vaso1.visible = !vaso1.visible
+        vasosEmpilhados.visible = !vasosEmpilhados.visible
+        vasoPequeno.visible = !vasoPequeno.visible
+        vasoMedio.visible = !vasoMedio.visible
+        vasoGrande.visible = !vasoGrande.visible
+        rope.visible = false
+        if(is_BenchExtendOpen == 1){
+            rope.visible = true
+        }
+        smallBushes.visible = !smallBushes.visible
+        pottery.visible = !pottery.visible
+        choppedWood.visible = !choppedWood.visible
         if(animacao_vasos == 0){
-            actionVaso1.reset()
-            actionVaso1.timeScale = 1
-            actionVaso1.setLoop(THREE.LoopOnce)
-            actionVaso1.clampWhenFinished = true
-            actionVaso1.play()
+            // actionVaso1.reset()
+            // actionVaso1.timeScale = 1
+            // actionVaso1.setLoop(THREE.LoopOnce)
+            // actionVaso1.clampWhenFinished = true
+            // actionVaso1.play()
+
+            actionChoopedWood.reset()
+            actionChoopedWood.timeScale = 1
+            actionChoopedWood.setLoop(THREE.LoopOnce)
+            actionChoopedWood.clampWhenFinished = true
+            actionChoopedWood.play()
+
+            actionSmallBush.reset()
+            actionSmallBush.timeScale = 1
+            actionSmallBush.setLoop(THREE.LoopOnce)
+            actionSmallBush.clampWhenFinished = true
+            actionSmallBush.play()
+
+            actionVasoPequeno.reset()
+            actionVasoPequeno.timeScale = 1
+            actionVasoPequeno.setLoop(THREE.LoopOnce)
+            actionVasoPequeno.clampWhenFinished = true
+            actionVasoPequeno.play()
+
+            actionVasoMedio.reset()
+            actionVasoMedio.timeScale = 1
+            actionVasoMedio.setLoop(THREE.LoopOnce)
+            actionVasoMedio.clampWhenFinished = true
+            actionVasoMedio.play()
+
+            actionVasoGrande.reset()
+            actionVasoGrande.timeScale = 1
+            actionVasoGrande.setLoop(THREE.LoopOnce)
+            actionVasoGrande.clampWhenFinished = true
+            actionVasoGrande.play()
+
+            actionVasosEmpilhados.reset()
+            actionVasosEmpilhados.timeScale = 1
+            actionVasosEmpilhados.setLoop(THREE.LoopOnce)
+            actionVasosEmpilhados.clampWhenFinished = true
+            actionVasosEmpilhados.play()
+
+            actionRopeAction.reset()
+            actionRopeAction.timeScale = 1
+            actionRopeAction.setLoop(THREE.LoopOnce)
+            actionRopeAction.clampWhenFinished = true
+            actionRopeAction.play()
+            
+            actionPottery.reset()
+            actionPottery.timeScale = 1
+            actionPottery.setLoop(THREE.LoopOnce)
+            actionPottery.clampWhenFinished = true
+            actionPottery.play()
 
             animacao_vasos = 1;
         }else{
+            rope.visible = false
             animacao_vasos = 0;
         }
     }
