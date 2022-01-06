@@ -1,5 +1,3 @@
-//const { Vector3 } = Require("three");
-
 var scene = new THREE.Scene();
 
 var camera = new THREE.PerspectiveCamera(70, 800/600,0.01, 1000);
@@ -66,7 +64,7 @@ renderer.physicallyCorrectLights = true;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.setPixelRatio( window.devicePixelRatio );
 
-var controls = new THREE.OrbitControls(camera, renderer.domElement) 
+new THREE.OrbitControls(camera, renderer.domElement) 
 
 /* Variáveis para as dimensões */
 var textoAlturaPrincipal = null, textoAlturaMeio = null, textoAlturaRecipiente = null
@@ -389,14 +387,12 @@ function resetCameraSmooth(){
     //camera.position.set(-2,8,15)
     smoothTransition(camera.position, {x:-2,y:8,z:15})
     setTimeout(function(){camera.lookAt(0,0,0)},1000)
-    rotate = 0;
 }
 
 function resetCamera(){
     camera.position.set(-2,8,15)
     //smoothTransition(camera.position, {x:-2,y:8,z:15})
     camera.lookAt(0,0,0)
-    rotate = 0;
 }
 
 function smoothTransition(initialCoords, destinationCoords){
@@ -414,11 +410,6 @@ function smoothTransition(initialCoords, destinationCoords){
 
  function actionButtons(){
      document.getElementById("btn_open").onclick = function (){
-        //startTransition = 1
-
-        if(rotate!=0){
-            resetCamera()
-        }
 
         if(is_BenchExtendOpen==0){
             smoothTransition({x:-2, y:8, z:15},{x:-7, y:9, z:7})
@@ -450,10 +441,6 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_close").onclick = async function (){
-        //returnTransition = 1
-        if(rotate!=0){
-            resetCamera()
-        }
         resetCameraSmooth()
 
         if(is_LegExtendOpen == 1){
@@ -480,9 +467,6 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_close_doors").onclick = function (){
-        if(rotate!=0){
-            resetCamera()
-        }
        resetCameraSmooth()
 
         if(esq_aberta == 1 && dir_aberta == 0){
@@ -523,10 +507,6 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_open_doors").onclick = function (){
-        if(rotate!=0){
-            resetCamera()
-        }
-        
         
         if(esq_aberta == 0 && dir_aberta == 1){
             resetCameraSmooth()
@@ -572,9 +552,6 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_open_left_door").onclick = function (){
-        if(rotate!=0){
-            resetCamera()
-        }
         if(esq_aberta == 0){
             //smoothTransition(camera.position,{x:3, y:5, z:10})
             smoothTransition({x:-2, y:8, z:15},{x:3, y:5, z:10})
@@ -593,9 +570,6 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_close_left_door").onclick = function (){
-        if(rotate!=0){
-            resetCameraSmooth()
-        }
         if(esq_aberta == 1){
             resetCameraSmooth()
             actionLeftDoor.timeScale = -1
@@ -608,9 +582,6 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_open_right_door").onclick = function (){
-        if(rotate!=0){
-            resetCamera()
-        }
         if(dir_aberta == 0){
             smoothTransition({x:-2, y:8, z:15},{x:-2, y:5, z:10})
             camera.lookAt(7,-3,0)
@@ -624,9 +595,6 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_close_right_door").onclick = function (){
-        if(rotate!=0){
-            resetCamera()
-        }
         if(dir_aberta == 1){
             resetCameraSmooth()
             camera.lookAt(0,0,0)
@@ -645,42 +613,6 @@ function smoothTransition(initialCoords, destinationCoords){
             }else{
                 startRotation = 2
             }    
-        /*if(rotate==0){
-                resetCamera()
-            }
-            
-            switch(rotate){
-                case 0:
-                    camera.position.set(-20,8,9) 
-                    rotate+=1;
-                    break;
-                case 1:
-                    camera.position.set(-16,8,-12)
-                    rotate+=1;
-                    break;
-                case 2:
-                    camera.position.set(-4,7,-16)
-                    rotate+=1;
-                    break;
-                case 3:
-                    camera.position.set(10,7,-15)
-                    rotate+=1;
-                    break;
-                case 4:
-                    camera.position.set(17,7,1)
-                    rotate+=1;
-                    break;
-                case 5:
-                   camera.position.set(12,7,10)
-                    rotate+=1;
-                    break;
-                case 6:
-                    camera.position.set(-2,8,15) 
-                    rotate=0;
-                    break;
-            }
-            camera.lookAt(0,0,0)*/
-
 
     }
 

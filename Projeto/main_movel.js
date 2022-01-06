@@ -1,11 +1,14 @@
 var scene = new THREE.Scene()
 
 var camera = new THREE.PerspectiveCamera(80, window.innerWidth/window.innerHeight,0.01, 1000)
-camera.position.set(0,6,15) 
+camera.position.set(0,6,11) 
 camera.lookAt(0,0,0)
 
 var raycaster = new THREE.Raycaster()
 var mouse = new THREE.Vector2()
+
+var startRotation=0;
+var cube= null;
 
 var bulbLight = null, bulbMat = null
 var lampSphere = null
@@ -70,7 +73,6 @@ var textoProfundidadeNormal = null, textoProfundidadePortasDir = null, textoProf
 
 loadScene()
 animate()
-//addlights()
 addLightsDawn()
 actionButtons()
 
@@ -88,6 +90,19 @@ function addBulb(number){
     bulbLight.castShadow = true;
     scene.add( bulbLight );
     //scene.add(new THREE.CameraHelper(bulbLight.shadow.camera))
+}
+
+function animate(){
+    requestAnimationFrame(animate)
+    TWEEN.update();
+    mixer.update(clock.getDelta())
+    if(startRotation==1){
+        cube.rotateY(0.02);
+    }
+    if(startRotation == 2){
+        cube.rotation.set(0,0,0);
+    }
+    renderer.render(scene, camera)
 }
 
 function loadScene(){
@@ -259,25 +274,58 @@ function loadScene(){
             for(var i = 0; i < cratesArray.length; i++){
                 console.log("Mesh added to cratesArray []: " + cratesArray[i].name)
             }
+
+            var box = new THREE.BoxGeometry(0.01,0.01,0.01);
+            var boxMaterial = new THREE.MeshBasicMaterial({color: "gray"});
+            cube = new THREE.Mesh(box,boxMaterial)
+            cube.position.set(0,0,0)
+            scene.add(cube)
+            cube.add(sinkGeometry);
+            cube.add(rightDoor);
+            cube.add(leftDoor);
+            cube.add(vaso1);
+            cube.add(vaso2);
+            cube.add(vaso3)
+            cube.add(vaso4)
+            cube.add(vaso5)
+            cube.add(vaso6)
+            cube.add(furniture)    
+            cube.add(textoAlturaMeio)    
+            cube.add(textoAlturaPrincipal)    
+            cube.add(textoAlturaRecipiente)    
+            cube.add(textoLarguraDireita)    
+            cube.add(textoLarguraEsquerda)    
+            cube.add(textoLarguraPortas)    
+            cube.add(textoLarguraPrincipal)    
+            cube.add(textoProfundidadeNormal)    
+            cube.add(textoProfundidadePortasDir)    
+            cube.add(textoProfundidadePortasEsq)  
         }
     )
 }
 
-function animate(){
-    requestAnimationFrame(animate)
-    mixer.update(clock.getDelta())
-    renderer.render(scene, camera)
+function resetCameraSmooth(){
+    smoothTransition(camera.position, {x:0,y:6,z:11})
+    setTimeout(function(){camera.lookAt(0,0,0)},1000)
 }
-/*
-function addlights(){
-    var ambientLight = new THREE.AmbientLight("white", 0.55)
-    scene.add(ambientLight)
 
-    var pointLight = new THREE.PointLight("white")
-    pointLight.position.set(10,6,0)
-    pointLight.castShadow = true
-    scene.add(pointLight)
-}*/
+function resetCamera(){
+    camera.position.set(0,6,11)
+    camera.lookAt(0,0,0)
+}
+
+function smoothTransition(initialCoords, destinationCoords){
+    tween = new TWEEN.Tween(initialCoords)
+    .to(destinationCoords, 1000)
+    .easing(TWEEN.Easing.Quadratic.Out)
+    .onUpdate(() => {
+        camera.position.x = initialCoords.x;
+        camera.position.y = initialCoords.y;
+        camera.position.z = initialCoords.z;
+
+
+    }).start()
+}
 
 function addLightsNight(){
     scene.remove(DirLight)
@@ -332,6 +380,7 @@ var mostrarDimensoes = 0
 function actionButtons(){
     document.getElementById("btn_open_doors_M").onclick = function(){
         if(esq_aberta == 0 && dir_aberta == 1){
+            smoothTransition(camera.position,{x: 0,y: 2, z: 6})
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
             actionLeftDoorAction.setLoop(THREE.LoopOnce)
@@ -340,6 +389,7 @@ function actionButtons(){
             esq_aberta = 1
         }
         if(esq_aberta == 1 && dir_aberta == 0){
+            smoothTransition(camera.position,{x: 0,y: 2, z: 6})
             actionRigthDoorAction.reset()
             actionRigthDoorAction.timeScale = 1
             actionRigthDoorAction.setLoop(THREE.LoopOnce)
@@ -348,6 +398,7 @@ function actionButtons(){
             dir_aberta = 1
         }
         if(esq_aberta == 0 && dir_aberta == 0){
+            smoothTransition(camera.position,{x: 0,y: 2, z: 6})
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
             actionLeftDoorAction.setLoop(THREE.LoopOnce)
@@ -367,6 +418,7 @@ function actionButtons(){
 
      document.getElementById("btn_close_doors_M").onclick = function(){
         if(esq_aberta == 1 && dir_aberta == 0){
+            resetCameraSmooth()
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
             actionLeftDoorAction.clampWhenFinished = true
@@ -375,6 +427,7 @@ function actionButtons(){
             esq_aberta = 0
         }
         if(esq_aberta == 0 && dir_aberta == 1){
+            resetCameraSmooth()
             actionRigthDoorAction.timeScale = -1  
             actionRigthDoorAction.setLoop(THREE.LoopOnce)   
             actionRigthDoorAction.clampWhenFinished = true
@@ -383,6 +436,7 @@ function actionButtons(){
             dir_aberta = 0
         }
         if(esq_aberta == 1 && dir_aberta == 1){
+            resetCameraSmooth()
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
             actionLeftDoorAction.clampWhenFinished = true
@@ -402,8 +456,8 @@ function actionButtons(){
 
     document.getElementById("btn_left_door_open_M").onclick = function(){
         if(esq_aberta == 0){
-            camera.position.set(3,3,8)
-            camera.lookAt(0,0,5)
+            smoothTransition(camera.position,{x: 0, y: 2, z: 5})
+            camera.lookAt(-4,-2,1)
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
             actionLeftDoorAction.setLoop(THREE.LoopOnce)
@@ -416,6 +470,7 @@ function actionButtons(){
 
      document.getElementById("btn_left_door_close_M").onclick = function(){
         if(esq_aberta == 1){
+            resetCameraSmooth()
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
             actionLeftDoorAction.clampWhenFinished = true
@@ -427,8 +482,8 @@ function actionButtons(){
 
      document.getElementById("btn_right_door_open_M").onclick = function() {
         if(dir_aberta == 0){
-            camera.position.set(-4,5,10)
-            camera.lookAt(2,2,8)
+            smoothTransition(camera.position,{x: 0, y: 2, z: 6})
+            camera.lookAt(2,2,4)
             actionRigthDoorAction.reset()
             actionRigthDoorAction.timeScale = 1
             actionRigthDoorAction.setLoop(THREE.LoopOnce)
@@ -440,6 +495,7 @@ function actionButtons(){
 
      document.getElementById("btn_right_door_close_M").onclick = function() {
         if(dir_aberta == 1){
+            resetCameraSmooth()
             actionRigthDoorAction.timeScale = -1  
             actionRigthDoorAction.setLoop(THREE.LoopOnce)   
             actionRigthDoorAction.clampWhenFinished = true
@@ -454,6 +510,8 @@ function actionButtons(){
          actionRigthDoorAction.stop()
          dir_aberta = 0
          esq_aberta = 0
+         startRotation = 2
+
      }
      
      document.getElementById("btn_pause_M").onclick = function(){
@@ -463,19 +521,23 @@ function actionButtons(){
             actionVaso1.paused = true
             actionVaso2.paused = true
             pausa = 1
+            if(startRotation==1){
+                startRotation=0
+            }
         }else{
             actionLeftDoorAction.paused = false
             actionRigthDoorAction.paused = false
             actionVaso1.paused = false
             actionVaso2.paused = false
             pausa = 0
+            if(startRotation==0){
+                startRotation=1
+            }
         }
     }
 
-    document.getElementById("btn_reset_view_M").onclick = function(){
-        camera.position.set(0,6,15) 
-        camera.lookAt(0,0,0) 
-        rotate = 0
+    document.getElementById("btn_reset_view").onclick = function(){
+        resetCameraSmooth()
     }
 
     document.getElementById("btn_main_texture_M").onclick = function(){
@@ -517,38 +579,12 @@ function actionButtons(){
         palette.visible = !palette.visible
     }
 
-    document.getElementById("btn_rotate_M").onclick = function(){
-        switch(rotate){
-            case 0:
-                camera.position.set(-10,6,4) 
-                rotate+=1;
-                break;
-            case 1:
-                camera.position.set(-8,4,-5)
-                rotate+=1;
-                break;
-            case 2:
-                camera.position.set(0,6,-8)
-                rotate+=1;
-                break;
-            case 3:
-                camera.position.set(10,6,-4)
-                rotate+=1;
-                break;
-            case 4:
-                camera.position.set(11,6,0)
-                rotate+=1;
-                break;
-            case 5:
-               camera.position.set(8,6,9)
-                rotate+=1;
-                break;
-            case 6:
-                camera.position.set(0,7,10)
-                rotate=0;
-                break;
-        }
-        camera.lookAt(0,0,0)
+    document.getElementById("btn_rotate").onclick = function(){
+        if(startRotation==0 || startRotation==2){
+            startRotation = 1
+        }else{
+            startRotation = 2
+        } 
     }
 
     document.getElementById("btn_day_night_M").onclick = function(){
