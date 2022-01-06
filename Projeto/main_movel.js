@@ -536,7 +536,7 @@ function actionButtons(){
         }
     }
 
-    document.getElementById("btn_reset_view").onclick = function(){
+    document.getElementById("btn_reset_view_M").onclick = function(){
         resetCameraSmooth()
     }
 
@@ -579,7 +579,7 @@ function actionButtons(){
         palette.visible = !palette.visible
     }
 
-    document.getElementById("btn_rotate").onclick = function(){
+    document.getElementById("btn_rotate_M").onclick = function(){
         if(startRotation==0 || startRotation==2){
             startRotation = 1
         }else{

@@ -316,6 +316,26 @@ function loadScene(){
             cube.add(pottery)
             cube.add(smallBushes)
             cube.add(choppedWood)
+            cube.add(textoAltura)
+            cube.add(textoAlturaExtensao)
+            cube.add(textoAlturaMeio)
+            cube.add(textoAlturaPrincipal)
+            cube.add(textoAlturaRecipiente)
+            cube.add(textoAlturaRecipiente)
+            cube.add(textoLarguraCom2Portas)
+            cube.add(textoLarguraComExtensao)
+            cube.add(textoLarguraComPortaDireita)
+            cube.add(textoLarguraComPortaEsquerda)
+            cube.add(textoLarguraDireita)
+            cube.add(textoLarguraEsquerda)
+            cube.add(textoLarguraPortas)
+            cube.add(textoLarguraPrincipal)
+            cube.add(textoLarguraSemExtensao)
+            cube.add(textoProfundidadeNormal)
+            cube.add(textoProfundidadePortasDir)
+            cube.add(textoProfundidadePortasEsq)
+            cube.add(textoProfundidadePrincipal)
+            
             
         }
     )
@@ -661,12 +681,18 @@ function smoothTransition(initialCoords, destinationCoords){
             actionLeftDoor.paused = true
             actionBenchExtendOpen.paused = true
             actionLegExtendOpen.paused = true
+            if(startRotation==1){
+                startRotation=0
+            }
            pausa = 1
        }else{
             actionRightDoor.paused = false
             actionLeftDoor.paused = false
             actionBenchExtendOpen.paused = false
             actionLegExtendOpen.paused = false
+            if(startRotation==0){
+                startRotation=1
+            }
            pausa = 0
        }
    }
@@ -740,6 +766,12 @@ function smoothTransition(initialCoords, destinationCoords){
         pottery.visible = !pottery.visible
         choppedWood.visible = !choppedWood.visible
         if(animacao_vasos == 0){
+            smoothTransition(camera.position, {x:-2,y:10,z:18})
+            setTimeout(function(){camera.lookAt(0,0,0)},1000)
+            setTimeout(function(){
+                resetCameraSmooth()
+            },4000)
+            
             // actionVaso1.reset()
             // actionVaso1.timeScale = 1
             // actionVaso1.setLoop(THREE.LoopOnce)
