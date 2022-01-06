@@ -310,6 +310,14 @@ function loadScene(){
             cube.add(leftDoorGeometry);
             cube.add(marbleMesh);
             cube.add(legStickGeometry);
+            cube.add(rope)
+            cube.add(vasoGrande)
+            cube.add(vasoMedio)
+            cube.add(vasoPequeno)
+            cube.add(vasosEmpilhados)
+            cube.add(pottery)
+            cube.add(smallBushes)
+            cube.add(choppedWood)
             
         }
     )
@@ -411,9 +419,17 @@ function smoothTransition(initialCoords, destinationCoords){
         if(rotate!=0){
             resetCamera()
         }
-        smoothTransition({x:-2, y:8, z:15},{x:-7, y:9, z:7})
 
         if(is_BenchExtendOpen==0){
+            smoothTransition({x:-2, y:8, z:15},{x:-7, y:9, z:7})
+            if(animacao_vasos==1){
+                rope.visible = true;
+                actionRopeAction.reset()
+                actionRopeAction.timeScale = 1
+                actionRopeAction.setLoop(THREE.LoopOnce)
+                actionRopeAction.clampWhenFinished = true
+                actionRopeAction.play()
+            }
             actionBenchExtendOpen.reset()
             actionBenchExtendOpen.timeScale = 1
             actionBenchExtendOpen.setLoop(THREE.LoopOnce)
@@ -441,6 +457,7 @@ function smoothTransition(initialCoords, destinationCoords){
         resetCameraSmooth()
 
         if(is_LegExtendOpen == 1){
+            rope.visible = false
             actionLegExtendOpen.timeScale = -1
             actionLegExtendOpen.setLoop(THREE.LoopOnce)
             actionLegExtendOpen.clampWhenFinished = false
@@ -478,11 +495,11 @@ function smoothTransition(initialCoords, destinationCoords){
         }
 
         if(esq_aberta == 0 && dir_aberta == 1){
-            actionLeftDoor.timeScale = -1
-            actionLeftDoor.setLoop(THREE.LoopOnce)
-            actionLeftDoor.clampWhenFinished = false
-            actionLeftDoor.paused = false
-            actionLeftDoor.play()
+            actionRightDoor.timeScale = -1
+            actionRightDoor.setLoop(THREE.LoopOnce)
+            actionRightDoor.clampWhenFinished = false
+            actionRightDoor.paused = false
+            actionRightDoor.play()
             dir_aberta=0;
         }
         
