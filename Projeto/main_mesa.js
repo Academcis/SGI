@@ -12,6 +12,9 @@ var mixer = new THREE.AnimationMixer(scene);
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
+var startRotation=0;
+var cube= null;
+
 var animacao_vasos = 0;
 
 /* Variáveis para as dimensões */
@@ -37,6 +40,7 @@ var dir_aberta = 0, esq_aberta=0;
 var pausa = 0;
 var rotate=0;
 var lightTime =0;
+
 
 var HemisphereLight = new THREE.HemisphereLight(0x404040, 0x080820, 3);
 scene.add(HemisphereLight);
@@ -93,6 +97,12 @@ function animate(){
     requestAnimationFrame(animate)
     TWEEN.update();
     mixer.update(clock.getDelta())
+    if(startRotation==1){
+        cube.rotateY(0.02);
+    }
+    if(startRotation == 2){
+        cube.rotation.set(0,0,0);
+    }
     renderer.render(scene, camera)
 }
 
@@ -241,6 +251,19 @@ function loadScene(){
             actionRightDoor = mixer.clipAction(LeftDoor)
             actionVaso1 = mixer.clipAction(vaso1animation)
             //actionRopeAction = mixer.clipAction(RopeAction)
+
+            var box = new THREE.BoxGeometry(0.1,0.1,0.1);
+            var boxMaterial = new THREE.MeshBasicMaterial({color: "white"});
+            cube = new THREE.Mesh(box,boxMaterial)
+            cube.position.set(0,0,0)
+            scene.add(cube)
+            cube.add(workBenchGeometry);
+            cube.add(legGeometry);
+            cube.add(benchGeometry);
+            cube.add(rightDoorGeometry);
+            cube.add(leftDoorGeometry);
+            cube.add(marbleMesh);
+            cube.add(legStickGeometry);
         }
     )
 }
@@ -442,6 +465,7 @@ function smoothTransition(initialCoords, destinationCoords){
         
         
         if(esq_aberta == 0 && dir_aberta == 1){
+            resetCameraSmooth()
             smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
             actionLeftDoor.reset()
             actionLeftDoor.timeScale = 1
@@ -452,6 +476,7 @@ function smoothTransition(initialCoords, destinationCoords){
         }
 
         if(esq_aberta == 1 && dir_aberta == 0){
+            resetCameraSmooth()
             smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
@@ -462,6 +487,7 @@ function smoothTransition(initialCoords, destinationCoords){
         }
 
         if(esq_aberta == 0 && dir_aberta == 0){
+            resetCameraSmooth()
             smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
@@ -550,7 +576,12 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_rotate").onclick = function (){
-            if(rotate==0){
+            if(startRotation==0 || startRotation==2){
+                startRotation = 1
+            }else{
+                startRotation = 2
+            }    
+        /*if(rotate==0){
                 resetCamera()
             }
             
@@ -584,7 +615,7 @@ function smoothTransition(initialCoords, destinationCoords){
                     rotate=0;
                     break;
             }
-            camera.lookAt(0,0,0)
+            camera.lookAt(0,0,0)*/
 
 
     }
@@ -625,6 +656,7 @@ function smoothTransition(initialCoords, destinationCoords){
         is_BenchExtendOpen = 0
         is_LegExtendOpen = 0
         is_DoorsOpen = 0
+        startRotation = 2
     }
     
     document.getElementById("btn_stop").onclick = function(){
