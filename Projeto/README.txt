@@ -7,7 +7,7 @@ Para alterar a textura da pia no 'Móvel Jardinagem', após aparecerem os cubos 
 
 Dizer que dá para abrir e fechar as portas carregando diretamente nelas
 
-
+CARREGAR NO LOGO LAREDOUTE REDIRECIONA PARA A PAGINA DA LISTA DE PRODUTOS
 
 
 Shovel : https://www.turbosquid.com/3d-models/3d-model-of-military-soviet-shovel/926811
