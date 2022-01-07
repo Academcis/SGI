@@ -58,7 +58,7 @@ var newColor = new THREE.Color("lightCoral")
 var alterarCorPortas = 0
 var defaultColor = null
 var leftDoor = null, rightDoor = null
-var defaultTexture = null
+var defaultTexture = null, defaultSinkTexture = null
 var furniture = null
 
 var target = null
@@ -148,6 +148,7 @@ function loadScene(){
 
                 if(objMesh.name == "sink"){
                     sinkGeometry = objMesh
+                    defaultSinkTexture = sinkGeometry.material
                 }
 
                 if(objMesh.name == "Sphere"){
@@ -567,6 +568,8 @@ function actionButtons(){
             textoProfundidadePortasEsq.visible = false
             mostrarDimensoes = 0
         }
+
+        sinkGeometry.material = defaultSinkTexture
         
      }
     
