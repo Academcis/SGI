@@ -526,14 +526,50 @@ function actionButtons(){
     }
 
      document.getElementById("btn_stop_M").onclick = function(){
-         actionLeftDoorAction.stop()
-         actionRigthDoorAction.stop()
-         dir_aberta = 0
-         esq_aberta = 0
-         startRotation = 2
+        actionLeftDoorAction.stop()
+        actionRigthDoorAction.stop()
+        dir_aberta = 0
+        esq_aberta = 0
+        startRotation = 2
+        addLightsDawn()
+        rotate = 0
+        if(animacao_vasos == 1){
+            vaso1.visible = false
+            vaso2.visible = false
+            vaso3.visible = false
+            vaso4.visible = false
+            vaso5.visible = false
+            vaso6.visible = false
+            animacao_vasos = 0
+        }
 
+        if(alterarCorPortas == 1){
+            leftDoor.material.color = defaultColor
+            rightDoor.material.color = defaultColor
+            alterarCorPortas = 0
+        }
+
+        if(changeFurnitureTexture == 1){
+            furniture.material.map = defaultTexture
+            changeFurnitureTexture = 0
+        }
+
+        if(mostrarDimensoes == 1){
+            textoAlturaPrincipal.visible = false
+            textoAlturaMeio.visible = false
+            textoAlturaRecipiente.visible = false
+            textoLarguraPrincipal.visible = false
+            textoLarguraPortas.visible = false
+            textoLarguraDireita.visible = false
+            textoLarguraEsquerda.visible = false
+            textoProfundidadeNormal.visible = false
+            textoProfundidadePortasDir.visible = false
+            textoProfundidadePortasEsq.visible = false
+            mostrarDimensoes = 0
+        }
+        
      }
-     
+    
      document.getElementById("btn_pause_M").onclick = function(){
          if(pausa == 0){
             actionLeftDoorAction.paused = true
@@ -660,8 +696,9 @@ function actionButtons(){
             actionVaso4.clampWhenFinished = true
             actionVaso4.play()
             animacao_vasos = 1
+        }else{
+            animacao_vasos = 0
         }
-        animacao_vasos = 0
     }
 
     document.getElementById("btn_show_dimensions_M").onclick = function(){
