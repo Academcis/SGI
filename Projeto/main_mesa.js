@@ -13,6 +13,8 @@ var mouse = new THREE.Vector2();
 var startRotation=0;
 var cube= null;
 
+var defaultTextureMesa = null
+
 var doors = []
 var animacao_vasos = 0;
 
@@ -135,6 +137,7 @@ function loadScene(){
 
                 if(objMesh.name == "workBench"){
                     workBenchGeometry = objMesh
+                    defaultTextureMesa = workBenchGeometry.material
                 }
 
                 if(objMesh.name == "legExtend1"){
@@ -698,7 +701,52 @@ function smoothTransition(initialCoords, destinationCoords){
         is_BenchExtendOpen = 0
         is_LegExtendOpen = 0
         is_DoorsOpen = 0
+        if(animacao_vasos==1){
+            vasosEmpilhados.visible = !vasosEmpilhados.visible
+            vasoPequeno.visible = !vasoPequeno.visible
+            vasoMedio.visible = !vasoMedio.visible
+            vasoGrande.visible = !vasoGrande.visible
+            smallBushes.visible = !smallBushes.visible
+            pottery.visible = !pottery.visible
+            choppedWood.visible = !choppedWood.visible
+            rope.visible = false
+            animacao_vasos = 0
+        }
+        addLightsDawn();
+        lightTime=0;
+        
         startRotation = 2
+
+        if(mostrarDimensoes==1){
+            textoAltura.visible = false
+            textoAlturaMeio.visible = false
+            textoAlturaRecipiente.visible = false
+            textoAlturaExtensao.visible = false
+            textoLarguraComExtensao.visible = false
+            textoLarguraSemExtensao.visible = false
+            textoLarguraCom2Portas.visible = false
+            textoLarguraDireita.visible = false
+            textoLarguraEsquerda.visible = false
+            textoProfundidadePrincipal.visible = false
+            textoProfundidadePortasDir.visible = false
+            textoProfundidadePortasEsq.visible = false
+            mostrarDimensoes = 0
+        }
+
+        if(changeTexture==1){
+            crate1.visible = !crate1.visible
+            crate2.visible = !crate2.visible
+            crate3.visible = !crate3.visible
+            palette.visible = !palette.visible
+            changeTexture=0
+        }
+        workBenchGeometry.material = defaultTextureMesa
+        legGeometry.material = defaultTextureMesa
+        legStickGeometry.material = defaultTextureMesa
+        rightDoorGeometry.material = defaultTextureMesa
+        leftDoorGeometry.material = defaultTextureMesa
+        benchGeometry.material = defaultTextureMesa
+        marbleMesh.material.map = defaultTextureMarble
     }
     
     document.getElementById("btn_stop").onclick = function(){
@@ -797,12 +845,6 @@ function smoothTransition(initialCoords, destinationCoords){
             setTimeout(function(){
                 resetCameraSmooth()
             },4000)
-            
-            // actionVaso1.reset()
-            // actionVaso1.timeScale = 1
-            // actionVaso1.setLoop(THREE.LoopOnce)
-            // actionVaso1.clampWhenFinished = true
-            // actionVaso1.play()
 
             actionChoopedWood.reset()
             actionChoopedWood.timeScale = 1
@@ -867,7 +909,7 @@ function pickCrateTexture(){
         var intersectedCrates = raycaster.intersectObjects(cratesArray)
         console.log(intersectedCrates.length)
         if(intersectedCrates.length > 0){
-            workBenchGeometry .material = intersectedCrates[0].object.material
+            workBenchGeometry.material = intersectedCrates[0].object.material
             legGeometry.material = intersectedCrates[0].object.material
             legStickGeometry.material = intersectedCrates[0].object.material
             rightDoorGeometry.material = intersectedCrates[0].object.material
