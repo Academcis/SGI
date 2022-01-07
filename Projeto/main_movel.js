@@ -18,14 +18,6 @@ var crate1 = null, crate2 = null, crate3 = null, crate4 = null
 var sinkGeometry = null
 var cratesArray = []
 
-window.onclick = function(event){
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1 
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1  
-    console.log("x: "+ mouse.x + "y: "+ mouse.y)
-    pickCrateTexture()
-    pickDoors()
-}
-
 var clock = new THREE.Clock()
 var mixer = new THREE.AnimationMixer(scene)
 
@@ -44,6 +36,14 @@ var actionVaso1 = null
 var actionVaso2 = null, actionVaso3 = null, actionVaso4 = null
 
 var myCanvasMovel = document.getElementById("myCanvasMovel")
+
+window.onclick = function (e) {
+    let canvasBounds = myCanvasMovel.getBoundingClientRect();
+    mouse.x = ((e.clientX - canvasBounds.left) / (canvasBounds.right - canvasBounds.left)) * 2 - 1;
+    mouse.y = -((e.clientY - canvasBounds.top) / (canvasBounds.bottom - canvasBounds.top)) * 2 + 1;
+    pickCrateTexture()
+    pickDoors()
+}
 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvasMovel})
 renderer.setSize(545,400)
@@ -380,7 +380,9 @@ var mostrarDimensoes = 0
 function actionButtons(){
     document.getElementById("btn_open_doors_M").onclick = function(){
         if(esq_aberta == 0 && dir_aberta == 1){
-            smoothTransition(camera.position,{x: 0,y: 2, z: 6})
+            if(startRotation!=1){
+                smoothTransition(camera.position,{x: 0,y: 2, z: 6})
+            }
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
             actionLeftDoorAction.setLoop(THREE.LoopOnce)
@@ -389,7 +391,9 @@ function actionButtons(){
             esq_aberta = 1
         }
         if(esq_aberta == 1 && dir_aberta == 0){
-            smoothTransition(camera.position,{x: 0,y: 2, z: 6})
+            if(startRotation!=1){
+                smoothTransition(camera.position,{x: 0,y: 2, z: 6})
+            }
             actionRigthDoorAction.reset()
             actionRigthDoorAction.timeScale = 1
             actionRigthDoorAction.setLoop(THREE.LoopOnce)
@@ -398,7 +402,9 @@ function actionButtons(){
             dir_aberta = 1
         }
         if(esq_aberta == 0 && dir_aberta == 0){
-            smoothTransition(camera.position,{x: 0,y: 2, z: 6})
+            if(startRotation!=1){
+                smoothTransition(camera.position,{x: 0,y: 2, z: 6})
+            }
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
             actionLeftDoorAction.setLoop(THREE.LoopOnce)
@@ -418,7 +424,9 @@ function actionButtons(){
 
      document.getElementById("btn_close_doors_M").onclick = function(){
         if(esq_aberta == 1 && dir_aberta == 0){
-            resetCameraSmooth()
+            if(startRotation!=1){
+                resetCameraSmooth()
+            }
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
             actionLeftDoorAction.clampWhenFinished = true
@@ -427,7 +435,9 @@ function actionButtons(){
             esq_aberta = 0
         }
         if(esq_aberta == 0 && dir_aberta == 1){
-            resetCameraSmooth()
+            if(startRotation!=1){
+                resetCameraSmooth()
+            }
             actionRigthDoorAction.timeScale = -1  
             actionRigthDoorAction.setLoop(THREE.LoopOnce)   
             actionRigthDoorAction.clampWhenFinished = true
@@ -436,7 +446,9 @@ function actionButtons(){
             dir_aberta = 0
         }
         if(esq_aberta == 1 && dir_aberta == 1){
-            resetCameraSmooth()
+            if(startRotation!=1){
+                resetCameraSmooth()
+            }
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
             actionLeftDoorAction.clampWhenFinished = true
@@ -456,8 +468,10 @@ function actionButtons(){
 
     document.getElementById("btn_left_door_open_M").onclick = function(){
         if(esq_aberta == 0){
-            smoothTransition(camera.position,{x: 0, y: 2, z: 5})
-            camera.lookAt(-4,-2,1)
+            if(startRotation!=1){
+                smoothTransition(camera.position,{x: 0, y: 2, z: 5})
+                camera.lookAt(-4,-2,1)
+            }
             actionLeftDoorAction.reset()
             actionLeftDoorAction.timeScale = 1
             actionLeftDoorAction.setLoop(THREE.LoopOnce)
@@ -470,7 +484,9 @@ function actionButtons(){
 
      document.getElementById("btn_left_door_close_M").onclick = function(){
         if(esq_aberta == 1){
-            resetCameraSmooth()
+            if(startRotation!=1){
+                resetCameraSmooth()
+            }
             actionLeftDoorAction.timeScale = -1  
             actionLeftDoorAction.setLoop(THREE.LoopOnce)   
             actionLeftDoorAction.clampWhenFinished = true
@@ -482,8 +498,10 @@ function actionButtons(){
 
      document.getElementById("btn_right_door_open_M").onclick = function() {
         if(dir_aberta == 0){
-            smoothTransition(camera.position,{x: 0, y: 2, z: 6})
-            camera.lookAt(2,2,4)
+            if(startRotation!=1){
+                smoothTransition(camera.position,{x: 0, y: 2, z: 6})
+                camera.lookAt(2,2,4)
+            }
             actionRigthDoorAction.reset()
             actionRigthDoorAction.timeScale = 1
             actionRigthDoorAction.setLoop(THREE.LoopOnce)
@@ -495,7 +513,9 @@ function actionButtons(){
 
      document.getElementById("btn_right_door_close_M").onclick = function() {
         if(dir_aberta == 1){
-            resetCameraSmooth()
+            if(startRotation!=1){
+                resetCameraSmooth()
+            }
             actionRigthDoorAction.timeScale = -1  
             actionRigthDoorAction.setLoop(THREE.LoopOnce)   
             actionRigthDoorAction.clampWhenFinished = true

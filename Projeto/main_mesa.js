@@ -13,6 +13,7 @@ var mouse = new THREE.Vector2();
 var startRotation=0;
 var cube= null;
 
+var doors = []
 var animacao_vasos = 0;
 
 /* Variáveis para o texto das dimensões */
@@ -56,6 +57,14 @@ var actionVasoPequeno = null, actionVasosEmpilhados = null;
 
 
 var myCanvasMesa = document.getElementById("myCanvasMesa")
+
+window.onclick = function (e) {
+    let canvasBounds = myCanvasMesa.getBoundingClientRect();
+    mouse.x = ((e.clientX - canvasBounds.left) / (canvasBounds.right - canvasBounds.left)) * 2 - 1;
+    mouse.y = -((e.clientY - canvasBounds.top) / (canvasBounds.bottom - canvasBounds.top)) * 2 + 1;
+    pickCrateTexture()
+    pickDoors()
+}
 
 var renderer = new THREE.WebGLRenderer({canvas:myCanvasMesa})
 renderer.setSize(545,400)
@@ -138,14 +147,17 @@ function loadScene(){
 
                 if(objMesh.name == "benchExtend"){
                     benchGeometry = objMesh
+                    doors.push(benchGeometry)
                 }
 
                 if(objMesh.name == "door"){
                     rightDoorGeometry = objMesh
+                    doors.push(rightDoorGeometry)
                 }
 
                 if(objMesh.name == "door1"){
                     leftDoorGeometry = objMesh
+                    doors.push(leftDoorGeometry)
                 }
 
                 if(objMesh.name == "Sphere"){
@@ -425,7 +437,9 @@ function smoothTransition(initialCoords, destinationCoords){
      document.getElementById("btn_open").onclick = function (){
 
         if(is_BenchExtendOpen==0){
-            smoothTransition({x:-2, y:8, z:15},{x:-7, y:9, z:7})
+            if(startRotation!=1){
+                smoothTransition({x:-2, y:8, z:15},{x:-7, y:9, z:7})
+            }
             if(animacao_vasos==1){
                 rope.visible = true;
                 actionRopeAction.reset()
@@ -480,7 +494,9 @@ function smoothTransition(initialCoords, destinationCoords){
     }
 
     document.getElementById("btn_close_doors").onclick = function (){
-       resetCameraSmooth()
+        if(startRotation!=1){
+            resetCameraSmooth()
+        }
 
         if(esq_aberta == 1 && dir_aberta == 0){
             actionLeftDoor.timeScale = -1
@@ -522,8 +538,10 @@ function smoothTransition(initialCoords, destinationCoords){
     document.getElementById("btn_open_doors").onclick = function (){
         
         if(esq_aberta == 0 && dir_aberta == 1){
-            resetCameraSmooth()
-            smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
+            if(startRotation!=1){
+                resetCameraSmooth()
+                smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
+            }
             actionLeftDoor.reset()
             actionLeftDoor.timeScale = 1
             actionLeftDoor.setLoop(THREE.LoopOnce)
@@ -533,8 +551,10 @@ function smoothTransition(initialCoords, destinationCoords){
         }
 
         if(esq_aberta == 1 && dir_aberta == 0){
-            resetCameraSmooth()
-            smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
+            if(startRotation!=1){
+                resetCameraSmooth()
+                smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
+            }
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
             actionRightDoor.setLoop(THREE.LoopOnce)
@@ -544,8 +564,10 @@ function smoothTransition(initialCoords, destinationCoords){
         }
 
         if(esq_aberta == 0 && dir_aberta == 0){
-            resetCameraSmooth()
-            smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
+            if(startRotation!=1){
+                resetCameraSmooth()
+                smoothTransition({x:-2, y:8, z:15},{x:-1, y:5, z:10})
+            }
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
             actionRightDoor.setLoop(THREE.LoopOnce)
@@ -566,12 +588,17 @@ function smoothTransition(initialCoords, destinationCoords){
 
     document.getElementById("btn_open_left_door").onclick = function (){
         if(esq_aberta == 0){
-            //smoothTransition(camera.position,{x:3, y:5, z:10})
-            smoothTransition({x:-2, y:8, z:15},{x:3, y:5, z:10})
+            if(startRotation!=1){
+                smoothTransition({x:-2, y:8, z:15},{x:3, y:5, z:10})
+            }
             if(is_BenchExtendOpen==0){
-                camera.lookAt(-7,-3,0)
+                if(startRotation!=1){
+                    camera.lookAt(-7,-3,0)
+                }
             }else{
-                camera.lookAt(-9,4,0)
+                if(startRotation!=1){
+                    camera.lookAt(-9,4,0)
+                }
             }
             actionLeftDoor.reset()
             actionLeftDoor.timeScale = 1
@@ -584,7 +611,9 @@ function smoothTransition(initialCoords, destinationCoords){
 
     document.getElementById("btn_close_left_door").onclick = function (){
         if(esq_aberta == 1){
-            resetCameraSmooth()
+            if(startRotation!=1){
+                resetCameraSmooth()
+            }
             actionLeftDoor.timeScale = -1
             actionLeftDoor.setLoop(THREE.LoopOnce)
             actionLeftDoor.clampWhenFinished = false
@@ -596,8 +625,10 @@ function smoothTransition(initialCoords, destinationCoords){
 
     document.getElementById("btn_open_right_door").onclick = function (){
         if(dir_aberta == 0){
-            smoothTransition({x:-2, y:8, z:15},{x:-2, y:5, z:10})
-            camera.lookAt(7,-3,0)
+            if(startRotation!=1){
+                smoothTransition({x:-2, y:8, z:15},{x:-2, y:5, z:10})
+                camera.lookAt(7,-3,0)
+            }
             actionRightDoor.reset()
             actionRightDoor.timeScale = 1
             actionRightDoor.setLoop(THREE.LoopOnce)
@@ -609,8 +640,10 @@ function smoothTransition(initialCoords, destinationCoords){
 
     document.getElementById("btn_close_right_door").onclick = function (){
         if(dir_aberta == 1){
-            resetCameraSmooth()
-            camera.lookAt(0,0,0)
+            if(startRotation!=1){
+                resetCameraSmooth()
+                camera.lookAt(0,0,0)
+            }
             actionRightDoor.timeScale = -1
             actionRightDoor.setLoop(THREE.LoopOnce)
             actionRightDoor.clampWhenFinished = false
@@ -828,13 +861,6 @@ function smoothTransition(initialCoords, destinationCoords){
 
 }
 
-window.onclick = function(event){
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1 
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1  
-    console.log("x: "+ mouse.x + "y: "+ mouse.y)
-    pickCrateTexture()
-}
-
 function pickCrateTexture(){
     if(changeTexture == 1){
         raycaster.setFromCamera(mouse,camera)
@@ -856,4 +882,104 @@ function pickCrateTexture(){
             }
         }
     }    
+}
+
+function pickDoors(){
+    raycaster.setFromCamera(mouse,camera)
+    var intersectedObjects = raycaster.intersectObjects(doors)
+    if(intersectedObjects.length > 0){
+        if(intersectedObjects[0].object.name == "door"){
+            //console.log('I got left door')
+            changeLeftDoorState()
+        }else if(intersectedObjects[0].object.name == "door1"){
+            //console.log('I got right door')
+            changeRightDoorState()
+        }else{
+            changeSideState()
+        }
+    }
+}
+
+function changeSideState(){
+    if(is_BenchExtendOpen==0){
+        if(animacao_vasos==1){
+            rope.visible = true;
+            actionRopeAction.reset()
+            actionRopeAction.timeScale = 1
+            actionRopeAction.setLoop(THREE.LoopOnce)
+            actionRopeAction.clampWhenFinished = true
+            actionRopeAction.play()
+        }
+        actionBenchExtendOpen.reset()
+        actionBenchExtendOpen.timeScale = 1
+        actionBenchExtendOpen.setLoop(THREE.LoopOnce)
+        actionBenchExtendOpen.clampWhenFinished = true
+        actionBenchExtendOpen.play()
+        is_BenchExtendOpen = 1
+
+        actionLegExtendOpen.reset()
+        actionLegExtendOpen.timeScale = 1
+        actionLegExtendOpen.setLoop(THREE.LoopOnce)
+        actionLegExtendOpen.clampWhenFinished = true
+        actionLegExtendOpen.play()
+        is_LegExtendOpen = 1
+    }else{
+
+        if(is_LegExtendOpen == 1){
+            rope.visible = false
+            actionLegExtendOpen.timeScale = -1
+            actionLegExtendOpen.setLoop(THREE.LoopOnce)
+            actionLegExtendOpen.clampWhenFinished = false
+            actionLegExtendOpen.paused = false
+            actionLegExtendOpen.play()
+            is_LegExtendOpen = 0;
+        }
+
+        if(is_BenchExtendOpen == 1){
+            setTimeout(function(){
+                actionBenchExtendOpen.timeScale = -1
+                actionBenchExtendOpen.setLoop(THREE.LoopOnce)
+                actionBenchExtendOpen.clampWhenFinished = false
+                actionBenchExtendOpen.paused = false
+                actionBenchExtendOpen.play()
+                is_BenchExtendOpen = 0;
+            },290)
+        }
+    }
+}
+
+function changeLeftDoorState(){
+    if(esq_aberta == 0){
+        actionLeftDoor.reset()
+        actionLeftDoor.timeScale = 1
+        actionLeftDoor.setLoop(THREE.LoopOnce)
+        actionLeftDoor.clampWhenFinished = true
+        actionLeftDoor.play()
+        esq_aberta = 1
+    }else{
+        actionLeftDoor.timeScale = -1  
+        actionLeftDoor.setLoop(THREE.LoopOnce)   
+        actionLeftDoor.clampWhenFinished = true
+        actionLeftDoor.paused = false  
+        actionLeftDoor.play() 
+        esq_aberta = 0
+    }
+}
+
+function changeRightDoorState(){
+    if(dir_aberta == 0){
+        actionRightDoor.reset()
+        actionRightDoor.timeScale = 1
+        actionRightDoor.setLoop(THREE.LoopOnce)
+        actionRightDoor.clampWhenFinished = true
+        actionRightDoor.play()
+        dir_aberta = 1
+    }else{
+        actionRightDoor.timeScale = -1  
+        actionRightDoor.setLoop(THREE.LoopOnce)   
+        actionRightDoor.clampWhenFinished = true
+        actionRightDoor.paused = false  
+        actionRightDoor.play() 
+        dir_aberta = 0
+    }
 }
